@@ -3,7 +3,7 @@
 [中文](zh/IMPORT.md) | **English**
 
 This guide explains how to bulk-import historical chat logs or external context
-into the Memory memory graph.
+into the Memory graph.
 
 ---
 

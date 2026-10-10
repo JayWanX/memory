@@ -1,4 +1,4 @@
-# Memory Memory — Usage & Reference
+# Memory System — Usage & Reference
 
 > You don't run Memory commands yourself — the agent does, driven by hooks and guided by the skill file. This document covers the root Memory CLI for understanding what the agent can do, debugging, and advanced manual operation. For durable Agent work and peer collaboration, see the [Agency Preview guide](AGENCY.md).
 

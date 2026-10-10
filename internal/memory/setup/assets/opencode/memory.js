@@ -8,7 +8,7 @@ const MAX_RECALL_CHARS = 4000
 const MAX_QUERY_CHARS = 8000
 const MAX_SESSIONS = 128
 const CONTEXT_MARKER = "<memory_context>"
-const COMPACTION_GUIDANCE = `## Memory Memory
+const COMPACTION_GUIDANCE = `## Memory System
 
 Before compaction completes, preserve durable preferences, decisions, insights, facts, or context with memory remember/link when they will improve future continuity. Do not store secrets, credentials, or short-lived operational noise.`
 

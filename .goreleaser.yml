@@ -92,4 +92,4 @@ release:
   prerelease: auto
   name_template: "v{{.Version}}"
   header: |
-    v{{.Version}} ships Memory Memory and the local Agency authority in one `memory` binary.
+    v{{.Version}} ships Memory System and the local Agency authority in one `memory` binary.

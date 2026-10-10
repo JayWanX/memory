@@ -1,7 +1,7 @@
 {
   "name": "@jaywanx/openclaw-plugin",
   "version": "0.1.0",
-  "description": "Memory memory plugin for OpenClaw",
+  "description": "Memory plugin for OpenClaw",
   "type": "module",
   "main": "index.js",
   "private": true

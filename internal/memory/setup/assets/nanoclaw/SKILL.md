@@ -80,7 +80,7 @@ Create this file with the memory container skill content. This skill teaches the
 In the function that builds volume mounts (where the existing group folder and Claude session mounts are defined), add two new mounts **after** the Claude sessions mount:
 
 ```typescript
-// Per-group memory memory store (private, read-write)
+// Per-group memory store (private, read-write)
 const groupMemoryDir = path.join(homedir(), '.memory', 'data', group.folder);
 fs.mkdirSync(groupMemoryDir, { recursive: true });
 mounts.push({
@@ -89,7 +89,7 @@ mounts.push({
   readonly: false,
 });
 
-// Global shared memory memory (read-only, optional)
+// Global shared memory (read-only, optional)
 const globalMemoryDir = path.join(homedir(), '.memory', 'data', 'global');
 if (fs.existsSync(globalMemoryDir)) {
   mounts.push({

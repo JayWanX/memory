@@ -181,7 +181,7 @@ memory import --store project-alpha memory_draft.json
 
 ```text
 你是一个记忆提取助手。请从下方的聊天记录或文档中提取有价值的长期知识片段，
-生成一个符合 Memory memory draft 格式（schema_version: "1"）的 JSON 文件。
+生成一个符合 Memory draft 格式（schema_version: "1"）的 JSON 文件。
 
 ## 提取规则
 

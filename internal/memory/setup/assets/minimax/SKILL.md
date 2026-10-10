@@ -3,7 +3,7 @@ name: memory
 description: Persistent memory for MiniMax Code. Recall durable context, store important facts and decisions, and link related memories with the memory CLI.
 ---
 
-# Memory memory
+# Memory
 
 Use `memory` through MiniMax Code's shell tools when durable context would improve the task.
 

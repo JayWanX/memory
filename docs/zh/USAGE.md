@@ -1,4 +1,4 @@
-# Memory Memory — 用法与参考
+# Memory 记忆系统 — 用法与参考
 
 > 你不需要自己运行 Memory 命令 — agent 会在 Hook 和 Skill 指引下执行。本文档只介绍根命名空间下的 Memory CLI，供理解能力、调试和高级手动操作使用。持久 Agent 工作与 Peer 协作请参阅 [Agency Preview 指南](AGENCY.md)。
 
