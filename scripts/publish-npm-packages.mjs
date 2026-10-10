@@ -9,7 +9,12 @@ import { targets } from "../npm/cli/lib/targets.js";
 
 export async function publishNpmPackages(
   manifestPath,
-  { run = spawnSync, stdout = process.stdout } = {},
+  {
+    run = spawnSync,
+    stdout = process.stdout,
+    sleep = defaultSleep,
+    confirmAttempts = 8,
+  } = {},
 ) {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
   validateManifest(manifest);
@@ -38,6 +43,7 @@ export async function publishNpmPackages(
         `npm publish failed for ${artifact.name}@${artifact.version}: ${diagnostic}`,
       );
     }
+    await confirmPublished(run, npm, artifact, { sleep, confirmAttempts });
   }
 }
 
@@ -70,6 +76,27 @@ function packageVersionExists(run, npm, name, version) {
     return false;
   }
   throw new Error(`Could not inspect ${name}@${version}: ${diagnostic.trim()}`);
+}
+
+const defaultSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// npm can answer a publish with a success line and still never write the
+// version document to the registry. Confirm every version is actually
+// resolvable before moving on, so a silently dropped platform package fails
+// the release instead of shipping without it.
+async function confirmPublished(run, npm, artifact, { sleep, confirmAttempts }) {
+  for (let attempt = 1; attempt <= confirmAttempts; attempt += 1) {
+    if (packageVersionExists(run, npm, artifact.name, artifact.version)) {
+      return;
+    }
+    if (attempt < confirmAttempts) {
+      await sleep(15_000);
+    }
+  }
+  throw new Error(
+    `npm reported ${artifact.name}@${artifact.version} as published, but the registry ` +
+      `still does not resolve it after ${confirmAttempts} attempts. Refusing to continue.`,
+  );
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
