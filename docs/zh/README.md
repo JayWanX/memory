@@ -252,7 +252,7 @@ memory setup --target hermes --yes
 
 ### [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
 
-DeepSeek Harness（DSH）通过 [dsh-memory](https://github.com/omdsh-dev/dsh-mnemon) 插件集成：该插件把 DSH 的运行时热记忆、受管项目档案与 Memory 长期记忆体组织成一套受监督的三层记忆系统。
+DeepSeek Harness（DSH）通过 `dsh-memory` 插件集成：该插件把 DSH 的运行时热记忆、受管项目档案与 Memory 长期记忆体组织成一套受监督的三层记忆系统。
 
 宿主机安装好 `memory`（见[安装](#安装)）后，安装插件并重启 DSH Web profile：
 
@@ -261,12 +261,10 @@ dsh plugin --profile web add dsh-memory
 dsh --profile web
 ```
 
-Memory 主仓库也可以直接作为 GitHub 安装源。未发布到 npm 的插件版本仍可从
-独立仓库安装；本地开发检出使用绝对路径：
+Memory 主仓库也可以直接作为 GitHub 安装源；本地开发检出使用绝对路径：
 
 ```bash
 dsh plugin --profile web add github:JayWanX/memory
-dsh plugin --profile web add "github:omdsh-dev/dsh-mnemon"
 dsh plugin --profile web add "link:/absolute/path/to/dsh-memory"
 ```
 

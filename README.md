@@ -282,7 +282,7 @@ hooks.
 
 ### [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)
 
-DeepSeek Harness (DSH) integrates through the [dsh-memory](https://github.com/omdsh-dev/dsh-mnemon) plugin, which layers DSH's runtime memory, managed project documents, and Memory's long-term memory spaces into one supervised three-tier memory system.
+DeepSeek Harness (DSH) integrates through the `dsh-memory` plugin, which layers DSH's runtime memory, managed project documents, and Memory's long-term memory spaces into one supervised three-tier memory system.
 
 With `memory` installed on the host (see [Install](#install)), add the plugin and restart your DSH Web profile:
 
@@ -291,13 +291,11 @@ dsh plugin --profile web add dsh-memory
 dsh --profile web
 ```
 
-The Memory repository is also a direct GitHub installation source. Unreleased
-plugin builds can still be installed from the dedicated repository, and local
-development checkouts use an absolute path:
+The Memory repository is also a direct GitHub installation source for the
+plugin, and local development checkouts use an absolute path:
 
 ```bash
 dsh plugin --profile web add github:JayWanX/memory
-dsh plugin --profile web add "github:omdsh-dev/dsh-mnemon"
 dsh plugin --profile web add "link:/absolute/path/to/dsh-memory"
 ```
 

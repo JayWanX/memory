@@ -23,5 +23,5 @@
 ## 状态
 
 - 这是冻结的研究快照，不属于 `memory` 程序、它的发布版本或 Memory Agency；评测的系统没有用到 `memory` 二进制。
-- 研究成果将逐步输送到 Memory 和 [dsh-memory](https://github.com/omdsh-dev/dsh-mnemon)。
+- 研究成果将逐步输送到 Memory 和 `dsh-memory` 插件。
 - 下一步，DSH 将作为微型 Agent 内核，Memory 作为记忆 Agent 运行在它之上；这个预览就是这种形态。

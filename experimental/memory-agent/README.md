@@ -30,6 +30,6 @@ Details, baselines and caveats are in the paper, *Memory: Raw Records, Fast Judg
 
 - A frozen research snapshot. It is not part of the `memory` binary, its releases or Memory Agency, and the evaluated
   system does not use the `memory` binary.
-- Its results will be brought step by step into Memory and [dsh-memory](https://github.com/omdsh-dev/dsh-mnemon).
+- Its results will be brought step by step into Memory and the `dsh-memory` plugin.
 - Next, DSH will serve as a micro agent kernel, with Memory running on it as a memory agent, the form this preview
   already takes.
