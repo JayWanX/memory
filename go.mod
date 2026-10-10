@@ -1,4 +1,4 @@
-module github.com/mnemon-dev/mnemon
+module github.com/JayWanX/memory
 
 go 1.24.6
 

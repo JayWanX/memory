@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // This is the cross-field bound oracle: every independently accepted maximum

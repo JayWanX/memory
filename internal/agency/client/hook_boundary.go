@@ -7,11 +7,11 @@ import (
 	"errors"
 	"io"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
-	hookBoundarySchema        = "mnemon.hook.boundary"
+	hookBoundarySchema        = "memory.hook.boundary"
 	hookBoundaryVersion       = 1
 	hookBoundaryEntropyBytes  = 32
 	maxHookBoundaryInputBytes = 256

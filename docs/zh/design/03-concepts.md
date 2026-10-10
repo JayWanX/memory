@@ -8,7 +8,7 @@
 
 ## 3.1 Insight（记忆节点）
 
-Insight 是 Mnemon 中的基本记忆单元。每条 insight 代表一个独立的知识片段：
+Insight 是 Memory 中的基本记忆单元。每条 insight 代表一个独立的知识片段：
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -66,7 +66,7 @@ Edge 连接两个 insight，代表它们之间的关系。每条边包含：
 
 ## 3.3 数据库模式
 
-每个命名记忆体拥有独立的 SQLite 文件，位于 `~/.mnemon/data/<store>/mnemon.db`，使用 WAL 模式支持并发读取。默认记忆体为 `default`；可创建额外记忆体进行数据隔离（参见[记忆体管理](../USAGE.md#记忆体管理)）。
+每个命名记忆体拥有独立的 SQLite 文件，位于 `~/.memory/data/<store>/memory.db`，使用 WAL 模式支持并发读取。默认记忆体为 `default`；可创建额外记忆体进行数据隔离（参见[记忆体管理](../USAGE.md#记忆体管理)）。
 
 ```sql
 -- 记忆节点
@@ -95,36 +95,36 @@ oplog (
 
 ## 3.4 系统架构
 
-Mnemon 只发布一个可执行文件，但组合了两条刻意隔离的产品路径。Memory 继续
-使用根级命令；Agency 只位于 `mnemon agency ...`。共享可执行文件不会合并
+Memory 只发布一个可执行文件，但组合了两条刻意隔离的产品路径。Memory 继续
+使用根级命令；Agency 只位于 `memory agency ...`。共享可执行文件不会合并
 两者的状态或 authority。
 
 ```
-                         mnemon
+                         memory
                             |
               +-------------+-------------+
               |                           |
-        根级 Memory 命令           mnemon agency ...
+        根级 Memory 命令           memory agency ...
               |                           |
   model / graph / search / store    View / Intent / admission
   embed / import / setup assets     Artifact / peer / attachment
               |                           |
-       命名 Memory store            项目 .mnemon/agency
+       命名 Memory store            项目 .memory/agency
 ```
 
 Memory 路径拥有知识存储与检索；Agency 路径为已有 Agent Runtime 提供持久责任
 与受准入后果。其规范对象和 package 边界见
-[mnemond 协议](../mnemond/protocol.md)。
+[memoryd 协议](../memoryd/protocol.md)。
 
 **项目代码结构：**
 
 ```
-mnemon/
+memory/
 ├── main.go                    # 进程入口
 ├── cmd/
 │   ├── root.go                # 组合单一产品命令
 │   ├── memory/                # 根级 Memory 命令与 Memory flags
-│   └── agency/                # `mnemon agency` 用户命令
+│   └── agency/                # `memory agency` 用户命令
 ├── internal/
 │   ├── model/                 # Memory Insight 与 Edge 值
 │   ├── graph/                 # 四图建边与遍历
@@ -140,45 +140,45 @@ mnemon/
 │   ├── daemon/                # 本地 authority 进程组合与生命周期
 │   ├── agencyclient/          # Runtime 面向的 terminal 与 replay journal
 │   └── attach/                # Agency Hook、guide 与工具投影
-├── test/mnemond/              # Agency 边界与场景测试
-├── testdata/mnemond/          # 仅含数据的 Agency fixture
+├── test/memoryd/              # Agency 边界与场景测试
+├── testdata/memoryd/          # 仅含数据的 Agency fixture
 └── scripts/e2e_test.sh        # Memory CLI 端到端测试
 ```
 
 ## 3.5 Memory 数据目录布局
 
 下面的用户级目录只属于 Memory。Agency 的独立项目状态位于
-`<project>/.mnemon/agency/`。
+`<project>/.memory/agency/`。
 
 ```
-~/.mnemon/
+~/.memory/
 ├── active                        # 当前默认记忆体名（纯文本）
 ├── prompt/                       # 所有记忆体共享
 │   ├── guide.md                  # 行为引导（recall/remember 规则）
 │   └── skill.md                  # 技能定义（命令参考）
 └── data/                         # 每个记忆体拥有独立目录
     ├── default/
-    │   └── mnemon.db             # SQLite 数据库（WAL 模式）
+    │   └── memory.db             # SQLite 数据库（WAL 模式）
     ├── work/
-    │   └── mnemon.db
+    │   └── memory.db
     └── <name>/
-        └── mnemon.db
+        └── memory.db
 ```
 
-**隔离边界**：每个记忆体包含独立的 `mnemon.db` — 洞察、边、操作日志完全隔离。Prompt 文件（`guide.md`、`skill.md`）共享 — 行为规则是通用的，记忆数据是私有的。
+**隔离边界**：每个记忆体包含独立的 `memory.db` — 洞察、边、操作日志完全隔离。Prompt 文件（`guide.md`、`skill.md`）共享 — 行为规则是通用的，记忆数据是私有的。
 
 ## 3.6 Memory 记忆体隔离
 
-Mnemon 支持命名记忆体（store），为不同 agent、项目或场景提供轻量数据隔离。
+Memory 支持命名记忆体（store），为不同 agent、项目或场景提供轻量数据隔离。
 
 **为什么用命名记忆体而非只靠 `--data-dir`？**
 
-`--data-dir` 覆盖整个基础目录 — 需要调用者管理完整路径，语义不清晰。命名记忆体提供语义明确的标识（`MNEMON_STORE=work` 对比 `--data-dir ~/.mnemon-work`），并且天然适配环境变量 — 这是并发进程间隔离的标准机制。
+`--data-dir` 覆盖整个基础目录 — 需要调用者管理完整路径，语义不清晰。命名记忆体提供语义明确的标识（`MEMORY_STORE=work` 对比 `--data-dir ~/.memory-work`），并且天然适配环境变量 — 这是并发进程间隔离的标准机制。
 
 **解析优先级**（从高到低）：
 
 ```
---store 标志  >  MNEMON_STORE 环境变量  >  ~/.mnemon/active 文件  >  "default"
+--store 标志  >  MEMORY_STORE 环境变量  >  ~/.memory/active 文件  >  "default"
 ```
 
 分层设计服务于不同场景：
@@ -186,10 +186,10 @@ Mnemon 支持命名记忆体（store），为不同 agent、项目或场景提�
 | 机制 | 场景 |
 |------|------|
 | `--store` 标志 | 一次性 CLI 覆盖、脚本 |
-| `MNEMON_STORE` 环境变量 | 按进程隔离 — 不同 agent 使用不同记忆体 |
-| `active` 文件 | 持久化用户偏好 — `mnemon store set work` |
+| `MEMORY_STORE` 环境变量 | 按进程隔离 — 不同 agent 使用不同记忆体 |
+| `active` 文件 | 持久化用户偏好 — `memory store set work` |
 | `"default"` | 零配置 — 开箱即用 |
 
-**自动迁移**：当 `data/` 目录不存在但旧版 `~/.mnemon/mnemon.db` 存在时，mnemon 自动将其移动到 `data/default/mnemon.db`。老用户升级无感知。
+**自动迁移**：当 `data/` 目录不存在但旧版 `~/.memory/memory.db` 存在时，memory 自动将其移动到 `data/default/memory.db`。老用户升级无感知。
 
-**设计原则 — 轻量且有界**：记忆体隔离解决的是必要的数据分离需求，不会膨胀为多租户系统。没有访问控制、没有跨 store 查询、除名称外没有 store 元数据。保持功能有界 — Mnemon 是记忆守护进程，不是知识库平台。
+**设计原则 — 轻量且有界**：记忆体隔离解决的是必要的数据分离需求，不会膨胀为多租户系统。没有访问控制、没有跨 store 查询、除名称外没有 store 元数据。保持功能有界 — Memory 是记忆守护进程，不是知识库平台。

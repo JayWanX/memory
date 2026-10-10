@@ -63,11 +63,11 @@
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
-        <!-- ==================== MNEMON BOX ==================== -->
-        <mxCell id="mnemon_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#999999;strokeWidth=2;arcSize=4;" vertex="1" parent="1">
+        <!-- ==================== MEMORY BOX ==================== -->
+        <mxCell id="memory_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAFA;strokeColor=#999999;strokeWidth=2;arcSize=4;" vertex="1" parent="1">
           <mxGeometry x="160" y="290" width="1080" height="380" as="geometry"/>
         </mxCell>
-        <mxCell id="mnemon_label" value="&lt;b style=&quot;font-size:16px&quot;&gt;Mnemon&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=16;fontColor=#333;" vertex="1" parent="1">
+        <mxCell id="memory_label" value="&lt;b style=&quot;font-size:16px&quot;&gt;Memory&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=16;fontColor=#333;" vertex="1" parent="1">
           <mxGeometry x="180" y="294" width="120" height="30" as="geometry"/>
         </mxCell>
 
@@ -142,8 +142,8 @@
           <mxGeometry x="960" y="734" width="80" height="46" as="geometry"/>
         </mxCell>
 
-        <!-- Dashed arrows from mnemon to future backends -->
-        <mxCell id="e_future" value="" style="endArrow=classic;strokeColor=#BDBDBD;strokeWidth=1.5;dashed=1;dashPattern=6 3;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="mnemon_box" target="future_bg">
+        <!-- Dashed arrows from memory to future backends -->
+        <mxCell id="e_future" value="" style="endArrow=classic;strokeColor=#BDBDBD;strokeWidth=1.5;dashed=1;dashPattern=6 3;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="memory_box" target="future_bg">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
 
@@ -166,7 +166,7 @@
         <mxCell id="gap_brace_top" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;flipH=1;size=0.5;strokeColor=#7986CB;strokeWidth=1.5;" vertex="1" parent="1">
           <mxGeometry x="1260" y="100" width="20" height="760" as="geometry"/>
         </mxCell>
-        <mxCell id="gap_label" value="&lt;font color=&quot;#3949AB&quot;&gt;Mnemon fills the&lt;br&gt;&lt;b&gt;protocol gap&lt;/b&gt;&lt;br&gt;between MCP&lt;br&gt;and ODBC/JDBC&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1">
+        <mxCell id="gap_label" value="&lt;font color=&quot;#3949AB&quot;&gt;Memory fills the&lt;br&gt;&lt;b&gt;protocol gap&lt;/b&gt;&lt;br&gt;between MCP&lt;br&gt;and ODBC/JDBC&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=10;" vertex="1" parent="1">
           <mxGeometry x="1286" y="430" width="110" height="60" as="geometry"/>
         </mxCell>
 

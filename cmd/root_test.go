@@ -16,7 +16,7 @@ func TestRootComposesMemoryAndAgency(t *testing.T) {
 		}
 	}
 	command, _, err := root.Find([]string{"agency", "peer", "prepare"})
-	if err != nil || command.CommandPath() != "mnemon agency peer prepare" {
+	if err != nil || command.CommandPath() != "memory agency peer prepare" {
 		t.Fatalf("Agency subtree is not composed into the product root: %v", err)
 	}
 }
@@ -26,7 +26,7 @@ func TestUnmanagedUpdateExplainsTheOneTimeNPMMigration(t *testing.T) {
 	exitCode := Execute(context.Background(), []string{"update"}, strings.NewReader(""),
 		&stdout, &stderr)
 	if exitCode != 1 || stdout.Len() != 0 ||
-		!strings.Contains(stderr.String(), "npm install --global @mnemon-dev/mnemon@latest") ||
+		!strings.Contains(stderr.String(), "npm install --global @jaywanx/memory-cli@latest") ||
 		strings.Contains(stderr.String(), "Usage:") {
 		t.Fatalf("unmanaged update: exit=%d stdout=%q stderr=%q",
 			exitCode, stdout.String(), stderr.String())
@@ -37,7 +37,7 @@ func TestExecuteRoutesAgencyWithoutChangingItsExitCode(t *testing.T) {
 	var stdout, stderr bytes.Buffer
 	exitCode := Execute(context.Background(), []string{"agency", "--version"},
 		strings.NewReader(""), &stdout, &stderr)
-	if exitCode != 0 || stdout.String() != "mnemon agency version dev\n" || stderr.Len() != 0 {
+	if exitCode != 0 || stdout.String() != "memory agency version dev\n" || stderr.Len() != 0 {
 		t.Fatalf("agency version: exit=%d stdout=%q stderr=%q",
 			exitCode, stdout.String(), stderr.String())
 	}
@@ -79,7 +79,7 @@ func TestMemoryHelpRemainsSuccessfulStdout(t *testing.T) {
 	var stdout, stderr bytes.Buffer
 	exitCode := Execute(context.Background(), []string{"forget", "--help"},
 		strings.NewReader(""), &stdout, &stderr)
-	if exitCode != 0 || !strings.Contains(stdout.String(), "mnemon forget [id]") ||
+	if exitCode != 0 || !strings.Contains(stdout.String(), "memory forget [id]") ||
 		stderr.Len() != 0 {
 		t.Fatalf("memory help: exit=%d stdout=%q stderr=%q",
 			exitCode, stdout.String(), stderr.String())
@@ -91,7 +91,7 @@ func TestUnknownRootCommandKeepsTheShortCobraDiagnostic(t *testing.T) {
 	exitCode := Execute(context.Background(), []string{"unknown"},
 		strings.NewReader(""), &stdout, &stderr)
 	if exitCode != 1 || stdout.Len() != 0 ||
-		!strings.Contains(stderr.String(), "Run 'mnemon --help' for usage.") ||
+		!strings.Contains(stderr.String(), "Run 'memory --help' for usage.") ||
 		strings.Contains(stderr.String(), "Usage:\n") {
 		t.Fatalf("unknown command: exit=%d stdout=%q stderr=%q",
 			exitCode, stdout.String(), stderr.String())

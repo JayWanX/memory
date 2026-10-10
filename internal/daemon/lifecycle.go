@@ -18,7 +18,7 @@ type requestTracker struct {
 func (tracker *requestTracker) wrap(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
 		if !tracker.begin() {
-			writeControlError(writer, newControlError(codeMnemondUnavailable,
+			writeControlError(writer, newControlError(codeMemorydUnavailable,
 				"local Agency authority is unavailable"))
 			return
 		}

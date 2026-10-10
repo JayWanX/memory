@@ -6,13 +6,13 @@ before:
     - go mod tidy
 
 builds:
-  - id: mnemon
+  - id: memory
     main: .
-    binary: mnemon
+    binary: memory
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X github.com/mnemon-dev/mnemon/cmd.version={{.Version}}
+      - -s -w -X github.com/JayWanX/memory/cmd.version={{.Version}}
     goos:
       - linux
       - darwin
@@ -24,7 +24,7 @@ builds:
 archives:
   - id: default
     ids:
-      - mnemon
+      - memory
     formats:
       - tar.gz
     format_overrides:
@@ -54,16 +54,16 @@ changelog:
       - "(?i)agent memory"
 
 homebrew_casks:
-  - name: mnemon
+  - name: memory
     ids:
       - default
     binaries:
-      - mnemon
+      - memory
     repository:
-      owner: mnemon-dev
+      owner: JayWanX
       name: homebrew-tap
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
-    homepage: "https://github.com/mnemon-dev/mnemon"
+    homepage: "https://github.com/JayWanX/memory"
     description: "Persistent memory and durable agency for LLM agents"
     # The binary is ad hoc/linker-signed only (not notarized), so the cask
     # download carries com.apple.quarantine and Gatekeeper kills the first
@@ -80,16 +80,16 @@ homebrew_casks:
     custom_block: |
       postflight_steps do
         on_macos do
-          run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{ "{{staged_path}}" }}/mnemon"]
+          run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{ "{{staged_path}}" }}/memory"]
         end
       end
 
 release:
   github:
-    owner: mnemon-dev
-    name: mnemon
+    owner: JayWanX
+    name: memory
   draft: false
   prerelease: auto
   name_template: "v{{.Version}}"
   header: |
-    v{{.Version}} ships Mnemon Memory and the local Agency authority in one `mnemon` binary.
+    v{{.Version}} ships Memory Memory and the local Agency authority in one `memory` binary.

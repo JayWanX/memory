@@ -1,6 +1,6 @@
-# Contributing to Mnemon
+# Contributing to Memory
 
-Thank you for considering contributing to Mnemon!
+Thank you for considering contributing to Memory!
 
 ## What We Welcome
 
@@ -14,8 +14,8 @@ For significant features or architectural changes, please **open an issue first*
 ## Development Setup
 
 ```bash
-git clone https://github.com/mnemon-dev/mnemon.git
-cd mnemon
+git clone https://github.com/JayWanX/memory.git
+cd memory
 make build
 ```
 
@@ -24,13 +24,13 @@ make build
 ## Running Tests
 
 ```bash
-make test              # Required deterministic CI suite for the Mnemon product
+make test              # Required deterministic CI suite for the Memory product
 make test-integration  # Opt-in CLI E2E, timing, race, process, and Docker suite
 make test-live         # Explicit paid Pi/DeepSeek evaluation
 ```
 
 `make test` must pass before submitting a PR. Run `make test-integration`
-proportionally when changing CLI E2E behavior or `mnemon agency` process, timing,
+proportionally when changing CLI E2E behavior or `memory agency` process, timing,
 transport, or Docker boundaries; it is intentionally outside regular CI.
 
 ## Code Style
@@ -63,7 +63,7 @@ imperative form. The CHANGELOG filter excludes `docs:`, `test:`, `ci:`, and
 
 1. Fork the repository and create a feature branch from `master`.
 2. Make your changes and run the proportional test level, including
-   `make test-integration` for affected `mnemon agency` boundary behavior.
+   `make test-integration` for affected `memory agency` boundary behavior.
 3. Update documentation (USAGE.md, DESIGN.md, or README) if your change affects user-facing behavior.
 4. For user-facing changes, describe the release-note impact in the PR body. Maintainers update `CHANGELOG.md` during release preparation unless they explicitly ask for a changelog entry in the PR.
 5. Open a pull request against `master`.
@@ -78,9 +78,9 @@ git push origin v0.2.0
 ```
 
 This triggers GitHub Actions → runs tests → builds platform artifacts for the
-single `mnemon` executable via GoReleaser → publishes a GitHub Release →
+single `memory` executable via GoReleaser → publishes a GitHub Release →
 updates the Homebrew tap → verifies and publishes the npm platform artifacts →
-publishes `@mnemon-dev/mnemon` last.
+publishes `@jaywanx/memory-cli` last.
 
 ## License
 

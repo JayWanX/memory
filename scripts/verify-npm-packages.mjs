@@ -22,7 +22,7 @@ export async function verifyNpmPackages(manifestPath) {
     const report = JSON.parse(packed.stdout);
     const files = new Set(report[0]?.files?.map((entry) => entry.path));
     const expected =
-      artifact.kind === "cli" ? "bin/mnemon.js" : nativePackageBinary(artifact.id);
+      artifact.kind === "cli" ? "bin/memory.js" : nativePackageBinary(artifact.id);
     if (!files.has(expected) || !files.has("LICENSE") || !files.has("package.json")) {
       throw new Error(`npm package ${artifact.version} is missing required files`);
     }
@@ -50,22 +50,22 @@ async function verifyHostLauncher(manifest) {
   if (!platform) {
     throw new Error(`npm package manifest has no host target ${target.id}`);
   }
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "mnemon-npm-verify-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "memory-npm-verify-"));
   try {
-    const packageRoot = path.join(temporary, "mnemon");
+    const packageRoot = path.join(temporary, "memory");
     await cp(cli.directory, packageRoot, { recursive: true });
     const aliasRoot = path.join(packageRoot, "node_modules", ...target.alias.split("/"));
     await mkdir(path.dirname(aliasRoot), { recursive: true });
     await cp(platform.directory, aliasRoot, { recursive: true });
     const launched = spawnSync(
       process.execPath,
-      [path.join(packageRoot, "bin", "mnemon.js"), "--version"],
+      [path.join(packageRoot, "bin", "memory.js"), "--version"],
       { encoding: "utf8" },
     );
     if (
       launched.status !== 0 ||
       launched.stderr !== "" ||
-      launched.stdout.trim() !== `mnemon version ${manifest.version}`
+      launched.stdout.trim() !== `memory version ${manifest.version}`
     ) {
       throw new Error(
         `host launcher failed: status=${launched.status} stdout=${JSON.stringify(launched.stdout)} ` +
@@ -78,7 +78,7 @@ async function verifyHostLauncher(manifest) {
 }
 
 function nativePackageBinary(id) {
-  return id.startsWith("win32-") ? "bin/mnemon.exe" : "bin/mnemon";
+  return id.startsWith("win32-") ? "bin/memory.exe" : "bin/memory";
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

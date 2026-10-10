@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestClaimExpiryReplaySurvivesRestartAndRejectsDigestConflict(t *testing.T) {
@@ -61,7 +61,7 @@ func TestClaimExpiryReplayFailsClosedOnDurableDivergence(t *testing.T) {
 			claim expiredClaim, key agency.OperationKey, requestDigest agency.Digest,
 		) {
 			recordedAt := claim.claimUntil.Add(-time.Nanosecond)
-			value, err := json.Marshal(claimExpiryOutcomeWire{Schema: "mnemon.claim-expiry-outcome",
+			value, err := json.Marshal(claimExpiryOutcomeWire{Schema: "memory.claim-expiry-outcome",
 				OperationKey: key.String(), RequestDigest: requestDigest.String(),
 				Outcome: "claim_released", RecordedAt: formatTime(recordedAt)})
 			if err != nil {

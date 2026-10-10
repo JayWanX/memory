@@ -52,7 +52,7 @@ func TestServeHonorsCancellationBeforeOpeningAuthority(t *testing.T) {
 
 func canonicalDirectory(t *testing.T) string {
 	t.Helper()
-	temporary, err := os.MkdirTemp("/tmp", "mnemond-command-")
+	temporary, err := os.MkdirTemp("/tmp", "memoryd-command-")
 	if err != nil {
 		t.Fatal(err)
 	}

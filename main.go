@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/mnemon-dev/mnemon/cmd"
+	"github.com/JayWanX/memory/cmd"
 )
 
 func main() {

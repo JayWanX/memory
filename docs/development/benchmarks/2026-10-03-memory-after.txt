@@ -5,7 +5,7 @@
 # round=1 loadavg=(4.98681640625, 11.32470703125, 17.83544921875)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10523 ns/op	     10468 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	    8706	     12599 ns/op	     12440 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -119,7 +119,7 @@ PASS
 # round=2 loadavg=(5.06396484375, 10.93017578125, 17.54150390625)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10108 ns/op	     10096 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11005 ns/op	     10995 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -233,7 +233,7 @@ PASS
 # round=3 loadavg=(4.9033203125, 10.0068359375, 16.82275390625)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10869 ns/op	     10747 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11227 ns/op	     11132 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -347,7 +347,7 @@ PASS
 # round=4 loadavg=(5.2919921875, 9.84228515625, 16.64453125)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10576	     11042 ns/op	     10908 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     12251 ns/op	     12040 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -461,7 +461,7 @@ PASS
 # round=5 loadavg=(6.06982421875, 9.341796875, 16.0693359375)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10281 ns/op	     10213 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11372 ns/op	     11267 cpu-ns/op	    2296 B/op	      69 allocs/op

@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func TestRecallReadOnlyPreservesSnapshot(t *testing.T) {
@@ -22,7 +22,7 @@ func TestRecallReadOnlyPreservesSnapshot(t *testing.T) {
 	})
 	root := t.TempDir()
 	t.Chdir(root)
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
 	storeName, readOnly = "readonly-audit", true
 	recBrief, recVerbose = false, false
 	recCategory, recSource, recIntent = "", "", ""

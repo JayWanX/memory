@@ -8,14 +8,14 @@
 
 传统的 LLM 记忆系统（如 Mem0、MAGMA 原始实现）在管线内部嵌入一个小型 LLM 来处理记忆操作——实体提取、冲突检测、因果推理。这是 **LLM-Embedded** 模式。
 
-Mnemon 采用 **LLM-Supervised** 模式：
+Memory 采用 **LLM-Supervised** 模式：
 
 | 模式 | LLM 在哪 | LLM 做什么 | 代表 |
 |------|---------|-----------|------|
 | **LLM-Embedded** | 管线内部 | 执行者（提取、分类、推理） | Mem0, MAGMA |
 | **File Injection** | 会话启动时读取文件 | 无——静态文件加载到 context window | Claude Code CLAUDE.md |
 | **MCP Server** | 通过 MCP 协议提供工具 | 将记忆操作暴露为 MCP 工具，供宿主 LLM 调用 | MemCP |
-| **LLM-Supervised** | 管线外部 | 监督者（审查候选、做判断、决策取舍） | Mnemon |
+| **LLM-Supervised** | 管线外部 | 监督者（审查候选、做判断、决策取舍） | Memory |
 
 在 LLM-Supervised 模式下，职责清晰分为两层：
 
@@ -30,7 +30,7 @@ Mnemon 采用 **LLM-Supervised** 模式：
 - **更强的判断能力**：Opus 级别的 LLM 评估候选链接，而非 gpt-4o-mini
 - **LLM 可替换**：同一套 Binary + Skill 可在 Claude Code、Cursor、任何 LLM CLI 中使用
 
-当前 engine 与 [Mnemon Agency](../AGENCY.md) 共享
+当前 engine 与 [Memory Agency](../AGENCY.md) 共享
 hook-native、LLM-led、protocol-constrained 立场，但 authority 保持分离：
 Memory 负责 memory operation，Agency 负责 project-local Agency admission
 与持久 lifecycle state。
@@ -39,10 +39,10 @@ Memory 负责 memory operation，Agency 负责 project-local Agency admission
 
 这一哲学可以用游戏开发的类比来理解：
 
-| 游戏开发 | Agent 生态 | Mnemon 对应 |
+| 游戏开发 | Agent 生态 | Memory 对应 |
 |---------|-----------|-------------|
 | 游戏引擎（Unity/Unreal） | LLM CLI（Claude Code/Cursor） | 宿主环境 |
-| 原生插件（C++ Plugin） | Binary 工具 | `mnemon` 二进制 |
+| 原生插件（C++ Plugin） | Binary 工具 | `memory` 二进制 |
 | 脚本/蓝图（C#/Blueprint） | Skill（.md 定义） | `SKILL.md` 命令参考 |
 | Gameplay 逻辑 | Agent 行为配置 | `guide.md` 执行手册 |
 
@@ -67,7 +67,7 @@ Binary 封装了所有不需要 LLM 的逻辑，Skill 只教 LLM 做需要智能
   Storage
 ```
 
-Mnemon 将这两者视为刻意分离的两层：
+Memory 将这两者视为刻意分离的两层：
 
 ![两层架构，刻意解耦](../../diagrams/11-two-layer-architecture.jpg)
 
@@ -75,7 +75,7 @@ Mnemon 将这两者视为刻意分离的两层：
 
 **为什么协议面是这个形状。** 三个核心命令——`remember`、`link`、`recall`——不是任意的 API 设计，而是图构建引擎通用范式 **Extract → Candidate → Associate** 的映射。任何 agent 记忆系统，无论底层存储模型如何，都实现了这三个原语——区别仅在于每一步的显式程度或退化程度。写路径分解为 `remember`（Extract + Candidate）和 `link`（Associate）；读路径为 `recall`（反向的 Extract + Candidate + Associate）。在图结构存储上，这一范式达到最完整的表达，而且关键的是，读写路径是**对称的**：两者遵循同一个三步模型的相反方向，这意味着 LLM 只需掌握一种认知模式即可同时处理读和写操作。
 
-这使 Mnemon 的协议面与 MCP 形成类比：
+这使 Memory 的协议面与 MCP 形成类比：
 
 | 维度 | MCP | Memory Layer Protocol |
 |------|-----|-----------------------|
@@ -84,9 +84,9 @@ Mnemon 将这两者视为刻意分离的两层：
 | **后端无关** | 任何工具实现 MCP server | 任何 DB 实现协议 adapter |
 | **协议性质** | 发现 + 调用 | 写入 + 关联 + 检索 |
 
-**Agent 侧的可插拔已经实现。** 通过二进制分发 + Skill 文件，上层边界已经解耦。同一个 `mnemon` 二进制附带一份技能定义（`.md`），教会每个宿主 LLM 命令协议。Claude Code 将其作为 Skill 自动发现，Cursor 作为 rules 读取，OpenClaw 作为插件加载——Agent 侧的集成是一份 markdown 文件，不是代码依赖。换 LLM 或换 CLI 框架，不需要改动二进制。
+**Agent 侧的可插拔已经实现。** 通过二进制分发 + Skill 文件，上层边界已经解耦。同一个 `memory` 二进制附带一份技能定义（`.md`），教会每个宿主 LLM 命令协议。Claude Code 将其作为 Skill 自动发现，Cursor 作为 rules 读取，OpenClaw 作为插件加载——Agent 侧的集成是一份 markdown 文件，不是代码依赖。换 LLM 或换 CLI 框架，不需要改动二进制。
 
-这与 Claude Code 的核心设计洞察一脉相承：**将工程问题与 LLM 问题分离。** Claude Code 不重新发明终端——它让 LLM 通过 bash 操作 Unix 几十年积累的工具链。Mnemon 遵循同样的原则：为记忆图谱构建专用存储引擎，并通过干净的协议边界将其暴露给 LLM。DB 优化归 DB，LLM 交互归协议层。
+这与 Claude Code 的核心设计洞察一脉相承：**将工程问题与 LLM 问题分离。** Claude Code 不重新发明终端——它让 LLM 通过 bash 操作 Unix 几十年积累的工具链。Memory 遵循同样的原则：为记忆图谱构建专用存储引擎，并通过干净的协议边界将其暴露给 LLM。DB 优化归 DB，LLM 交互归协议层。
 
 ## 2.4 核心洞察
 
@@ -98,7 +98,7 @@ Mnemon 将这两者视为刻意分离的两层：
 
 ## 2.5 理论基础
 
-Mnemon 的设计取用了一篇论文的**范式**和另一篇论文的**方法论**，并在两者之间做出了自己的工程选择。
+Memory 的设计取用了一篇论文的**范式**和另一篇论文的**方法论**，并在两者之间做出了自己的工程选择。
 
 **RLM Paradigm：LLM as Orchestrator**
 
@@ -108,7 +108,7 @@ Mnemon 的设计取用了一篇论文的**范式**和另一篇论文的**方法�
 - **两阶段 pipeline**（fast filtering + LLM semantic verification）持续优于单遍处理方案
 - 向模型传递 **constant-size metadata** — 而非原始数据 — 效果更好
 
-RLM 论文自身的实现采用**代码生成 + Python REPL** 作为交互机制：LLM 写 Python 代码，sandbox 执行，结果反馈。Mnemon 共享这一范式，但在协议层走了不同的路径（见下文）。
+RLM 论文自身的实现采用**代码生成 + Python REPL** 作为交互机制：LLM 写 Python 代码，sandbox 执行，结果反馈。Memory 共享这一范式，但在协议层走了不同的路径（见下文）。
 
 **RLM 推论：为什么记忆协议必须是 Intent-Native 的**
 
@@ -120,20 +120,20 @@ RLM 论文自身的实现采用**代码生成 + Python REPL** 作为交互机制
 | 定长元数据优于原始数据 | 协议输出应是带 signal transparency 的语义摘要，而非数据库行 | 返回原始查询结果的系统迫使 LLM 从数据中重新推导含义 |
 | 两阶段优于单遍 | 确定性过滤和 LLM 判断必须分离为不同阶段 | 在嵌入的 LLM 调用中混合两者，正是 RLM 证伪的单遍模式 |
 
-许多现有项目在记忆 pipeline 中嵌入 LLM 调用——用于 entity 抽取、冲突检测、因果推理。这揭示了一个诊断模式：**当协议无法表达语义意图时，系统就通过注入 LLM 来弥补差距。** 嵌入的 LLM 同时在做两件事：**语义补偿**（协议缺乏表达力，LLM 在 intent 和 mechanism 之间翻译）和**智能判断**（确实需要 LLM 推理）。Mnemon 将这两个关注点分离：提升协议的表达力来处理前者，将后者委托给宿主 LLM 作为 supervisor。
+许多现有项目在记忆 pipeline 中嵌入 LLM 调用——用于 entity 抽取、冲突检测、因果推理。这揭示了一个诊断模式：**当协议无法表达语义意图时，系统就通过注入 LLM 来弥补差距。** 嵌入的 LLM 同时在做两件事：**语义补偿**（协议缺乏表达力，LLM 在 intent 和 mechanism 之间翻译）和**智能判断**（确实需要 LLM 推理）。Memory 将这两个关注点分离：提升协议的表达力来处理前者，将后者委托给宿主 LLM 作为 supervisor。
 
 RLM 自身的实现选择提供了间接支撑。论文选择代码生成 + Python REPL，是因为结构化数据交互领域不存在领域专用的语义协议——Python 是通用退路。但对于记忆领域，代码生成过度通用：LLM 必须将 intent（"找出因果相关的记忆"）翻译成 Python 代码（`graph.query(type='causal', ...)`），引入了一个既是信息损失点、又是出错面的翻译步骤。领域专用协议消除了这层翻译：
 
 ```
 代码生成（RLM）：     intent → Python 代码 → 执行 → 结果 → 解读
-语义协议（Mnemon）：  intent → mnemon recall "..." --intent causal → 结果
+语义协议（Memory）：  intent → memory recall "..." --intent causal → 结果
 ```
 
 LLM intent 与系统动作之间的翻译步骤越少，交互越忠实。这就是协议表面使用 `remember` 而非 INSERT、`link` 而非 CREATE EDGE、`recall` 而非 SELECT 的原因——**命令名是语义化的，不是语法化的**，直接映射到 LLM 的认知词汇而非数据库的操作词汇。
 
 **MAGMA Methodology：Four-Graph Memory Architecture**
 
-[MAGMA](https://arxiv.org/abs/2601.03236) 论文提供了**外部环境应包含什么**的具体方法论。其核心贡献：单一的 edge type（如 vector similarity）不足以支撑记忆系统 — 不同 query intent 需要不同的关系视角。MAGMA 的四图架构（temporal、entity、causal、semantic）加上 intent-adaptive retrieval 和 multi-signal fusion，为 Mnemon 提供了 data model 和 retrieval algorithm。
+[MAGMA](https://arxiv.org/abs/2601.03236) 论文提供了**外部环境应包含什么**的具体方法论。其核心贡献：单一的 edge type（如 vector similarity）不足以支撑记忆系统 — 不同 query intent 需要不同的关系视角。MAGMA 的四图架构（temporal、entity、causal、semantic）加上 intent-adaptive retrieval 和 multi-signal fusion，为 Memory 提供了 data model 和 retrieval algorithm。
 
 **Graph-LLM 结构洞察：为什么是这个协议形状**
 
@@ -145,7 +145,7 @@ LLM 注意力：     token ←weight→ token
 自然语言：       主语  ←谓语→    宾语
 ```
 
-这不是比喻。Transformers-as-GNNs 文献（arXiv 2506.22084, 2012.09699）已正式证明 transformer 注意力在计算上等价于 GNN 在完全图上的操作。Mnemon 将这一洞察从计算层面延伸到存储层面：**如果 LLM 内部就是图操作，那么外部记忆用图来存储就是结构匹配，而非工程便利。**
+这不是比喻。Transformers-as-GNNs 文献（arXiv 2506.22084, 2012.09699）已正式证明 transformer 注意力在计算上等价于 GNN 在完全图上的操作。Memory 将这一洞察从计算层面延伸到存储层面：**如果 LLM 内部就是图操作，那么外部记忆用图来存储就是结构匹配，而非工程便利。**
 
 其他存储类型是图的退化形式——每种都丢失了一个维度的关系语义：
 
@@ -158,16 +158,16 @@ LLM 注意力：     token ←weight→ token
 
 向量数据库能回答"什么跟什么**像**"，但不能回答"什么**导致**什么"或"什么**属于**什么"。这一观察与 Graph-based Agent Memory 综述（Chang Yang 等，arXiv 2602.05665，2026.02）独立得出的结论一致："传统记忆形式可以被视为图记忆范式中的退化或简化案例"。
 
-该分析产生了两个直接塑造 Mnemon 协议的结论：
+该分析产生了两个直接塑造 Memory 协议的结论：
 
 1. **通用代数**：`remember`（Extract）、`link`（Associate）、`recall`（Retrieve）是任何 agent 记忆系统的最小完备接口。从原生 RAG 到 OpenViking 到 Mem0，所有系统都是这三个原语的不同实例化，`link` 的退化程度各异。`link` 操作越退化，LLM 在召回时推断未存储关联的负担就越重。将 `link` 分离为一等原语——而非将其折叠进写入或读取路径——是现有框架中未见的贡献（对比 CoALA 的 retrieval/reasoning/learning，或标准 CRUD API）。
 2. **读写对称性**：在图结构存储上，写路径（text → graph）和读路径（graph → text）遵循同一个 Extract → Candidate → Associate 模型。这意味着 LLM 只需掌握一种认知模式即可同时处理 `remember` 和 `recall`——这一性质在关系型或文档型数据库上不成立。
 
 完整分析（包括跨系统验证和退化谱系）见 [Graph-LLM 理论基础](04-graph-model.md#graph-llm-理论基础)。
 
-**Mnemon's Own Contribution：The Engineering Bridge**
+**Memory's Own Contribution：The Engineering Bridge**
 
-以上理论来源都未解决如何在生产环境中将 LLM orchestrator 与 graph-structured memory 连接起来。Mnemon 填补了这一空白：
+以上理论来源都未解决如何在生产环境中将 LLM orchestrator 与 graph-structured memory 连接起来。Memory 填补了这一空白：
 
 | 层级 | 来源 | 选择 |
 |---|---|---|
@@ -175,11 +175,11 @@ LLM 注意力：     token ←weight→ token
 | **Protocol semantics** — 为什么 intent-native？ | RLM | LLM 表达 intent 而非 mechanism；两阶段验证了这一分离 |
 | **Methodology** — 环境里放什么？ | MAGMA | 四图架构 + intent-adaptive retrieval |
 | **Protocol algebra** — 为什么是这个形状？ | Graph-LLM Insight | remember/link/recall 作为通用原语；读写对称性 |
-| **Protocol** — 如何通信？ | Mnemon | CLI 命令 + structured JSON（非代码生成） |
-| **Lifecycle** — 记忆如何演化？ | Mnemon | Hook-driven remember → diff → link → gc |
-| **Distribution** — 如何分发？ | Mnemon | 一个 `mnemon` Go binary，零 runtime 依赖 |
+| **Protocol** — 如何通信？ | Memory | CLI 命令 + structured JSON（非代码生成） |
+| **Lifecycle** — 记忆如何演化？ | Memory | Hook-driven remember → diff → link → gc |
+| **Distribution** — 如何分发？ | Memory | 一个 `memory` Go binary，零 runtime 依赖 |
 
-RLM 的实现依赖 sandboxed REPL 中的代码生成（灵活但需要 runtime 且有安全顾虑），Mnemon 用确定性的 CLI 命令作为 symbolic interface — 受限，但可审计、可移植、零 sandbox。MAGMA 的参考实现是 Python library + 内存中的 NetworkX 图，Mnemon 将一切持久化到 SQLite 并提供完整的 write-back lifecycle。
+RLM 的实现依赖 sandboxed REPL 中的代码生成（灵活但需要 runtime 且有安全顾虑），Memory 用确定性的 CLI 命令作为 symbolic interface — 受限，但可审计、可移植、零 sandbox。MAGMA 的参考实现是 Python library + 内存中的 NetworkX 图，Memory 将一切持久化到 SQLite 并提供完整的 write-back lifecycle。
 
 最终结果是：**RLM 的范式 + MAGMA 的方法论 + CLI-native 的工程路径** — 无需 Python，无需 sandbox，无需 API key，可运行在任何 LLM CLI 上。
 

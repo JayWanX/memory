@@ -1,5 +1,5 @@
 #!/bin/bash
-# mnemon Hermes pre_llm_call hook.
+# memory Hermes pre_llm_call hook.
 # Reads Hermes' JSON payload on stdin and returns {"context": "..."} for
 # injection into the next LLM call.
 
@@ -58,7 +58,7 @@ def current_query():
 
 def read_state_file(name):
     hermes_home = Path(os.environ.get("HERMES_HOME") or Path.home() / ".hermes")
-    path = hermes_home / "mnemon" / name
+    path = hermes_home / "memory" / name
     try:
         text = path.read_text(encoding="utf-8").strip()
         path.unlink(missing_ok=True)
@@ -72,7 +72,7 @@ def recall(query):
         return ""
     try:
         result = subprocess.run(
-            ["mnemon", "recall", query, "--limit", "5"],
+            ["memory", "recall", query, "--limit", "5"],
             capture_output=True,
             text=True,
             encoding="utf-8",
@@ -81,7 +81,7 @@ def recall(query):
             check=False,
         )
     except FileNotFoundError:
-        return "[mnemon] Warning: mnemon not found in PATH."
+        return "[memory] Warning: memory not found in PATH."
     except Exception:
         return ""
     if result.returncode != 0 or not result.stdout.strip():
@@ -93,7 +93,7 @@ def recall(query):
     hits = data.get("results") if isinstance(data, dict) else None
     if not hits:
         return ""
-    lines = ["[mnemon recall] Relevant durable memories:"]
+    lines = ["[memory recall] Relevant durable memories:"]
     for hit in hits[:5]:
         if not isinstance(hit, dict):
             continue
@@ -127,7 +127,7 @@ recalled = recall(query)
 if recalled:
     parts.append(recalled)
 
-parts.append("[mnemon] Evaluate: recall needed? After responding, evaluate: remember needed?")
+parts.append("[memory] Evaluate: recall needed? After responding, evaluate: remember needed?")
 
 print(json.dumps({"context": "\n\n".join(p for p in parts if p).strip()}))
 PY

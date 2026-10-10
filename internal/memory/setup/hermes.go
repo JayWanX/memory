@@ -6,13 +6,13 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 	"go.yaml.in/yaml/v3"
 )
 
-// HermesWriteSkill writes the mnemon skill to the Hermes skills directory.
+// HermesWriteSkill writes the memory skill to the Hermes skills directory.
 func HermesWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	skillPath := filepath.Join(skillDir, "SKILL.md")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
@@ -25,7 +25,7 @@ func HermesWriteSkill(configDir string) (string, error) {
 
 // HermesWriteHook writes a shell hook script to the Hermes agent-hooks directory.
 func HermesWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "agent-hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "agent-hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -36,9 +36,9 @@ func HermesWriteHook(configDir, filename string, content []byte) (string, error)
 	return hookPath, nil
 }
 
-// HermesRegisterHooks registers selected Mnemon lifecycle hooks in config.yaml.
+// HermesRegisterHooks registers selected Memory lifecycle hooks in config.yaml.
 func HermesRegisterHooks(configDir string, sel HookSelection) (string, error) {
-	hooksDir := filepath.Join(configDir, "agent-hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "agent-hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -56,13 +56,13 @@ func HermesRegisterHooks(configDir string, sel HookSelection) (string, error) {
 	return configPath, nil
 }
 
-// HermesEject removes mnemon integration from the given Hermes config dir.
+// HermesEject removes memory integration from the given Hermes config dir.
 func HermesEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving Hermes Agent integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "agent-hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "agent-hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 4, "Hooks", err)
 		errs = append(errs, err)
@@ -86,7 +86,7 @@ func HermesEject(configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 4, "Skill", err)
 		errs = append(errs, err)
@@ -95,7 +95,7 @@ func HermesEject(configDir string) []error {
 	}
 	removeIfEmpty(filepath.Join(configDir, "skills"))
 
-	stateDir := filepath.Join(configDir, "mnemon")
+	stateDir := filepath.Join(configDir, "memory")
 	if err := os.RemoveAll(stateDir); err != nil {
 		StatusError(4, 4, "State", err)
 		errs = append(errs, err)
@@ -190,7 +190,7 @@ func removeHermesHooks(data map[string]any) {
 		}
 		kept := make([]any, 0, len(entries))
 		for _, entry := range entries {
-			if !containsMnemon(entry) {
+			if !containsMemory(entry) {
 				kept = append(kept, entry)
 			}
 		}

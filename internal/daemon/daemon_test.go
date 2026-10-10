@@ -15,9 +15,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
 )
 
 func TestDaemonServesCompleteLocalLoopOverOwnerUnix(t *testing.T) {
@@ -129,7 +129,7 @@ func TestDaemonRecoversOnlyAStaleOwnerSocketAfterTakingWriter(t *testing.T) {
 	}
 	client := unixHTTPClient(socket)
 	status := controlRequest(t, client, http.MethodGet, routeStatus, nil, nil, http.StatusOK)
-	if string(status) != `{"schema":"mnemon.agency.status","status":"ready","version":1}` {
+	if string(status) != `{"schema":"memory.agency.status","status":"ready","version":1}` {
 		t.Fatalf("recovered daemon status = %s", status)
 	}
 	closeContext, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -145,7 +145,7 @@ func TestDaemonRecoversOnlyAStaleOwnerSocketAfterTakingWriter(t *testing.T) {
 func exerciseLocalControlLoop(t *testing.T, client *http.Client) {
 	t.Helper()
 	status := controlRequest(t, client, http.MethodGet, routeStatus, nil, nil, http.StatusOK)
-	if got, want := string(status), `{"schema":"mnemon.agency.status","status":"ready","version":1}`; got != want {
+	if got, want := string(status), `{"schema":"memory.agency.status","status":"ready","version":1}`; got != want {
 		t.Fatalf("status = %s, want %s", got, want)
 	}
 	authorityHeaders := attachAndReadCurrent(t, client)
@@ -442,7 +442,7 @@ func controlRequest(t *testing.T, client *http.Client, method, route string, bod
 		reader = bytes.NewReader(body)
 	}
 	request, err := http.NewRequestWithContext(context.Background(), method,
-		"http://mnemond"+route, reader)
+		"http://memoryd"+route, reader)
 	if err != nil {
 		t.Fatal(err)
 	}

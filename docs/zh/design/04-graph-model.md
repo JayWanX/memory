@@ -6,7 +6,7 @@
 
 在 [RLM 范式](02-philosophy.md#25-理论基础)中，MAGMA 为 LLM 编排的外部环境提供了具体的 data structure。MAGMA 论文的核心思想是：**单一的 edge type（如纯 vector similarity）不足以捕捉记忆间的多维关系。** 不同的查询意图需要不同的关系视角——问"为什么"需要因果链，问"什么时候"需要时间线，问"关于 X"需要实体关联。
 
-Mnemon 实现了四种图，每种捕捉一个维度的关系：
+Memory 实现了四种图，每种捕捉一个维度的关系：
 
 ![MAGMA Four-Graph Model](../../diagrams/04-magma-four-graph.jpg)
 
@@ -131,7 +131,7 @@ LLM 注意力：     token ←weight→ token
 
 图构建引擎普遍分解为三个步骤：
 
-| 步骤 | 目的 | mnemon 实现 |
+| 步骤 | 目的 | memory 实现 |
 |------|------|------------|
 | **Extract** | 将原始输入解析为结构化单元 | `remember` → nodes + entities |
 | **Candidate** | 发现潜在连接 | `semantic_candidates` / `causal_candidates` |
@@ -198,7 +198,7 @@ LLM 注意力：     token ←weight→ token
 
 ### remember / link / recall 作为通用代数
 
-三步范式（Extract → Candidate → Associate）直接映射到三个原语操作：**remember**、**link**、**recall**。这不是 mnemon 的实现细节——它是任何 agent 记忆系统的最小完备接口。
+三步范式（Extract → Candidate → Associate）直接映射到三个原语操作：**remember**、**link**、**recall**。这不是 memory 的实现细节——它是任何 agent 记忆系统的最小完备接口。
 
 ```
 任何记忆系统 = remember(写入) + link(关联) + recall(检索)
@@ -208,7 +208,7 @@ LLM 注意力：     token ←weight→ token
 
 | 系统 | remember | link | recall |
 |------|----------|------|--------|
-| **mnemon** | 显式三步 | 显式 5 种边类型 | 图遍历 |
+| **memory** | 显式三步 | 显式 5 种边类型 | 图遍历 |
 | **OpenViking** | 文件写入到 viking:// | 目录归置（隐式，仅包含关系） | 路径导航 + 语义搜索 |
 | **mem0** | add() | 自动去重/合并 | search() |
 | **Letta/MemGPT** | insert() | 分层存储（core/recall/archival） | query() |
@@ -216,9 +216,9 @@ LLM 注意力：     token ←weight→ token
 
 每个系统都实现了全部三个操作。差异在于：
 
-1. **link 的显式程度**：从 mnemon 的显式多类型边到 RAG 的完全缺失
-2. **link 的时机**：写入时预计算（mnemon）vs 查询时由 LLM 推断（OpenViking）
-3. **recall 的信号维度**：多信号加权（mnemon）vs 单信号（向量/路径）
+1. **link 的显式程度**：从 memory 的显式多类型边到 RAG 的完全缺失
+2. **link 的时机**：写入时预计算（memory）vs 查询时由 LLM 推断（OpenViking）
+3. **recall 的信号维度**：多信号加权（memory）vs 单信号（向量/路径）
 
 ### OpenViking：link 折叠进 remember
 
@@ -231,7 +231,7 @@ OpenViking 采用文件系统范式——记忆、资源和技能作为目录组
 三个原语形成一个退化谱系：
 
 ```
-mnemon          完全显式的 remember + link + recall
+memory          完全显式的 remember + link + recall
 OpenViking      link 折叠进 remember（隐式包含关系）
 mem0            link 自动化（去重/合并启发式）
 Letta/MemGPT    link 退化为层级放置
@@ -329,7 +329,7 @@ SQLite        INSERT row      INSERT edge table     multi-signal query
 
 ### 战略含义
 
-这重新定义了 mnemon 在生态中的定位：
+这重新定义了 memory 在生态中的定位：
 
 ```
          单体系统                       协议层
@@ -342,7 +342,7 @@ MemGPT──┘                         │── SQLite adapter（当前）
                                    └── PostgreSQL adapter
 
                                    ↑
-                              mnemon 的位置：
+                              memory 的位置：
                               不是又一个数据库，
                               而是 LLM ↔ DB 协议网关
 ```
@@ -403,9 +403,9 @@ MemGPT──┘                         │── SQLite adapter（当前）
 - Transformers are Graph Neural Networks（arXiv 2506.22084, Jun 2025）
 - A Generalization of Transformer Networks to Graphs（arXiv 2012.09699, 2020）
 
-### 验证：mnemon 架构
+### 验证：memory 架构
 
-mnemon 的设计直接反映了这些洞察：
+memory 的设计直接反映了这些洞察：
 
 ```
 remember → Extract + Candidate（semantic_candidates / causal_candidates）
@@ -424,4 +424,4 @@ recall   → Extract + Candidate + Associate（意图检测 → 多信号检索 
 - 图是 LLM 的原生存储模型，因为它们是**结构同构的**：两者都表示实体间的带权关联
 - **remember / link / recall** 是 agent 记忆系统的通用代数——每个系统都是这三个原语的实例化，`link` 的退化程度各异
 - 三个原语定义了一个 **LLM ↔ Database 交互协议**——类似于工具的 MCP，填补了 LLM 与数据库生态之间缺失的层
-- mnemon 的战略定位是**协议网关**，而非数据库引擎——将 LLM 交互问题与存储优化问题分离
+- memory 的战略定位是**协议网关**，而非数据库引擎——将 LLM 交互问题与存储优化问题分离

@@ -1,7 +1,7 @@
 {
-  "name": "@mnemon-dev/openclaw-plugin",
+  "name": "@jaywanx/openclaw-plugin",
   "version": "0.1.0",
-  "description": "Mnemon memory plugin for OpenClaw",
+  "description": "Memory memory plugin for OpenClaw",
   "type": "module",
   "main": "index.js",
   "private": true

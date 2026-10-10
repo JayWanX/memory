@@ -8,9 +8,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
 )
 
 type controlErrorCode string
@@ -23,7 +23,7 @@ const (
 	codeContextStale         controlErrorCode = "context_stale"
 	codeActionNotAllowed     controlErrorCode = "action_not_allowed"
 	codeOperationMismatch    controlErrorCode = "operation_mismatch"
-	codeMnemondUnavailable   controlErrorCode = "mnemond_unavailable"
+	codeMemorydUnavailable   controlErrorCode = "memoryd_unavailable"
 	codeInternal             controlErrorCode = "internal"
 )
 
@@ -42,7 +42,7 @@ func newControlError(code controlErrorCode, message string) *controlError {
 	if !code.valid() || message == "" || len(message) > maxControlDiagnostic {
 		code, message = codeInternal, "internal control error"
 	}
-	return &controlError{Code: code, Message: message, Retryable: code == codeMnemondUnavailable,
+	return &controlError{Code: code, Message: message, Retryable: code == codeMemorydUnavailable,
 		SchemaVersion: 1, Status: "error"}
 }
 
@@ -50,7 +50,7 @@ func (code controlErrorCode) valid() bool {
 	switch code {
 	case codeInvalidArgument, codeArtifactInvalid, codeArtifactTooLarge,
 		codeAuthenticationFailed, codeContextStale, codeActionNotAllowed,
-		codeOperationMismatch, codeMnemondUnavailable, codeInternal:
+		codeOperationMismatch, codeMemorydUnavailable, codeInternal:
 		return true
 	default:
 		return false
@@ -78,7 +78,7 @@ func (value *controlError) httpStatus() int {
 	switch value.Code {
 	case codeAuthenticationFailed:
 		return http.StatusUnauthorized
-	case codeMnemondUnavailable:
+	case codeMemorydUnavailable:
 		return http.StatusServiceUnavailable
 	case codeContextStale, codeActionNotAllowed, codeOperationMismatch:
 		return http.StatusConflict
@@ -109,7 +109,7 @@ func classifyServiceError(err error) *controlError {
 		return newControlError(codeActionNotAllowed, "Intent is not allowed by the current View")
 	case errors.Is(err, context.Canceled), errors.Is(err, context.DeadlineExceeded),
 		errors.Is(err, authority.ErrClosed):
-		return newControlError(codeMnemondUnavailable, "local Agency authority is unavailable")
+		return newControlError(codeMemorydUnavailable, "local Agency authority is unavailable")
 	default:
 		return newControlError(codeInternal, "internal Agency error")
 	}

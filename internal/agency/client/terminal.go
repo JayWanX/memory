@@ -16,7 +16,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 type dependencies struct {
@@ -76,7 +76,7 @@ func (app *terminal) run(ctx context.Context, args []string) int {
 	if !validArguments(command, args) {
 		if command == commandSubmit {
 			return app.writeError(newControlError(codeInvalidArgument,
-				"use exactly mnemon agency agent submit --json and provide Intent JSON on stdin"))
+				"use exactly memory agency agent submit --json and provide Intent JSON on stdin"))
 		}
 		return app.writeError(newControlError(codeInvalidArgument,
 			"R7 Agent command requires its exact --json form"))
@@ -126,16 +126,16 @@ func (app *terminal) available(ctx context.Context) bool {
 func (app *terminal) prepare(ctx context.Context, command commandKind) (preparedRun, *controlError) {
 	nodeState, err := resolveWorkspace(app.deps.workingDirectory)
 	if err != nil {
-		return preparedRun{}, newControlError(codeMnemondUnavailable,
-			"Mnemon Agency is not set up in this workspace")
+		return preparedRun{}, newControlError(codeMemorydUnavailable,
+			"Memory Agency is not set up in this workspace")
 	}
 	store := newJournalStore(nodeState, app.deps.random)
 	if apiErr := preflightJournal(command, store); apiErr != nil {
 		return preparedRun{}, apiErr
 	}
 	if err := app.deps.ensureDaemon(ctx, nodeState); err != nil {
-		return preparedRun{}, newControlError(codeMnemondUnavailable,
-			"Mnemon Agency local control is unavailable")
+		return preparedRun{}, newControlError(codeMemorydUnavailable,
+			"Memory Agency local control is unavailable")
 	}
 	client, err := app.deps.newClient(nodeState)
 	if err != nil {
@@ -215,14 +215,14 @@ func resolveWorkspace(getwd func() (string, error)) (string, error) {
 		return "", err
 	}
 	for {
-		nodeState := filepath.Join(current, ".mnemon", "agency")
+		nodeState := filepath.Join(current, ".memory", "agency")
 		info, statErr := os.Lstat(nodeState)
 		if statErr == nil && info.IsDir() && info.Mode()&os.ModeSymlink == 0 {
 			return nodeState, nil
 		}
 		parent := filepath.Dir(current)
 		if parent == current {
-			return "", errors.New("no configured Mnemon Agency workspace")
+			return "", errors.New("no configured Memory Agency workspace")
 		}
 		current = parent
 	}
@@ -232,8 +232,8 @@ func classifyClientConstruction(err error) *controlError {
 	if errors.Is(err, errUnsafeClientState) {
 		return clientStateError()
 	}
-	return newControlError(codeMnemondUnavailable,
-		"Mnemon Agency local control is unavailable")
+	return newControlError(codeMemorydUnavailable,
+		"Memory Agency local control is unavailable")
 }
 
 func clientStateError() *controlError {

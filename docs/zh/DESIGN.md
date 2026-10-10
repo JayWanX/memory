@@ -1,13 +1,13 @@
-# Mnemon — Design & Architecture
+# Memory — Design & Architecture
 
-> **Mnemon**（/ˈniːmɒn/），源自古希腊语 μνήμων（mnḗmōn），由 μνάομαι（"铭记"）与施事后缀 -μων 构成，意为"铭记者、善于记忆之人"。荷马在《奥德赛》中以 "καὶ γὰρ μνήμων εἰμί"（我记得很清楚）描述这一特质。在古希腊城邦制度中，Mnemones 是专职的记录官员，在财产交易与法律程序中承担见证与存档职责，是口述传统向书面记录过渡时期的制度性记忆载体。
+> **Memory**（/ˈniːmɒn/），源自古希腊语 μνήμων（mnḗmōn），由 μνάομαι（"铭记"）与施事后缀 -μων 构成，意为"铭记者、善于记忆之人"。荷马在《奥德赛》中以 "καὶ γὰρ μνήμων εἰμί"（我记得很清楚）描述这一特质。在古希腊城邦制度中，Memoryes 是专职的记录官员，在财产交易与法律程序中承担见证与存档职责，是口述传统向书面记录过渡时期的制度性记忆载体。
 >
 > 该词同源于记忆女神 Mnemosyne（Μνημοσύνη）——宙斯与她结合诞生了九位缪斯，象征记忆是一切知识与创造的源泉。
 
-Mnemon 是一个为 LLM agent 设计的持久化记忆系统。它采用 **LLM-Supervised** 模式：宿主 LLM 作为独立记忆 Binary 的外部编排者，通过符号化 CLI 接口交互，而 Binary 负责确定性的存储、图索引和生命周期管理。记忆以四图知识结构组织 — temporal、entity、causal、semantic 四种 edge。`mnemon` 记忆引擎仍以一个 Go binary + SQLite 实现，不依赖任何外部 API。
+Memory 是一个为 LLM agent 设计的持久化记忆系统。它采用 **LLM-Supervised** 模式：宿主 LLM 作为独立记忆 Binary 的外部编排者，通过符号化 CLI 接口交互，而 Binary 负责确定性的存储、图索引和生命周期管理。记忆以四图知识结构组织 — temporal、entity、causal、semantic 四种 edge。`memory` 记忆引擎仍以一个 Go binary + SQLite 实现，不依赖任何外部 API。
 
-本文档描述 Memory 引擎。同一个 `mnemon` 可执行文件还提供可选的
-[Mnemon Agency](AGENCY.md)，用于保存持久工作、回执与 peer 协作。Memory 与
+本文档描述 Memory 引擎。同一个 `memory` 可执行文件还提供可选的
+[Memory Agency](AGENCY.md)，用于保存持久工作、回执与 peer 协作。Memory 与
 Agency 虽然共享可执行文件，但状态和 authority 彼此独立。
 
 ---
@@ -16,7 +16,7 @@ Agency 虽然共享可执行文件，但状态和 authority 彼此独立。
 
 ### [1. 愿景与问题](design/01-vision.md)
 
-Mnemon 存在的原因 — LLM agent 的失忆问题、传统方案的结构性瓶颈，以及与现有方案（Mem0、MemGPT、Claude Code Memory）的对比。
+Memory 存在的原因 — LLM agent 的失忆问题、传统方案的结构性瓶颈，以及与现有方案（Mem0、MemGPT、Claude Code Memory）的对比。
 
 ### [2. 引擎设计哲学](design/02-philosophy.md)
 
@@ -45,7 +45,7 @@ Runtime 原生集成：各 runtime 的 `SKILL.md`、共享 `guide.md`、受支�
 或 extension、agent 主导的记忆判断、setup 自动化，以及经过 review 的轻量
 Markdown 演化。
 
-### [Mnemon Agency Preview](AGENCY.md)
+### [Memory Agency Preview](AGENCY.md)
 
 说明如何把持久工作、回执和可选 peer 协作接入已有 Agent Runtime，以及当前
 成熟度与兼容边界。

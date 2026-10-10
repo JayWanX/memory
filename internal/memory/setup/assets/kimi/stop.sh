@@ -2,7 +2,7 @@
 INPUT=$(cat)
 
 MSG=$(echo "$INPUT" | sed -n 's/.*"last_assistant_message"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)
-if echo "$MSG" | grep -qiE "mnemon remember|mnemon recall|mnemon link|Stored.*imp="; then
+if echo "$MSG" | grep -qiE "memory remember|memory recall|memory link|Stored.*imp="; then
   exit 0
 fi
 
@@ -14,7 +14,7 @@ if [ -z "$SESSION_ID" ]; then
   SESSION_ID="unknown"
 fi
 
-STATE_DIR="${MNEMON_DATA_DIR:-$HOME/.mnemon}/hooks"
+STATE_DIR="${MEMORY_DATA_DIR:-$HOME/.memory}/hooks"
 STATE_FILE="${STATE_DIR}/kimi-stop-${SESSION_ID}.seen"
 mkdir -p "$STATE_DIR" 2>/dev/null || true
 
@@ -24,5 +24,5 @@ if [ -f "$STATE_FILE" ]; then
 fi
 
 touch "$STATE_FILE" 2>/dev/null || true
-echo "[mnemon] Before stopping, evaluate whether this exchange contains durable preferences, decisions, insights, facts, or context worth remembering. If yes, run mnemon remember/link; if no, state that no memory update is needed, then finish." >&2
+echo "[memory] Before stopping, evaluate whether this exchange contains durable preferences, decisions, insights, facts, or context worth remembering. If yes, run memory remember/link; if no, state that no memory update is needed, then finish." >&2
 exit 2

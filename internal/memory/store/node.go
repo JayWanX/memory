@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 // Lifecycle constants
@@ -37,7 +37,7 @@ const (
 
 // MaxInsightsLimit returns the active auto-prune capacity ceiling.
 //
-// Resolution: MNEMON_MAX_INSIGHTS > MaxInsights. A value of 0 or below
+// Resolution: MEMORY_MAX_INSIGHTS > MaxInsights. A value of 0 or below
 // switches auto-pruning off and resolves to MaxInsightsUnlimited; an
 // unparseable value is reported on stderr and ignored, so a typo cannot
 // silently shrink the store.
@@ -45,13 +45,13 @@ const (
 // Resolved at call time rather than at package init, so a caller or test that
 // sets the variable after start-up sees the value it set.
 func MaxInsightsLimit() int {
-	raw := strings.TrimSpace(os.Getenv("MNEMON_MAX_INSIGHTS"))
+	raw := strings.TrimSpace(os.Getenv("MEMORY_MAX_INSIGHTS"))
 	if raw == "" {
 		return MaxInsights
 	}
 	n, err := strconv.Atoi(raw)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "warning: invalid MNEMON_MAX_INSIGHTS %q: %v (ignored)\n", raw, err)
+		fmt.Fprintf(os.Stderr, "warning: invalid MEMORY_MAX_INSIGHTS %q: %v (ignored)\n", raw, err)
 		return MaxInsights
 	}
 	if n <= 0 {
@@ -61,18 +61,18 @@ func MaxInsightsLimit() int {
 }
 
 // AutoPruneMinAge returns the grace period applied to automatic retention
-// pruning. MNEMON_AUTO_PRUNE_MIN_AGE accepts Go durations such as "24h", an
+// pruning. MEMORY_AUTO_PRUNE_MIN_AGE accepts Go durations such as "24h", an
 // integer day suffix such as "7d", or "0" to disable the grace period. Invalid
 // and negative values fall back to the safe default.
 func AutoPruneMinAge() time.Duration {
-	raw := strings.TrimSpace(os.Getenv("MNEMON_AUTO_PRUNE_MIN_AGE"))
+	raw := strings.TrimSpace(os.Getenv("MEMORY_AUTO_PRUNE_MIN_AGE"))
 	if raw == "" {
 		return DefaultAutoPruneMinAge
 	}
 
 	duration, err := parseAutoPruneMinAge(raw)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "warning: invalid MNEMON_AUTO_PRUNE_MIN_AGE %q: %v (using %s)\n",
+		fmt.Fprintf(os.Stderr, "warning: invalid MEMORY_AUTO_PRUNE_MIN_AGE %q: %v (using %s)\n",
 			raw, err, DefaultAutoPruneMinAge)
 		return DefaultAutoPruneMinAge
 	}

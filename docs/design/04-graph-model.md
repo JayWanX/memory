@@ -6,7 +6,7 @@
 
 Within the [RLM paradigm](02-philosophy.md#25-theoretical-foundations), MAGMA provides the specific data structure for the external environment that the LLM orchestrates. The core idea of the MAGMA paper is: **a single edge type (such as pure vector similarity) is insufficient to capture the multidimensional relationships between memories.** Different query intents require different relational perspectives — asking "why" requires causal chains, asking "when" requires timelines, asking "about X" requires entity associations.
 
-Mnemon implements four graphs, each capturing one dimension of relationships:
+Memory implements four graphs, each capturing one dimension of relationships:
 
 ![MAGMA Four-Graph Model](../diagrams/04-magma-four-graph.jpg)
 
@@ -131,7 +131,7 @@ Relational databases force network relationships into tables. Vector databases r
 
 Graph construction engines universally decompose into three steps:
 
-| Step | Purpose | mnemon Implementation |
+| Step | Purpose | memory Implementation |
 |------|---------|----------------------|
 | **Extract** | Parse raw input into structured units | `remember` → nodes + entities |
 | **Candidate** | Find potential connections | `semantic_candidates` / `causal_candidates` |
@@ -198,7 +198,7 @@ A vector database can answer "what is **similar** to what" but cannot answer "wh
 
 ### remember / link / recall as Universal Algebra
 
-The three-step paradigm (Extract → Candidate → Associate) maps directly to three primitive operations: **remember**, **link**, **recall**. This is not an implementation detail of mnemon — it is the minimal complete interface for any agent memory system.
+The three-step paradigm (Extract → Candidate → Associate) maps directly to three primitive operations: **remember**, **link**, **recall**. This is not an implementation detail of memory — it is the minimal complete interface for any agent memory system.
 
 ```
 Any memory system = remember(write) + link(associate) + recall(retrieve)
@@ -208,7 +208,7 @@ Any memory system = remember(write) + link(associate) + recall(retrieve)
 
 | System | remember | link | recall |
 |--------|----------|------|--------|
-| **mnemon** | Explicit three-step | Explicit 5 edge types | Graph traversal |
+| **memory** | Explicit three-step | Explicit 5 edge types | Graph traversal |
 | **OpenViking** | File write to viking:// | Directory placement (implicit, containment only) | Path navigation + semantic search |
 | **mem0** | add() | Auto dedup/merge | search() |
 | **Letta/MemGPT** | insert() | Tiered storage (core/recall/archival) | query() |
@@ -216,9 +216,9 @@ Any memory system = remember(write) + link(associate) + recall(retrieve)
 
 Every system implements all three operations. The differences lie in:
 
-1. **Explicitness of link**: From mnemon's explicit multi-type edges to RAG's complete absence
-2. **Timing of link**: Pre-computed at write time (mnemon) vs inferred by LLM at query time (OpenViking)
-3. **Signal dimensions of recall**: Multi-signal weighted (mnemon) vs single-signal (vector/path)
+1. **Explicitness of link**: From memory's explicit multi-type edges to RAG's complete absence
+2. **Timing of link**: Pre-computed at write time (memory) vs inferred by LLM at query time (OpenViking)
+3. **Signal dimensions of recall**: Multi-signal weighted (memory) vs single-signal (vector/path)
 
 ### OpenViking: link Folded into remember
 
@@ -231,7 +231,7 @@ This represents an explicit architectural trade-off: push association complexity
 The three primitives form a spectrum of degeneracy:
 
 ```
-mnemon          fully explicit remember + link + recall
+memory          fully explicit remember + link + recall
 OpenViking      link folded into remember (implicit containment)
 mem0            link automated (dedup/merge heuristics)
 Letta/MemGPT    link reduced to tier placement
@@ -329,7 +329,7 @@ Graph databases implement the protocol most naturally — all three primitives m
 
 ### Strategic Implication
 
-This reframes mnemon's position in the ecosystem:
+This reframes memory's position in the ecosystem:
 
 ```
          Monolithic systems              Protocol layer
@@ -338,11 +338,11 @@ This reframes mnemon's position in the ecosystem:
 Mem0  ──┐                         ┌── Neo4j adapter
 CC Mem──┤ Each reinvents its      │── TigerGraph adapter
 Viking──┤ own storage layer       │── Milvus adapter
-MemGPT──┘                         │── SQLite adapter (mnemon current)
+MemGPT──┘                         │── SQLite adapter (memory current)
                                    └── PostgreSQL adapter
 
                                    ↑
-                              mnemon's position:
+                              memory's position:
                               not another database,
                               but the LLM ↔ DB protocol gateway
 ```
@@ -403,9 +403,9 @@ Original contributions (no prior formulation found)
 - Transformers are Graph Neural Networks (arXiv 2506.22084, Jun 2025)
 - A Generalization of Transformer Networks to Graphs (arXiv 2012.09699, 2020)
 
-### Validation: mnemon Architecture
+### Validation: memory Architecture
 
-mnemon's design directly reflects these insights:
+memory's design directly reflects these insights:
 
 ```
 remember → Extract + Candidate (semantic_candidates / causal_candidates)
@@ -424,4 +424,4 @@ Five edge types preserve five distinct relational semantics. Degenerating to pur
 - Graphs are the native storage model for LLMs because they are **structurally isomorphic**: both represent weighted associations between entities
 - **remember / link / recall** is the universal algebra for agent memory systems — every system is an instantiation of these three primitives, with varying degeneracy of `link`
 - The three primitives define an **LLM ↔ Database interaction protocol** — analogous to MCP for tools, filling the missing layer between LLMs and the database ecosystem
-- mnemon's strategic position is **protocol gateway**, not database engine — separating the LLM interaction problem from the storage optimization problem
+- memory's strategic position is **protocol gateway**, not database engine — separating the LLM interaction problem from the storage optimization problem

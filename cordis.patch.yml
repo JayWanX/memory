@@ -1,9 +1,9 @@
-# Mount the full dsh-mnemon package selected by its npm latest tag in
-# package.json. Keeping the original package as the mounted row preserves its
-# host and browser plugin identities.
+# Mount the full @jaywanx/dsh-memory package selected by its npm latest tag in
+# package.json. Keeping the plugin's own core row id (dsh-memory) as the mounted
+# row preserves its host and browser plugin identities.
 - insert:
-    - id: mnemon
-      name: dsh-mnemon
+    - id: dsh-memory
+      name: "@jaywanx/dsh-memory"
       config:
         routingGuidance: true
         lifecycleEnabled: true

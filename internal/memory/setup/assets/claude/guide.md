@@ -7,7 +7,7 @@
 
 **Before web search**: always recall first — stored context sharpens queries.
 
-To recall: `mnemon recall "<query>" --limit 5`.
+To recall: `memory recall "<query>" --limit 5`.
 Craft a focused, keyword-rich query — do not pass the raw user prompt.
 
 Keep the query and memories in their original language. If intent is clear from
@@ -15,7 +15,7 @@ meaning, pass `--intent WHY` (reasons), `WHEN` (timing), `ENTITY` (what/who), or
 `GENERAL` (neutral). Automatic detection recognizes only bounded question forms;
 unrecognized forms and conflicting additional-language cues use GENERAL.
 English/Chinese-only scoring is preserved. `--verbose` reports the selected intent
-and its source. See [supported languages, scripts, and limits](https://github.com/mnemon-dev/mnemon/blob/master/docs/USAGE.md#recall-intent-detection).
+and its source. See [supported languages, scripts, and limits](https://github.com/JayWanX/memory/blob/master/docs/USAGE.md#recall-intent-detection).
 
 ### Remember — after responding
 
@@ -62,7 +62,7 @@ Avoid defaulting everything to 4-5 — that defeats the scoring system.
 **What to store**: both conclusions AND context. Prefer storing a little too much over missing something useful.
 **How to store from the main conversation**: delegate to a Task sub-agent (`subagent_type="general-purpose"`, `model="sonnet"`).
 Only provide what to store — content, category, importance, entities, and create/update intent.
-The sub-agent is the leaf memory writer: it will read the mnemon skill and execute `mnemon remember` / `mnemon link` itself.
+The sub-agent is the leaf memory writer: it will read the memory skill and execute `memory remember` / `memory link` itself.
 
 Do NOT: write CLI commands or workflow steps in the sub-agent prompt (the sub-agent has access to the skill docs and will use the correct flags).
 Do NOT run memory writes in the main conversation, or remember operational/public/git-tracked/transient info.

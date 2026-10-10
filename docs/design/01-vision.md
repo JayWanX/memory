@@ -30,15 +30,15 @@ Existing RAG/Memory solutions have fundamental design limitations:
 4. **No forgetting mechanism** — either remember everything or TTL-based blanket expiration, no intelligent decay
 5. **Heavy dependencies** — requires API keys, external databases, network connections
 
-## 1.4 Mnemon's Mission
+## 1.4 Memory's Mission
 
-Mnemon's goal is: **to make an LLM remember your decisions, understand your preferences, and track project context like an experienced assistant — across arbitrarily many sessions.**
+Memory's goal is: **to make an LLM remember your decisions, understand your preferences, and track project context like an experienced assistant — across arbitrarily many sessions.**
 
 It is not a library or plugin embedded within an agent framework, but a standalone memory engine — callable via the command line by Claude Code, Cursor, or any LLM CLI.
 
 ## 1.5 Comparison with Alternatives
 
-| Dimension | Mem0 | Letta/MemGPT | Claude Code Memory | **Mnemon** |
+| Dimension | Mem0 | Letta/MemGPT | Claude Code Memory | **Memory** |
 |-----------|------|-------------|-------------------|-----------|
 | **Architecture** | SDK embedded in call chain | Within agent framework | CLAUDE.md file injection | Standalone Binary |
 | **LLM Role** | Internal extraction function | Agent self-managed | None (static file load) | External supervisor |

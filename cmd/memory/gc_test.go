@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 // gc is where an operator reads the ceiling back, so it must report the
@@ -25,7 +25,7 @@ func TestGC_ReportsConfiguredMaxInsights(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Setenv("MNEMON_MAX_INSIGHTS", tt.env)
+			t.Setenv("MEMORY_MAX_INSIGHTS", tt.env)
 
 			oldDataDir, oldStoreName, oldReadOnly := dataDir, storeName, readOnly
 			oldThreshold, oldLimit, oldKeep := gcThreshold, gcLimit, gcKeepID

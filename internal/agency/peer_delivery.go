@@ -13,9 +13,9 @@ const (
 	MaxPeerCausalDepth            = 32
 	MaxPeerDeliveryTTL            = 24 * time.Hour
 
-	peerDeliveryIDDomain        = "mnemon.peer-delivery-id.v1"
-	peerDeliveryEnvelopeDomain  = "mnemon.peer-delivery-envelope.v1"
-	peerDeliverySignatureDomain = "mnemon.peer-delivery-signature.v1"
+	peerDeliveryIDDomain        = "memory.peer-delivery-id.v1"
+	peerDeliveryEnvelopeDomain  = "memory.peer-delivery-envelope.v1"
+	peerDeliverySignatureDomain = "memory.peer-delivery-signature.v1"
 )
 
 // DeliveryID is the stable replay identity of one peer delivery. It binds the

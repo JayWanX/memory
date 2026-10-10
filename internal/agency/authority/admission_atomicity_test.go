@@ -8,7 +8,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestBoundIntentFaultMatrixCommitsWholeOriginOutcomeOrNone(t *testing.T) {

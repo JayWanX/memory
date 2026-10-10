@@ -33,15 +33,15 @@ func TestReadJSONFileToleratesLineCommentsAndTrailingCommas(t *testing.T) {
 	}
 }
 
-func TestAddClaudeHooksSelectiveReplacesExistingMnemonHooks(t *testing.T) {
+func TestAddClaudeHooksSelectiveReplacesExistingMemoryHooks(t *testing.T) {
 	data := map[string]any{
 		"hooks": map[string]any{
 			"SessionStart": []any{
-				map[string]any{"hooks": []any{map[string]any{"command": "/old/mnemon/prime.sh"}}},
+				map[string]any{"hooks": []any{map[string]any{"command": "/old/memory/prime.sh"}}},
 				map[string]any{"hooks": []any{map[string]any{"command": "/keep/custom.sh"}}},
 			},
 			"Stop": []any{
-				map[string]any{"hooks": []any{map[string]any{"command": "/old/mnemon/stop.sh"}}},
+				map[string]any{"hooks": []any{map[string]any{"command": "/old/memory/stop.sh"}}},
 			},
 		},
 	}
@@ -53,7 +53,7 @@ func TestAddClaudeHooksSelectiveReplacesExistingMnemonHooks(t *testing.T) {
 		t.Fatalf("expected kept custom hook plus new prime hook: %#v", hooks["SessionStart"])
 	}
 	if _, ok := hooks["Stop"]; ok {
-		t.Fatalf("disabled nudge should remove mnemon Stop hooks: %#v", hooks["Stop"])
+		t.Fatalf("disabled nudge should remove memory Stop hooks: %#v", hooks["Stop"])
 	}
 	if _, ok := hooks["UserPromptSubmit"]; !ok {
 		t.Fatal("enabled remind hook should be registered")
@@ -63,18 +63,18 @@ func TestAddClaudeHooksSelectiveReplacesExistingMnemonHooks(t *testing.T) {
 	}
 }
 
-func TestAddCodexHooksReplacesExistingMnemonHooks(t *testing.T) {
+func TestAddCodexHooksReplacesExistingMemoryHooks(t *testing.T) {
 	data := map[string]any{
 		"hooks": map[string]any{
 			"SessionStart": []any{
-				map[string]any{"hooks": []any{map[string]any{"command": "/old/mnemon/prime.sh"}}},
+				map[string]any{"hooks": []any{map[string]any{"command": "/old/memory/prime.sh"}}},
 				map[string]any{"hooks": []any{map[string]any{"command": "/keep/custom.sh"}}},
 			},
 			"UserPromptSubmit": []any{
-				map[string]any{"hooks": []any{map[string]any{"command": "/old/mnemon/user_prompt.sh"}}},
+				map[string]any{"hooks": []any{map[string]any{"command": "/old/memory/user_prompt.sh"}}},
 			},
 			"Stop": []any{
-				map[string]any{"hooks": []any{map[string]any{"command": "/old/mnemon/stop.sh"}}},
+				map[string]any{"hooks": []any{map[string]any{"command": "/old/memory/stop.sh"}}},
 			},
 		},
 	}

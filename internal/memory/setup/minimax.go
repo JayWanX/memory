@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// MiniMaxCodeWriteSkill writes the Mnemon skill to a MiniMax Code skill root.
+// MiniMaxCodeWriteSkill writes the Memory skill to a MiniMax Code skill root.
 func MiniMaxCodeWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0o755); err != nil {
 		return "", err
 	}
@@ -21,13 +21,13 @@ func MiniMaxCodeWriteSkill(configDir string) (string, error) {
 	return skillPath, nil
 }
 
-// MiniMaxCodeEject removes only the Mnemon skill from a MiniMax Code config root.
+// MiniMaxCodeEject removes only the Memory skill from a MiniMax Code config root.
 func MiniMaxCodeEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving MiniMax Code integration (%s)...\n", configDir)
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(1, 1, "Skill", err)
 		errs = append(errs, err)

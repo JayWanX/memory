@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises"
 import path from "node:path"
 import { mock, test } from "node:test"
 
-const source = await readFile(new URL("../../../internal/memory/setup/assets/opencode/mnemon.js", import.meta.url), "utf8")
+const source = await readFile(new URL("../../../internal/memory/setup/assets/opencode/memory.js", import.meta.url), "utf8")
 let generation = 0
 
 async function loadPlugin(t, { platform = "linux", files = [], env = {}, links = {} } = {}) {
@@ -15,14 +15,14 @@ async function loadPlugin(t, { platform = "linux", files = [], env = {}, links =
   } } })
   const paths = platform === "win32" ? path.win32 : path.posix
   const nativeRoot = platform === "win32" ? "C:\\native" : "/native"
-  const binary = platform === "win32" ? "bin/mnemon.exe" : "bin/mnemon"
+  const binary = platform === "win32" ? "bin/memory.exe" : "bin/memory"
   mock.module("node:fs", { namedExports: {
     existsSync: (file) => files.includes(file),
     realpathSync: (file) => links[file] || file,
-    readFileSync: () => JSON.stringify([{ platform, arch: "x64", alias: "@mnemon-dev/fixture", binary }]),
+    readFileSync: () => JSON.stringify([{ platform, arch: "x64", alias: "@jaywanx/fixture", binary }]),
   } })
   mock.module("node:module", { namedExports: { createRequire: () => ({ resolve: (target) => {
-    assert.equal(target, "@mnemon-dev/fixture/package.json")
+    assert.equal(target, "@jaywanx/fixture/package.json")
     return paths.join(nativeRoot, "package.json")
   } }) } })
   mock.module("node:path", { defaultExport: platform === "win32" ? path.win32 : path.posix })
@@ -31,7 +31,7 @@ async function loadPlugin(t, { platform = "linux", files = [], env = {}, links =
   const module = await import(`data:text/javascript;base64,${Buffer.from(source).toString("base64")}#${++generation}`)
   assert.deepEqual(Object.keys(module), ["default"], "only one loader entrypoint")
   const plugin = module.default
-  assert.equal(plugin.id, "mnemon")
+  assert.equal(plugin.id, "memory")
   assert.equal(typeof plugin.server, "function")
   const hooks = new Map()
   const register = (domain) => async (name, callback) => {
@@ -104,13 +104,13 @@ test("v2 shell and compaction hooks use native event shapes", async (t) => {
   const p = await loadPlugin(t)
   const shell = { env: { EXISTING: "keep" } }
   p.hooks.get("shell.create.before")(shell)
-  assert.deepEqual(shell.env, { EXISTING: "keep", MNEMON_OPENCODE: "1" })
+  assert.deepEqual(shell.env, { EXISTING: "keep", MEMORY_OPENCODE: "1" })
   const event = { system: [{ type: "text", text: "keep system" }], messages: [] }
   const hook = p.hooks.get("session.compaction")
   hook(event); hook(event)
   assert.equal(event.system.length, 2)
   assert.equal(event.system[1].type, "text")
-  assert.match(event.system[1].text, /mnemon remember\/link/)
+  assert.match(event.system[1].text, /memory remember\/link/)
   assert.match(event.system[1].text, /Do not store secrets/)
 })
 
@@ -125,12 +125,12 @@ test("v1 server adapter preserves legacy hooks and message parts", async (t) => 
   assert.equal(p.calls[0].options.cwd, "/legacy")
   const shell = {}
   await hooks["shell.env"]({}, shell)
-  assert.equal(shell.env.MNEMON_OPENCODE, "1")
+  assert.equal(shell.env.MEMORY_OPENCODE, "1")
   const compaction = {}
   await hooks["experimental.session.compacting"]({}, compaction)
   await hooks["experimental.session.compacting"]({}, compaction)
   assert.equal(compaction.context.length, 1)
-  assert.match(compaction.context[0], /mnemon remember\/link/)
+  assert.match(compaction.context[0], /memory remember\/link/)
   await hooks.dispose()
 })
 
@@ -142,14 +142,14 @@ test("missing CLI and malformed messages do not break the model request", async 
   assert.equal(p.calls.length, 0)
   const event = context()
   hook(event)
-  assert.match(event.messages[1].content[0].text, /Use mnemon/)
+  assert.match(event.messages[1].content[0].text, /Use memory/)
   assert.doesNotMatch(event.messages[1].content[0].text, /Status:|Relevant recall:/)
 })
 
 for (const [name, entry, command] of [
-  ["native", "C:\\bin\\mnemon.exe", "C:\\bin\\mnemon.exe"],
-  ["npm global", "C:\\bin\\node_modules\\@mnemon-dev\\mnemon\\bin\\mnemon.js", "C:\\native\\bin\\mnemon.exe"],
-  ["npm local", "C:\\project\\node_modules\\@mnemon-dev\\mnemon\\bin\\mnemon.js", "C:\\native\\bin\\mnemon.exe"],
+  ["native", "C:\\bin\\memory.exe", "C:\\bin\\memory.exe"],
+  ["npm global", "C:\\bin\\node_modules\\@jaywanx\\memory\\bin\\memory.js", "C:\\native\\bin\\memory.exe"],
+  ["npm local", "C:\\project\\node_modules\\@jaywanx\\memory\\bin\\memory.js", "C:\\native\\bin\\memory.exe"],
 ]) {
   test(`Windows ${name} keeps recall text out of shell syntax`, async (t) => {
     const p = await loadPlugin(t, { platform: "win32", files: [entry], env: { PATH: "C:\\bin;C:\\project\\node_modules\\.bin" } })
@@ -162,7 +162,7 @@ for (const [name, entry, command] of [
 }
 
 test("Unix npm symlinks resolve to the native child without an intermediate launcher", async (t) => {
-  const p = await loadPlugin(t, { files: ["/bin/mnemon"], env: { PATH: "/bin" }, links: { "/bin/mnemon": "/npm/@mnemon-dev/mnemon/bin/mnemon.js" } })
+  const p = await loadPlugin(t, { files: ["/bin/memory"], env: { PATH: "/bin" }, links: { "/bin/memory": "/npm/@jaywanx/memory-cli/bin/memory.js" } })
   p.hooks.get("session.context")(context())
-  assert.equal(p.calls[0].command, "/native/bin/mnemon")
+  assert.equal(p.calls[0].command, "/native/bin/memory")
 })

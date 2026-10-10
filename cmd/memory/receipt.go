@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -77,7 +77,7 @@ func buildReceipt(storeName string, limit int, entries []store.OplogEntry, gener
 	events := make([]receiptEvent, 0, len(entries))
 	for _, entry := range entries {
 		event := receiptEvent{
-			EventName:     "mnemon.memory.operation.observed",
+			EventName:     "memory.memory.operation.observed",
 			Operation:     entry.Operation,
 			CreatedAt:     entry.CreatedAt,
 			InsightIDHash: hashIfPresent(entry.InsightID),
@@ -88,7 +88,7 @@ func buildReceipt(storeName string, limit int, entries []store.OplogEntry, gener
 	}
 
 	return receiptDocument{
-		Schema:      "mnemon.memory.receipt.v1",
+		Schema:      "memory.memory.receipt.v1",
 		GeneratedAt: generatedAt.Format(time.RFC3339),
 		Store:       storeName,
 		Limit:       limit,

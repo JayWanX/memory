@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -17,8 +17,8 @@ func TestNewReturnsComposableMemoryRoot(t *testing.T) {
 	})
 
 	cmd := New("test-version")
-	if cmd.Use != "mnemon" {
-		t.Fatalf("root use = %q, want mnemon", cmd.Use)
+	if cmd.Use != "memory" {
+		t.Fatalf("root use = %q, want memory", cmd.Use)
 	}
 	if cmd.Version != "test-version" {
 		t.Fatalf("root version = %q, want test-version", cmd.Version)
@@ -31,7 +31,7 @@ func TestNewReturnsComposableMemoryRoot(t *testing.T) {
 }
 
 func TestOpenDBRejectsInvalidStoreNameFromEnv(t *testing.T) {
-	t.Setenv("MNEMON_STORE", "../outside")
+	t.Setenv("MEMORY_STORE", "../outside")
 
 	oldDataDir, oldStoreName, oldReadOnly := dataDir, storeName, readOnly
 	t.Cleanup(func() {
@@ -148,7 +148,7 @@ func TestStoreMutationsRejectReadOnlyMode(t *testing.T) {
 }
 
 // TestResolveEmbedModelChain exercises the full cmd → embed pipeline for the
-// --embed-model flag and MNEMON_EMBED_MODEL env var, mirroring how cobra
+// --embed-model flag and MEMORY_EMBED_MODEL env var, mirroring how cobra
 // will hand the value off at runtime. The test runs against
 // embed.NewClientWithModel directly so it does not require a live provider.
 func TestResolveEmbedModelChain(t *testing.T) {
@@ -189,7 +189,7 @@ func TestResolveEmbedModelChain(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			t.Setenv("MNEMON_EMBED_MODEL", tc.envValue)
+			t.Setenv("MEMORY_EMBED_MODEL", tc.envValue)
 			embedModel = tc.flagValue
 			client := embed.NewClientWithModel(resolveEmbedModel())
 			if got := client.Model(); got != tc.want {

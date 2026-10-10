@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -19,12 +19,12 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "mnemon",
+	Use:   "memory",
 	Short: "Memory daemon for LLM agents",
-	Long:  "Mnemon is a standalone memory daemon based on MAGMA's four-graph architecture.",
+	Long:  "Memory is a standalone memory daemon based on MAGMA's four-graph architecture.",
 }
 
-// New returns Mnemon's Memory command tree for composition by the product
+// New returns Memory's Memory command tree for composition by the product
 // root. Command execution and process exit remain the root command's concern.
 func New(buildVersion string) *cobra.Command {
 	version = buildVersion
@@ -34,14 +34,14 @@ func New(buildVersion string) *cobra.Command {
 
 func init() {
 	defaultDataDir := store.DefaultDataDir()
-	if env := os.Getenv("MNEMON_DATA_DIR"); env != "" {
+	if env := os.Getenv("MEMORY_DATA_DIR"); env != "" {
 		defaultDataDir = env
 	}
-	rootCmd.PersistentFlags().StringVar(&dataDir, "data-dir", defaultDataDir, "base data directory (env: MNEMON_DATA_DIR)")
-	rootCmd.PersistentFlags().StringVar(&storeName, "store", "", "named memory store (overrides MNEMON_STORE and active file)")
+	rootCmd.PersistentFlags().StringVar(&dataDir, "data-dir", defaultDataDir, "base data directory (env: MEMORY_DATA_DIR)")
+	rootCmd.PersistentFlags().StringVar(&storeName, "store", "", "named memory store (overrides MEMORY_STORE and active file)")
 	rootCmd.PersistentFlags().BoolVar(&readOnly, "readonly", false, "open an immutable database snapshot (reject writes; create no WAL files)")
 	rootCmd.PersistentFlags().StringVar(&embedModel, "embed-model", "",
-		fmt.Sprintf("embedding model (env: MNEMON_EMBED_MODEL; default: %s)", embed.DefaultModel))
+		fmt.Sprintf("embedding model (env: MEMORY_EMBED_MODEL; default: %s)", embed.DefaultModel))
 }
 
 // resolveEmbedModel returns the embedding model selector that should be
@@ -49,7 +49,7 @@ func init() {
 //
 // Resolution chain (delegated to NewClientWithModel):
 //
-//	non-empty --embed-model flag > MNEMON_EMBED_MODEL env var > embed.DefaultModel
+//	non-empty --embed-model flag > MEMORY_EMBED_MODEL env var > embed.DefaultModel
 //
 // An explicitly empty --embed-model is treated as "unset" and falls through
 // to the env var / built-in default; this matches how the existing --data-dir
@@ -62,12 +62,12 @@ func resolveEmbedModel() string {
 }
 
 // resolveStoreName returns the effective store name.
-// Priority: --store flag > MNEMON_STORE env > active file > "default".
+// Priority: --store flag > MEMORY_STORE env > active file > "default".
 func resolveStoreName() string {
 	if storeName != "" {
 		return storeName
 	}
-	if env := os.Getenv("MNEMON_STORE"); env != "" {
+	if env := os.Getenv("MEMORY_STORE"); env != "" {
 		return env
 	}
 	return store.ReadActive(dataDir)

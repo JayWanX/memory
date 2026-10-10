@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 // HookSelection describes which optional hooks to install.
@@ -16,18 +16,18 @@ type HookSelection struct {
 	Compact bool // PreCompact — save insights before context compaction
 }
 
-// promptDir returns the directory where mnemon prompt files (guide.md,
-// skill.md) are written and read. Resolution follows MNEMON_DATA_DIR if set,
-// else ~/.mnemon.
+// promptDir returns the directory where memory prompt files (guide.md,
+// skill.md) are written and read. Resolution follows MEMORY_DATA_DIR if set,
+// else ~/.memory.
 func promptDir() (string, error) {
-	if env := os.Getenv("MNEMON_DATA_DIR"); env != "" {
+	if env := os.Getenv("MEMORY_DATA_DIR"); env != "" {
 		return filepath.Join(env, "prompt"), nil
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(home, ".mnemon", "prompt"), nil
+	return filepath.Join(home, ".memory", "prompt"), nil
 }
 
 // WritePromptFiles writes guide.md and skill.md under promptDir.
@@ -53,9 +53,9 @@ func WritePromptFiles() (string, error) {
 	return dir, nil
 }
 
-// ClaudeWriteSkill writes the mnemon skill to the config dir.
+// ClaudeWriteSkill writes the memory skill to the config dir.
 func ClaudeWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	skillPath := filepath.Join(skillDir, "SKILL.md")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
@@ -68,7 +68,7 @@ func ClaudeWriteSkill(configDir string) (string, error) {
 
 // ClaudeWriteHook writes a hook script to the hooks dir.
 func ClaudeWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -127,7 +127,7 @@ func collidesWithUserConfig(configDir string) bool {
 // run from $HOME), hook commands are written as absolute paths so they honor
 // the global file's contract and resolve from any session directory.
 func ClaudeRegisterHooks(configDir string, sel HookSelection) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if collidesWithUserConfig(configDir) {
 		abs, err := filepath.Abs(hooksDir)
 		if err != nil {
@@ -150,14 +150,14 @@ func ClaudeRegisterHooks(configDir string, sel HookSelection) (string, error) {
 	return settingsPath, nil
 }
 
-// ClaudeEject removes mnemon integration from the given Claude Code config dir.
+// ClaudeEject removes memory integration from the given Claude Code config dir.
 func ClaudeEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving Claude Code integration (%s)...\n", configDir)
 
 	// Step 1: Remove hooks directory
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -183,7 +183,7 @@ func ClaudeEject(configDir string) []error {
 	}
 
 	// Step 3: Remove skill directory
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)

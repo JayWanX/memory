@@ -13,11 +13,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
-	journalSchema          = "mnemon.agency.client-journal"
+	journalSchema          = "memory.agency.client-journal"
 	journalVersion         = 2
 	journalCredentialBytes = 32
 	maxJournalBytes        = 32 << 10
@@ -27,7 +27,7 @@ const (
 	currentOperationEntropy   = 32
 	admissionOperationPrefix  = "admit:"
 	currentOperationPrefix    = "current:"
-	operationDerivationDomain = "mnemon/r7/agency-cli/admission-operation/v1"
+	operationDerivationDomain = "memory/r7/agency-cli/admission-operation/v1"
 	currentProjectionEmpty    = "empty"
 	currentProjectionSubject  = "subject"
 )

@@ -225,8 +225,8 @@ func TestParseAgentViewCanonicalJSONRejectsNoncanonicalAndDivergentProjection(t 
 	cases := map[string][]byte{
 		"leading whitespace": append([]byte("\n"), canonical...),
 		"trailing value":     append(append([]byte(nil), canonical...), []byte("null")...),
-		"duplicate key": bytes.Replace(canonical, []byte(`"schema":"mnemon.agent.view"`),
-			[]byte(`"schema":"mnemon.agent.view","schema":"mnemon.agent.view"`), 1),
+		"duplicate key": bytes.Replace(canonical, []byte(`"schema":"memory.agent.view"`),
+			[]byte(`"schema":"memory.agent.view","schema":"memory.agent.view"`), 1),
 		"private field": bytes.Replace(canonical, []byte(`{"schema":`),
 			[]byte(`{"source_principal":"agent:injected","schema":`), 1),
 		"unknown nested field": bytes.Replace(canonical, []byte(`"facts":{`),
@@ -262,7 +262,7 @@ func TestViewParsersEnforceCanonicalByteBounds(t *testing.T) {
 	if _, err := ParseViewAuthorityCanonicalJSON(private, fixture.attachment); !errors.Is(err, ErrLimit) {
 		t.Fatalf("private byte bound error = %v, want ErrLimit", err)
 	}
-	public := []byte(`{"schema":"mnemon.agent.view","version":8,"view":"view:public","padding":"` +
+	public := []byte(`{"schema":"memory.agent.view","version":8,"view":"view:public","padding":"` +
 		strings.Repeat("x", MaxAgentViewCanonicalBytes) + `"}`)
 	if _, err := ParseAgentViewCanonicalJSON(public, fixture.authority); !errors.Is(err, ErrLimit) {
 		t.Fatalf("public byte bound error = %v, want ErrLimit", err)
@@ -290,7 +290,7 @@ func FuzzParseViewAuthorityCanonicalJSON(f *testing.F) {
 func FuzzParseAgentViewCanonicalJSON(f *testing.F) {
 	_, authority, public := minimalParserFixture()
 	f.Add(public.CanonicalJSON())
-	f.Add([]byte(`{"schema":"mnemon.agent.view","version":8}`))
+	f.Add([]byte(`{"schema":"memory.agent.view","version":8}`))
 	f.Fuzz(func(t *testing.T, data []byte) {
 		view, err := ParseAgentViewCanonicalJSON(data, authority)
 		if err != nil {

@@ -6,12 +6,12 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
 	maxProjectedReferences = agency.MaxAgentViewReferences
-	currentRequestWire     = `{"schema":"mnemon.current","version":1}`
+	currentRequestWire     = `{"schema":"memory.current","version":1}`
 )
 
 // CurrentOperation is machine-held replay authority for one Current request.

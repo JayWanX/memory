@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/graph"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/graph"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 

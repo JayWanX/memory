@@ -9,10 +9,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
-	"github.com/mnemon-dev/mnemon/internal/agency/peerlink"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency/peerlink"
 )
 
 const (

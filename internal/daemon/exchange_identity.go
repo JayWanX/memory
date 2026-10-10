@@ -15,17 +15,17 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 	"golang.org/x/sys/unix"
 )
 
 const (
 	transportIdentityFile    = "peer-identity.json"
 	transportIdentityPending = ".peer-identity.pending"
-	transportIdentitySchema  = "mnemon.r7.peer-identity"
+	transportIdentitySchema  = "memory.r7.peer-identity"
 	transportIdentityVersion = 1
 	ownerFileMode            = 0o600
-	peerIdentityDomain       = "mnemon.r7.peer-identity.v1"
+	peerIdentityDomain       = "memory.r7.peer-identity.v1"
 )
 
 type transportIdentityWire struct {

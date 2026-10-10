@@ -1,13 +1,13 @@
-# Mnemon — Design & Architecture
+# Memory — Design & Architecture
 
-> **Mnemon** (/ˈniːmɒn/), from Ancient Greek μνήμων (mnemon), formed by μνάομαι ("to remember") and the agent suffix -μων, meaning "one who remembers, a person of good memory." Homer uses "καὶ γὰρ μνήμων εἰμί" ("I remember it well") in the *Odyssey* to describe this quality. In the city-states of Ancient Greece, Mnemones were officials dedicated to record-keeping, serving as witnesses and archivists in property transactions and legal proceedings — institutional memory carriers during the transition from oral tradition to written records.
+> **Memory** (/ˈniːmɒn/), from Ancient Greek μνήμων (memory), formed by μνάομαι ("to remember") and the agent suffix -μων, meaning "one who remembers, a person of good memory." Homer uses "καὶ γὰρ μνήμων εἰμί" ("I remember it well") in the *Odyssey* to describe this quality. In the city-states of Ancient Greece, Memoryes were officials dedicated to record-keeping, serving as witnesses and archivists in property transactions and legal proceedings — institutional memory carriers during the transition from oral tradition to written records.
 >
 > The word shares its root with Mnemosyne (Μνημοσύνη), the goddess of memory — from her union with Zeus the nine Muses were born, symbolizing memory as the wellspring of all knowledge and creativity.
 
-Mnemon is a persistent memory system designed for LLM agents. It adopts the **LLM-Supervised** pattern: the host LLM acts as external orchestrator of a standalone memory binary through symbolic CLI interfaces, while the binary handles deterministic storage, graph indexing, and lifecycle management. Memory is organized as a four-graph knowledge structure with temporal, entity, causal, and semantic edges. The `mnemon` memory engine remains one Go binary + SQLite, with no external API dependencies.
+Memory is a persistent memory system designed for LLM agents. It adopts the **LLM-Supervised** pattern: the host LLM acts as external orchestrator of a standalone memory binary through symbolic CLI interfaces, while the binary handles deterministic storage, graph indexing, and lifecycle management. Memory is organized as a four-graph knowledge structure with temporal, entity, causal, and semantic edges. The `memory` memory engine remains one Go binary + SQLite, with no external API dependencies.
 
-This document describes the Memory engine. The same `mnemon` executable also
-provides [Mnemon Agency](AGENCY.md), an optional local authority for durable
+This document describes the Memory engine. The same `memory` executable also
+provides [Memory Agency](AGENCY.md), an optional local authority for durable
 Agent work and peer collaboration. Memory and Agency keep separate state and
 authority even though they share one executable.
 
@@ -17,7 +17,7 @@ authority even though they share one executable.
 
 ### [1. Vision & Problem](design/01-vision.md)
 
-Why Mnemon exists — the amnesia problem in LLM agents, structural bottlenecks of traditional approaches, and a comparison with existing solutions (Mem0, MemGPT, Claude Code Memory).
+Why Memory exists — the amnesia problem in LLM agents, structural bottlenecks of traditional approaches, and a comparison with existing solutions (Mem0, MemGPT, Claude Code Memory).
 
 ### [2. Engine Design Philosophy](design/02-philosophy.md)
 
@@ -47,7 +47,7 @@ Runtime-native integration through runtime-specific `SKILL.md`, a shared
 `guide.md`, supported hooks or extensions, agent-led memory decisions, setup
 automation, and lightweight reviewed markdown evolution.
 
-### [Mnemon Agency Preview](AGENCY.md)
+### [Memory Agency Preview](AGENCY.md)
 
 How to add durable work, receipts, and optional peer collaboration to an
 existing Agent Runtime, including its current maturity and compatibility boundary.

@@ -2,7 +2,7 @@ package graph
 
 import (
 	"fmt"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 	"math/rand"
 	"reflect"
 	"testing"

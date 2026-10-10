@@ -5,7 +5,7 @@
   surfaces
 - **Priority:** correctness and safety > clarity > simplicity > reuse > source-line reduction
 
-This document defines how Mnemon uses Go to keep long-lived code understandable,
+This document defines how Memory uses Go to keep long-lived code understandable,
 changeable, and verifiable. The keywords **MUST**, **SHOULD**, and **MAY** are
 normative.
 
@@ -27,10 +27,10 @@ hides authority, ordering, or failure semantics is worse than explicit code.
 
 ## 1. Structured authority and natural-language content
 
-Mnemon crosses boundaries between deterministic code and language models. Those
+Memory crosses boundaries between deterministic code and language models. Those
 responsibilities MUST remain distinct:
 
-- Mnemon's deterministic layer—Go runtime plus reviewed schema assets—owns
+- Memory's deterministic layer—Go runtime plus reviewed schema assets—owns
   identities, kinds, revisions, timestamps, membership, state transitions,
   limits, digests, signatures, fences, and persistence outcomes.
 - A model may select a closed verb or bounded alias and provide bounded natural
@@ -206,7 +206,7 @@ does not own durable business policy; it owns process lifecycle.
 - Secrets MUST NOT enter logs, command arguments, metrics labels, or error
   strings. Natural-language input may use arguments only where an existing,
   reviewed local-user CLI contract explicitly defines that surface, as the root
-  `mnemon` CLI does. New Agent/remote surfaces SHOULD use bounded stdin or files,
+  `memory` CLI does. New Agent/remote surfaces SHOULD use bounded stdin or files,
   MUST NOT forward content through child-process arguments, and MUST NOT copy
   unrestricted content into logs, metrics labels, or error strings. Other
   user-local CLI diagnostics SHOULD avoid content and must follow their reviewed

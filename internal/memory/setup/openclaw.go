@@ -6,12 +6,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 // OpenClawWriteSkill writes the SKILL.md to the OpenClaw skills directory.
 func OpenClawWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -22,9 +22,9 @@ func OpenClawWriteSkill(configDir string) (string, error) {
 	return skillPath, nil
 }
 
-// OpenClawWriteHook writes the mnemon-prime internal hook to the OpenClaw hooks directory.
+// OpenClawWriteHook writes the memory-prime internal hook to the OpenClaw hooks directory.
 func OpenClawWriteHook(configDir string) (string, error) {
-	hookDir := filepath.Join(configDir, "hooks", "mnemon-prime")
+	hookDir := filepath.Join(configDir, "hooks", "memory-prime")
 	if err := os.MkdirAll(hookDir, 0755); err != nil {
 		return "", err
 	}
@@ -38,12 +38,12 @@ func OpenClawWriteHook(configDir string) (string, error) {
 	return hookDir, nil
 }
 
-// OpenClawWritePlugin writes the mnemon plugin to the OpenClaw extensions directory.
-// ver is the mnemon version string (e.g. from ldflags); it replaces the
+// OpenClawWritePlugin writes the memory plugin to the OpenClaw extensions directory.
+// ver is the memory version string (e.g. from ldflags); it replaces the
 // embedded manifest's static version field so the installed plugin always
 // reflects the running binary.
 func OpenClawWritePlugin(configDir, ver string) (string, error) {
-	pluginDir := filepath.Join(configDir, "extensions", "mnemon")
+	pluginDir := filepath.Join(configDir, "extensions", "memory")
 	if err := os.MkdirAll(pluginDir, 0755); err != nil {
 		return "", err
 	}
@@ -76,7 +76,7 @@ func OpenClawWritePlugin(configDir, ver string) (string, error) {
 	return pluginDir, nil
 }
 
-// OpenClawRegisterPlugin adds the mnemon plugin entry to openclaw.json,
+// OpenClawRegisterPlugin adds the memory plugin entry to openclaw.json,
 // recording which optional hooks the user selected.
 func OpenClawRegisterPlugin(configDir string, sel HookSelection) (string, error) {
 	cfgPath := filepath.Join(configDir, "openclaw.json")
@@ -105,7 +105,7 @@ func OpenClawRegisterPlugin(configDir string, sel HookSelection) (string, error)
 	}
 
 	// Always write the entry so config reflects current selection.
-	entries["mnemon"] = map[string]any{
+	entries["memory"] = map[string]any{
 		"enabled": true,
 		"config": map[string]any{
 			"remind":  sel.Remind,
@@ -127,7 +127,7 @@ func OpenClawRegisterPlugin(configDir string, sel HookSelection) (string, error)
 	return cfgPath, nil
 }
 
-// OpenClawEject removes mnemon skill, hook, and plugin from the given OpenClaw config dir.
+// OpenClawEject removes memory skill, hook, and plugin from the given OpenClaw config dir.
 func OpenClawEject(configDir string) []error {
 	var errs []error
 
@@ -137,9 +137,9 @@ func OpenClawEject(configDir string) []error {
 		label string
 		path  string
 	}{
-		{"Skill", filepath.Join(configDir, "skills", "mnemon")},
-		{"Hook", filepath.Join(configDir, "hooks", "mnemon-prime")},
-		{"Plugin", filepath.Join(configDir, "extensions", "mnemon")},
+		{"Skill", filepath.Join(configDir, "skills", "memory")},
+		{"Hook", filepath.Join(configDir, "hooks", "memory-prime")},
+		{"Plugin", filepath.Join(configDir, "extensions", "memory")},
 	}
 
 	total := len(targets)
@@ -189,10 +189,10 @@ func removeOpenClawPluginEntry(cfgPath string) error {
 		return nil
 	}
 
-	if _, ok := entries["mnemon"]; !ok {
+	if _, ok := entries["memory"]; !ok {
 		return nil
 	}
-	delete(entries, "mnemon")
+	delete(entries, "memory")
 	if len(entries) == 0 {
 		delete(plugins, "entries")
 	} else {

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestAgentSubmitReturnsBoundedInputDiagnostics(t *testing.T) {
@@ -92,7 +92,7 @@ func TestAgentSubmitCommandAndStdinDiagnosticsAreActionable(t *testing.T) {
 	}{
 		{name: "json passed as argument",
 			args:    []string{"agent", "submit", "--json", `{}`},
-			message: "use exactly mnemon agency agent submit --json and provide Intent JSON on stdin"},
+			message: "use exactly memory agency agent submit --json and provide Intent JSON on stdin"},
 		{name: "empty stdin", args: []string{"agent", "submit", "--json"},
 			message: "provide exactly one Intent JSON object on stdin with a quoted heredoc"},
 	} {
@@ -599,7 +599,7 @@ func TestEnsureFailurePreventsPrivateClientCall(t *testing.T) {
 	fixture.client.mu.Lock()
 	calls := fixture.client.attachCalls
 	fixture.client.mu.Unlock()
-	if exit != codeMnemondUnavailable.exitStatus() || calls != 0 ||
+	if exit != codeMemorydUnavailable.exitStatus() || calls != 0 ||
 		strings.Contains(output.String(), "private daemon failure detail") {
 		t.Fatalf("ensure failure = exit %d Attach calls %d output %q", exit, calls, output.String())
 	}
@@ -680,7 +680,7 @@ func referencePublishIntent(t *testing.T, artifactHandle string) []byte {
 }
 
 func subjectViewForTest() []byte {
-	return []byte(`{"schema":"mnemon.agent.view","version":8,` +
+	return []byte(`{"schema":"memory.agent.view","version":8,` +
 		`"view":"view:test","current":{"facts":{"handle":"r7:subject:test","reply_to":"r7:subject:test","reply_required":false,"reply_observation_pending":false},` +
 		`"semantic":{"kind":"review.request","payload":"review"}},` +
 		`"outstanding":{"open_total":1,"related_total":0,"related_projected":0,"truncated":false},` +

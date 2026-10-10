@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// TraeWriteSkill writes the mnemon skill to the Trae skills directory.
+// TraeWriteSkill writes the memory skill to the Trae skills directory.
 func TraeWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -23,7 +23,7 @@ func TraeWriteSkill(configDir string) (string, error) {
 
 // TraeWriteHook writes a hook script to the Trae hooks directory.
 func TraeWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -34,9 +34,9 @@ func TraeWriteHook(configDir, filename string, content []byte) (string, error) {
 	return hookPath, nil
 }
 
-// TraeRegisterHooks registers Mnemon lifecycle hooks in Trae hooks.json.
+// TraeRegisterHooks registers Memory lifecycle hooks in Trae hooks.json.
 func TraeRegisterHooks(configDir string) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -53,13 +53,13 @@ func TraeRegisterHooks(configDir string) (string, error) {
 	return hooksPath, nil
 }
 
-// TraeEject removes mnemon skill and hooks from the given Trae config dir.
+// TraeEject removes memory skill and hooks from the given Trae config dir.
 func TraeEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving Trae integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -83,7 +83,7 @@ func TraeEject(configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)

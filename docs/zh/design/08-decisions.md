@@ -6,7 +6,7 @@
 
 ### 为什么选择 LLM-Supervised 而非嵌入式 LLM？
 
-| 维度 | LLM-Embedded（Mem0 等） | LLM-Supervised（Mnemon） |
+| 维度 | LLM-Embedded（Mem0 等） | LLM-Supervised（Memory） |
 |------|----------------------|--------------------------|
 | LLM 能力 | gpt-4o-mini（受限） | 宿主 LLM（Opus 级别） |
 | API 成本 | 每次操作都有调用 | 零 |
@@ -19,7 +19,7 @@
 - **ACID 事务**：remember 管线的原子性保证
 - **WAL 并发**：支持 hook 读取和 CLI 写入同时进行
 - **零外部依赖**：不需要 Redis/Neo4j/Qdrant
-- **记忆体隔离**：命名记忆体（`~/.mnemon/data/<name>/mnemon.db`）通过 `MNEMON_STORE` 环境变量提供轻量数据隔离
+- **记忆体隔离**：命名记忆体（`~/.memory/data/<name>/memory.db`）通过 `MEMORY_STORE` 环境变量提供轻量数据隔离
 
 ### 为什么用 Beam Search 而非完整 BFS？
 
@@ -36,7 +36,7 @@
 
 ### 与 MAGMA 论文的主要偏差
 
-| 方面 | MAGMA 论文 | Mnemon 实现 |
+| 方面 | MAGMA 论文 | Memory 实现 |
 |------|-----------|------------|
 | 实体提取 | LLM 驱动的完整管线 | 正则 + 词典 + LLM 补充 |
 | 因果推理 | 嵌入式 prompt chain | 自动候选 + LLM 评审 |
@@ -45,13 +45,13 @@
 | 嵌入 | FAISS + OpenAI | Ollama（本地，可选） |
 | 部署 | Python 库 | 单一 Go 二进制 |
 
-Mnemon 保留了 MAGMA 的**架构骨架**（四图分离、intent-adaptive retrieval、multi-signal fusion），同时用工业化的简化手段替换了学术实现细节。这种两层方法——多数场景的确定性自动化 + 复杂少数的 LLM judgment——正是 [RLM 论文](02-philosophy.md#25-理论基础)所验证的模式：regex filtering 加 LLM semantic verification 的组合，持续优于任一单独使用。核心取舍是：**用 regex/heuristics 处理 80% 的自动化场景，将需要深度理解的 20% 交给宿主 LLM。**
+Memory 保留了 MAGMA 的**架构骨架**（四图分离、intent-adaptive retrieval、multi-signal fusion），同时用工业化的简化手段替换了学术实现细节。这种两层方法——多数场景的确定性自动化 + 复杂少数的 LLM judgment——正是 [RLM 论文](02-philosophy.md#25-理论基础)所验证的模式：regex filtering 加 LLM semantic verification 的组合，持续优于任一单独使用。核心取舍是：**用 regex/heuristics 处理 80% 的自动化场景，将需要深度理解的 20% 交给宿主 LLM。**
 
 ---
 
 ## 8.2 未来方向
 
-[两层架构](02-philosophy.md#23-记忆网关协议而非数据库)已经实现了 Agent 侧的可插拔——今天任何 LLM CLI 都可以通过协议面与 Mnemon 交互。剩下的工作在另一侧。
+[两层架构](02-philosophy.md#23-记忆网关协议而非数据库)已经实现了 Agent 侧的可插拔——今天任何 LLM CLI 都可以通过协议面与 Memory 交互。剩下的工作在另一侧。
 
 ### 存储侧的可插拔
 
@@ -76,7 +76,7 @@ SQLite        INSERT row      INSERT edge table     multi-signal query
 
 ### 迈向记忆网关
 
-当上下两端都解耦后，Mnemon 成为真正的记忆网关——上层接任何 LLM，下层接任何存储后端，协议层作为两者之间的稳定契约：
+当上下两端都解耦后，Memory 成为真正的记忆网关——上层接任何 LLM，下层接任何存储后端，协议层作为两者之间的稳定契约：
 
 ```
          单体系统                       协议网关
@@ -89,12 +89,12 @@ MemGPT──┘                         │── SQLite adapter（当前）
                                    └── PostgreSQL adapter
 
                                    ↑
-                              mnemon 的位置：
+                              memory 的位置：
                               不是又一个数据库，
                               而是 LLM ↔ DB 协议网关
 ```
 
-这重新定义了 Mnemon 的竞争维度：
+这重新定义了 Memory 的竞争维度：
 
 - **不跟 Neo4j 比存储引擎**——DB 问题归 DB
 - **不跟 Mem0 比产品功能**——Mem0 是绑定自身存储实现的产品

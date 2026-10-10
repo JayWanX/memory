@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 func TestHostSkillAndHookArtifacts(t *testing.T) {
@@ -35,7 +35,7 @@ func TestHostSkillAndHookArtifacts(t *testing.T) {
 			if err != nil {
 				t.Fatalf("write skill: %v", err)
 			}
-			if want := filepath.Join(dir, "skills", "mnemon", "SKILL.md"); skillPath != want {
+			if want := filepath.Join(dir, "skills", "memory", "SKILL.md"); skillPath != want {
 				t.Fatalf("skill path = %q, want %q", skillPath, want)
 			}
 			skill, err := os.ReadFile(skillPath)
@@ -51,7 +51,7 @@ func TestHostSkillAndHookArtifacts(t *testing.T) {
 			if err != nil {
 				t.Fatalf("write hook: %v", err)
 			}
-			if want := filepath.Join(dir, "hooks", "mnemon", "prime.sh"); hookPath != want {
+			if want := filepath.Join(dir, "hooks", "memory", "prime.sh"); hookPath != want {
 				t.Fatalf("hook path = %q, want %q", hookPath, want)
 			}
 			info, err := os.Stat(hookPath)

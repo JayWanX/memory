@@ -6,9 +6,9 @@
 
 ![Integration Architecture](../diagrams/08-three-layer-integration.jpg)
 
-Mnemon integrates with LLM CLIs through a small runtime-native projection, not
+Memory integrates with LLM CLIs through a small runtime-native projection, not
 as a runtime-specific agent framework. The target runtime remains responsible
-for conversation, planning, file edits, tool use, and semantic judgment. Mnemon
+for conversation, planning, file edits, tool use, and semantic judgment. Memory
 provides a durable memory protocol, a skill surface, shared guidance, and
 lightweight lifecycle reminders where the runtime supports them.
 
@@ -18,7 +18,7 @@ principle:
 - **Hook-native**: lifecycle events are useful places to remind the agent about
   memory, but hooks should stay lightweight.
 - **LLM-led**: the host agent decides whether recall or writeback is useful.
-- **Protocol-constrained**: Mnemon owns deterministic commands, structured
+- **Protocol-constrained**: Memory owns deterministic commands, structured
   output, provenance, linking, deduplication, and lifecycle operations.
 
 ## 7.1 Installed Projection
@@ -29,11 +29,11 @@ native surfaces of each runtime:
 | Artifact | Role |
 |---|---|
 | Runtime-specific `SKILL.md` | Teaches command syntax, output interpretation, and hard guardrails |
-| `<prompt-dir>/guide.md` | Carries shared recall, writeback, linking, and no-op guidance; the default prompt directory is `~/.mnemon/prompt/` |
+| `<prompt-dir>/guide.md` | Carries shared recall, writeback, linking, and no-op guidance; the default prompt directory is `~/.memory/prompt/` |
 | Native hooks or extensions | Surface bounded reminders at lifecycle points the runtime exposes |
-| `mnemon` binary | Executes deterministic memory operations |
+| `memory` binary | Executes deterministic memory operations |
 
-`mnemon setup` installs these assets for known runtimes. Their paths and hook
+`memory setup` installs these assets for known runtimes. Their paths and hook
 shapes are integration details: a runtime may use shell hooks, a plugin, a
 TypeScript extension, persistent instructions, or only a skill. None of these
 surfaces owns Memory state.
@@ -55,7 +55,7 @@ User prompt arrives
   Remind  -> ask whether recall could change the task
     |
     v
-Agent works with Mnemon only when useful
+Agent works with Memory only when useful
     |
     v
   Nudge   -> ask whether durable writeback is justified
@@ -72,7 +72,7 @@ be treated as an implementation detail.
 
 | Phase | Typical Event | Required Behavior | Should Avoid |
 |---|---|---|---|
-| Prime | Session start / bootstrap | Make the Mnemon skill, guide, and active store visible | Bulk injecting historical memory |
+| Prime | Session start / bootstrap | Make the Memory skill, guide, and active store visible | Bulk injecting historical memory |
 | Remind | User prompt submit / before planning | Prompt a recall decision for memory-sensitive tasks | Auto-recalling every prompt |
 | Nudge | Stop / after response | Prompt a writeback decision for durable insights | Saving ordinary chat logs |
 | Compact | Before compaction | Preserve critical continuity before context is lost | Storing the full transcript |
@@ -88,7 +88,7 @@ The same integration contract maps differently across runtimes:
 |---|---|
 | Codex | `AGENTS.md`, skills, local instructions, and hooks when enabled |
 | Claude Code | `CLAUDE.md`, skills, slash commands, settings hooks, and project/user memory files |
-| OpenClaw | Plugin hooks and skills, without requiring a Mnemon-specific memory engine |
+| OpenClaw | Plugin hooks and skills, without requiring a Memory-specific memory engine |
 | Pi | `AGENTS.md`, native skills, and TypeScript extension lifecycle events |
 | Skill-first agents | Skills, memory guidance, and lightweight reminders |
 | Minimal CLIs | A skill, rules file, or system instruction that carries the same bounded guidance |
@@ -101,7 +101,7 @@ not separate product architectures.
 The agent should treat memory as a decision, not a reflex:
 
 1. At task start, decide whether prior experience could change the work.
-2. If yes, run a focused `mnemon recall` query and treat results as evidence.
+2. If yes, run a focused `memory recall` query and treat results as evidence.
 3. Do the task using current user instructions and repository facts as higher
    authority than stale memory.
 4. At task end, decide whether the session produced durable knowledge.
@@ -121,7 +121,7 @@ patches:
 
 ```text
 repeated experience
-  -> Mnemon recall/writeback evidence
+  -> Memory recall/writeback evidence
   -> LLM reflection
   -> candidate patch to SKILL.md / guide.md / project rule
   -> review
@@ -138,9 +138,9 @@ behavior is valuable.
 
 An integration is acceptable when the target agent can:
 
-1. Locate the Mnemon skill and explain command syntax.
+1. Locate the Memory skill and explain command syntax.
 2. Locate the memory guide and explain recall/writeback skip conditions.
-3. Run `mnemon recall` for a task where memory is relevant.
+3. Run `memory recall` for a task where memory is relevant.
 4. Write one durable memory with provenance.
 5. Skip memory for a trivial task.
 6. Preserve only critical continuity before compaction when the runtime exposes

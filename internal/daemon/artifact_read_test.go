@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestDaemonReadsOnlyArtifactOfferedByExactCurrentView(t *testing.T) {
@@ -170,7 +170,7 @@ func rawControlRequest(t *testing.T, client *http.Client, route string, body []b
 ) rawControlResponse {
 	t.Helper()
 	request, err := http.NewRequestWithContext(context.Background(), http.MethodPost,
-		"http://mnemond"+route, bytes.NewReader(body))
+		"http://memoryd"+route, bytes.NewReader(body))
 	if err != nil {
 		t.Fatal(err)
 	}

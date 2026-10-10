@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/search"
+	"github.com/JayWanX/memory/internal/memory/search"
 	"github.com/spf13/cobra"
 )
 
@@ -91,7 +91,7 @@ var searchCmd = &cobra.Command{
 
 func init() {
 	searchCmd.Flags().IntVar(&searchLimit, "limit", 10, "max results")
-	searchCmd.Flags().BoolVar(&searchBrief, "brief", false, "output short excerpts for discovery; use 'mnemon show <id>' for full content")
+	searchCmd.Flags().BoolVar(&searchBrief, "brief", false, "output short excerpts for discovery; use 'memory show <id>' for full content")
 	searchCmd.Flags().IntVar(&searchExcerpt, "excerpt-chars", defaultBriefExcerptChars, "maximum characters per --brief excerpt")
 	rootCmd.AddCommand(searchCmd)
 }

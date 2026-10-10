@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// ZCodeWriteSkill writes the mnemon skill to the ZCode skills directory.
+// ZCodeWriteSkill writes the memory skill to the ZCode skills directory.
 func ZCodeWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0o755); err != nil {
 		return "", err
 	}
@@ -24,7 +24,7 @@ func ZCodeWriteSkill(configDir string) (string, error) {
 
 // ZCodeWriteHook writes a hook script to the ZCode hooks directory.
 func ZCodeWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0o755); err != nil {
 		return "", err
 	}
@@ -35,13 +35,13 @@ func ZCodeWriteHook(configDir, filename string, content []byte) (string, error) 
 	return hookPath, nil
 }
 
-// ZCodeRegisterHooks registers user-level Mnemon hooks in cli/config.json.
+// ZCodeRegisterHooks registers user-level Memory hooks in cli/config.json.
 func ZCodeRegisterHooks(configDir string) (string, error) {
 	return zcodeRegisterHooks(configDir, runtime.GOOS)
 }
 
 func zcodeRegisterHooks(configDir, goos string) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -58,13 +58,13 @@ func zcodeRegisterHooks(configDir, goos string) (string, error) {
 	return configPath, nil
 }
 
-// ZCodeEject removes the Mnemon skill and user-level hooks from ZCode.
+// ZCodeEject removes the Memory skill and user-level hooks from ZCode.
 func ZCodeEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving ZCode integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -89,7 +89,7 @@ func ZCodeEject(configDir string) []error {
 	}
 	removeIfEmpty(filepath.Join(configDir, "cli"))
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)
@@ -116,17 +116,17 @@ func addZCodeHooks(data map[string]interface{}, hooksDir, goos string) {
 	events["SessionStart"] = appendZCodeHook(events["SessionStart"], map[string]interface{}{
 		"matcher": "startup|clear|compact",
 		"hooks": []interface{}{
-			zcodeProcessHook(filepath.Join(hooksDir, zcodeHookFilename("prime", goos)), "Loading Mnemon context", goos),
+			zcodeProcessHook(filepath.Join(hooksDir, zcodeHookFilename("prime", goos)), "Loading Memory context", goos),
 		},
 	})
 	events["UserPromptSubmit"] = appendZCodeHook(events["UserPromptSubmit"], map[string]interface{}{
 		"hooks": []interface{}{
-			zcodeProcessHook(filepath.Join(hooksDir, zcodeHookFilename("user_prompt", goos)), "Checking Mnemon recall guidance", goos),
+			zcodeProcessHook(filepath.Join(hooksDir, zcodeHookFilename("user_prompt", goos)), "Checking Memory recall guidance", goos),
 		},
 	})
 	events["Stop"] = appendZCodeHook(events["Stop"], map[string]interface{}{
 		"hooks": []interface{}{
-			zcodeProcessHook(filepath.Join(hooksDir, zcodeHookFilename("stop", goos)), "Checking Mnemon writeback guidance", goos),
+			zcodeProcessHook(filepath.Join(hooksDir, zcodeHookFilename("stop", goos)), "Checking Memory writeback guidance", goos),
 		},
 	})
 }

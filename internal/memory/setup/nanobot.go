@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 // NanobotWriteSkill writes the SKILL.md to the nanobot skills directory.
 func NanobotWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -21,14 +21,14 @@ func NanobotWriteSkill(configDir string) (string, error) {
 	return skillPath, nil
 }
 
-// NanobotEject removes mnemon skill from the given nanobot config dir.
+// NanobotEject removes memory skill from the given nanobot config dir.
 func NanobotEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving nanobot integration (%s)...\n", configDir)
 
 	// Remove skill directory
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(1, 1, "Skill", err)
 		errs = append(errs, err)

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // domainActorKind is the closed set of verified actor contexts that may enter

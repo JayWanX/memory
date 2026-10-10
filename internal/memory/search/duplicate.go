@@ -1,6 +1,6 @@
 package search
 
-import "github.com/mnemon-dev/mnemon/internal/memory/model"
+import "github.com/JayWanX/memory/internal/memory/model"
 
 // FindExactDuplicateID returns the ID of an insight with byte-identical content,
 // or an empty string when none exists. Callers supply all active insights: fuzzy

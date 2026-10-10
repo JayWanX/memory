@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 // InsertEdge inserts or replaces an edge.

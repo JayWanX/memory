@@ -38,7 +38,7 @@ func TestProjectAgentReceiptDoesNotLeakPrivateReceiptAuthority(t *testing.T) {
 		}
 	}
 	if got, want := string(public),
-		`{"schema":"mnemon.agent.receipt","version":1,"outcome":"accepted","replayed":false}`; got != want {
+		`{"schema":"memory.agent.receipt","version":1,"outcome":"accepted","replayed":false}`; got != want {
 		t.Fatalf("Agent Receipt = %s, want %s", got, want)
 	}
 	if len(public) > MaxAgentReceiptCanonicalBytes {

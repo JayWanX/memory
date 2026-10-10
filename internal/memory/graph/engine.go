@@ -1,8 +1,8 @@
 package graph
 
 import (
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 // EdgeStats tracks how many edges of each type were created.

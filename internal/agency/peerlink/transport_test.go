@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	artifactstore "github.com/mnemon-dev/mnemon/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency"
+	artifactstore "github.com/JayWanX/memory/internal/agency/artifact"
 )
 
 func TestTCPRoundTripAuthenticatesDeliveryAndSeparatesACKReceiptAndArtifact(t *testing.T) {

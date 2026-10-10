@@ -2,10 +2,10 @@ import { existsSync, unlinkSync, writeFileSync } from "fs";
 import { homedir } from "os";
 import { join } from "path";
 
-const COMPACT_FLAG = join(homedir(), ".mnemon", ".compact-pending");
+const COMPACT_FLAG = join(homedir(), ".memory", ".compact-pending");
 
 export default function register(api) {
-  // api.pluginConfig holds plugins.entries.mnemon.config from openclaw.json
+  // api.pluginConfig holds plugins.entries.memory.config from openclaw.json
   const cfg = api.pluginConfig ?? {};
   const remind  = cfg.remind  !== false; // default on
   const nudge   = cfg.nudge   !== false; // default on
@@ -25,27 +25,27 @@ export default function register(api) {
   }
 
   // ── before_prompt_build ───────────────────────────────────────
-  // Always load the mnemon skill; optionally inject remind/nudge/compact hints.
+  // Always load the memory skill; optionally inject remind/nudge/compact hints.
   api.on("before_prompt_build", async () => {
-    const parts = ["[mnemon] load mnemon skill"];
+    const parts = ["[memory] load memory skill"];
 
     // Compact flag: was compaction triggered since last turn?
     if (compact && existsSync(COMPACT_FLAG)) {
       try { unlinkSync(COMPACT_FLAG); } catch { /* ignore */ }
       parts.push(
-        "[mnemon] Context compaction starting. Review this session and remember the most valuable insights (up to 5) before context is compressed. Delegate to Task sub-agents now."
+        "[memory] Context compaction starting. Review this session and remember the most valuable insights (up to 5) before context is compressed. Delegate to Task sub-agents now."
       );
     }
 
     if (remind) {
       parts.push(
-        "[mnemon] Evaluate: recall needed? After responding, evaluate: remember needed?"
+        "[memory] Evaluate: recall needed? After responding, evaluate: remember needed?"
       );
     }
 
     if (nudge) {
       parts.push(
-        "[mnemon] Consider: does this exchange warrant a remember sub-agent?"
+        "[memory] Consider: does this exchange warrant a remember sub-agent?"
       );
     }
 

@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// WorkBuddyWriteSkill writes the mnemon skill to the WorkBuddy skills directory.
+// WorkBuddyWriteSkill writes the memory skill to the WorkBuddy skills directory.
 func WorkBuddyWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -23,7 +23,7 @@ func WorkBuddyWriteSkill(configDir string) (string, error) {
 
 // WorkBuddyWriteHook writes a hook script to the WorkBuddy hooks directory.
 func WorkBuddyWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -34,9 +34,9 @@ func WorkBuddyWriteHook(configDir, filename string, content []byte) (string, err
 	return hookPath, nil
 }
 
-// WorkBuddyRegisterHooks registers Mnemon lifecycle hooks in settings.json.
+// WorkBuddyRegisterHooks registers Memory lifecycle hooks in settings.json.
 func WorkBuddyRegisterHooks(configDir string) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -53,13 +53,13 @@ func WorkBuddyRegisterHooks(configDir string) (string, error) {
 	return settingsPath, nil
 }
 
-// WorkBuddyEject removes mnemon skill and hooks from the given WorkBuddy config dir.
+// WorkBuddyEject removes memory skill and hooks from the given WorkBuddy config dir.
 func WorkBuddyEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving WorkBuddy integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -83,7 +83,7 @@ func WorkBuddyEject(configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)

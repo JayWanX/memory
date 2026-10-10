@@ -1,6 +1,6 @@
 package agencyclient
 
-import "github.com/mnemon-dev/mnemon/internal/agency"
+import "github.com/JayWanX/memory/internal/agency"
 
 // Intent diagnostics are an exact, static allowlist. Unknown validation text
 // never crosses the Agent terminal boundary and cannot become an input echo or

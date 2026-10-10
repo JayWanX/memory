@@ -10,14 +10,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
 	MaxPeerRoutePublicKeyBytes   = ed25519.PublicKeySize
 	MaxPeerTransportAddressBytes = 512
 	MaxActivePeerRoutes          = 8
-	peerRouteSourceDomain        = "mnemon.r7.peer-route.source-principal.v1"
+	peerRouteSourceDomain        = "memory.r7.peer-route.source-principal.v1"
 )
 
 // PeerRouteSpec is setup authority for one pre-agreed, direction-local view

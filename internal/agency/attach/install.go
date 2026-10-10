@@ -162,9 +162,9 @@ func projectedFiles(workspace string, projection Projection) []projectedFile {
 		content  []byte
 		relative string
 	}{
-		{projection.Guide(), filepath.Join(".pi", "skills", "mnemond", "SKILL.md")},
-		{projection.PiExtension(), filepath.Join(".pi", "extensions", "mnemond.ts")},
-		{projection.PiCurrentExtension(), filepath.Join(".pi", "extensions", "mnemond-current.ts")},
+		{projection.Guide(), filepath.Join(".pi", "skills", "memoryd", "SKILL.md")},
+		{projection.PiExtension(), filepath.Join(".pi", "extensions", "memoryd.ts")},
+		{projection.PiCurrentExtension(), filepath.Join(".pi", "extensions", "memoryd-current.ts")},
 	}
 	files := make([]projectedFile, 0, len(sources))
 	for _, source := range sources {
@@ -189,11 +189,11 @@ func receiptFor(plan installPlan) InstallReceipt {
 	receipt := InstallReceipt{JournalPath: plan.journalPath, Revision: plan.journal.Revision}
 	for _, file := range plan.files {
 		switch file.record.Path {
-		case ".pi/extensions/mnemond-current.ts":
+		case ".pi/extensions/memoryd-current.ts":
 			receipt.CurrentExtensionPath = file.path
-		case ".pi/extensions/mnemond.ts":
+		case ".pi/extensions/memoryd.ts":
 			receipt.ExtensionPath = file.path
-		case ".pi/skills/mnemond/SKILL.md":
+		case ".pi/skills/memoryd/SKILL.md":
 			receipt.GuidePath = file.path
 		}
 	}

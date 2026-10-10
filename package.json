@@ -1,7 +1,7 @@
 {
-  "name": "@mnemon-dev/dsh-mnemon",
+  "name": "@jaywanx/dsh-memory-bundle",
   "version": "0.1.0",
-  "description": "Install the full dsh-mnemon integration from the Mnemon repository.",
+  "description": "Install the full @jaywanx/dsh-memory integration from the Memory repository.",
   "files": [
     "cordis.patch.yml",
     "README.md",
@@ -13,7 +13,7 @@
     }
   },
   "dependencies": {
-    "dsh-mnemon": "latest"
+    "@jaywanx/dsh-memory": "latest"
   },
   "engines": {
     "node": ">=20"
@@ -21,13 +21,13 @@
   "keywords": [
     "deepseek-harness",
     "dsh",
-    "mnemon",
+    "memory",
     "agent-memory",
     "dsh-plugin"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mnemon-dev/mnemon.git"
+    "url": "git+https://github.com/JayWanX/memory.git"
   },
   "license": "Apache-2.0"
 }

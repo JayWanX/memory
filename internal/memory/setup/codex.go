@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// CodexWriteSkill writes the mnemon skill to the Codex skills directory.
+// CodexWriteSkill writes the memory skill to the Codex skills directory.
 func CodexWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	skillPath := filepath.Join(skillDir, "SKILL.md")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
@@ -23,7 +23,7 @@ func CodexWriteSkill(configDir string) (string, error) {
 
 // CodexWriteHook writes a hook script to the Codex hooks directory.
 func CodexWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -34,9 +34,9 @@ func CodexWriteHook(configDir, filename string, content []byte) (string, error) 
 	return hookPath, nil
 }
 
-// CodexRegisterHooks registers Mnemon lifecycle hooks in hooks.json.
+// CodexRegisterHooks registers Memory lifecycle hooks in hooks.json.
 func CodexRegisterHooks(configDir string) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -53,13 +53,13 @@ func CodexRegisterHooks(configDir string) (string, error) {
 	return hooksPath, nil
 }
 
-// CodexEject removes mnemon integration from the given Codex config dir.
+// CodexEject removes memory integration from the given Codex config dir.
 func CodexEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving Codex integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -83,7 +83,7 @@ func CodexEject(configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)
@@ -107,7 +107,7 @@ func addCodexHooks(data map[string]interface{}, hooksDir string) {
 				"type":          "command",
 				"command":       filepath.Join(hooksDir, "prime.sh"),
 				"timeout":       30,
-				"statusMessage": "Loading Mnemon context",
+				"statusMessage": "Loading Memory context",
 			},
 		},
 	}
@@ -120,7 +120,7 @@ func addCodexHooks(data map[string]interface{}, hooksDir string) {
 				"type":          "command",
 				"command":       filepath.Join(hooksDir, "user_prompt.sh"),
 				"timeout":       30,
-				"statusMessage": "Checking Mnemon recall guidance",
+				"statusMessage": "Checking Memory recall guidance",
 			},
 		},
 	}
@@ -133,7 +133,7 @@ func addCodexHooks(data map[string]interface{}, hooksDir string) {
 				"type":          "command",
 				"command":       filepath.Join(hooksDir, "stop.sh"),
 				"timeout":       30,
-				"statusMessage": "Checking Mnemon writeback guidance",
+				"statusMessage": "Checking Memory writeback guidance",
 			},
 		},
 	}

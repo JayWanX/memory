@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const MaxStagedPeerDeliveries = 64

@@ -8,7 +8,7 @@ import (
 
 func TestEjectMemoryBlockRemovesMarkedBlock(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "AGENTS.md")
-	input := "before\n\n<!-- mnemon:start -->\nremove me\n<!-- mnemon:end -->\n\nafter\n"
+	input := "before\n\n<!-- memory:start -->\nremove me\n<!-- memory:end -->\n\nafter\n"
 	if err := os.WriteFile(path, []byte(input), 0644); err != nil {
 		t.Fatalf("write fixture: %v", err)
 	}
@@ -32,7 +32,7 @@ func TestEjectMemoryBlockRemovesMarkedBlock(t *testing.T) {
 
 func TestEjectMemoryBlockIgnoresEndMarkerBeforeStart(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "AGENTS.md")
-	input := "legacy <!-- mnemon:end --> marker\n<!-- mnemon:start -->\nremove\n<!-- mnemon:end -->\nkeep\n"
+	input := "legacy <!-- memory:end --> marker\n<!-- memory:start -->\nremove\n<!-- memory:end -->\nkeep\n"
 	if err := os.WriteFile(path, []byte(input), 0644); err != nil {
 		t.Fatalf("write fixture: %v", err)
 	}
@@ -49,7 +49,7 @@ func TestEjectMemoryBlockIgnoresEndMarkerBeforeStart(t *testing.T) {
 	if err != nil {
 		t.Fatalf("read result: %v", err)
 	}
-	want := "legacy <!-- mnemon:end --> marker\nkeep\n"
+	want := "legacy <!-- memory:end --> marker\nkeep\n"
 	if string(got) != want {
 		t.Fatalf("content mismatch:\nwant %q\ngot  %q", want, string(got))
 	}
@@ -57,7 +57,7 @@ func TestEjectMemoryBlockIgnoresEndMarkerBeforeStart(t *testing.T) {
 
 func TestEjectMemoryBlockRemovesFileWhenOnlyBlockRemains(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "CLAUDE.md")
-	if err := os.WriteFile(path, []byte("<!-- mnemon:start -->\nremove\n<!-- mnemon:end -->\n"), 0644); err != nil {
+	if err := os.WriteFile(path, []byte("<!-- memory:start -->\nremove\n<!-- memory:end -->\n"), 0644); err != nil {
 		t.Fatalf("write fixture: %v", err)
 	}
 

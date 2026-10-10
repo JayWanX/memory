@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
 )
 
 var ErrProvision = errors.New("daemon: provision R7 node")
@@ -22,7 +22,7 @@ func ResolveProjectState(projectRoot string) (string, string, error) {
 	if err != nil {
 		return "", "", err
 	}
-	return root, filepath.Join(root, ".mnemon", "agency"), nil
+	return root, filepath.Join(root, ".memory", "agency"), nil
 }
 
 // ProvisionResult is the bounded setup receipt for one local R7 node. The
@@ -268,11 +268,11 @@ func resolvePhysicalProjectRoot(requested string) (string, error) {
 }
 
 func ensureProvisionDirectories(root string) (string, error) {
-	mnemonDirectory := filepath.Join(root, ".mnemon")
-	if err := ensureOwnedDirectory(mnemonDirectory, false); err != nil {
+	memoryDirectory := filepath.Join(root, ".memory")
+	if err := ensureOwnedDirectory(memoryDirectory, false); err != nil {
 		return "", err
 	}
-	stateDirectory := filepath.Join(mnemonDirectory, "agency")
+	stateDirectory := filepath.Join(memoryDirectory, "agency")
 	if err := ensureOwnedDirectory(stateDirectory, true); err != nil {
 		return "", err
 	}

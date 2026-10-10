@@ -1,10 +1,10 @@
-# Mnemon — Project Guidelines
+# Memory — Project Guidelines
 
 ## Development
 
-- **Build**: `go build -o mnemon .`
-- **Install**: `make install && mnemon setup`
+- **Build**: `go build -o memory .`
+- **Install**: `make install && memory setup`
 - **Test**: `make test`
-- **Integration**: `make test-integration` for CLI E2E and `mnemon agency` boundaries
+- **Integration**: `make test-integration` for CLI E2E and `memory agency` boundaries
 - **Dependencies**: `modernc.org/sqlite`, `spf13/cobra`, `google/uuid`
 - **Optional**: Ollama with `nomic-embed-text` for embedding support

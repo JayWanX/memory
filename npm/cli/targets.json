@@ -5,8 +5,8 @@
     "arch": "x64",
     "goos": "darwin",
     "goarch": "amd64",
-    "alias": "@mnemon-dev/mnemon-darwin-x64",
-    "binary": "bin/mnemon"
+    "alias": "@jaywanx/memory-cli-darwin-x64",
+    "binary": "bin/memory"
   },
   {
     "id": "darwin-arm64",
@@ -14,8 +14,8 @@
     "arch": "arm64",
     "goos": "darwin",
     "goarch": "arm64",
-    "alias": "@mnemon-dev/mnemon-darwin-arm64",
-    "binary": "bin/mnemon"
+    "alias": "@jaywanx/memory-cli-darwin-arm64",
+    "binary": "bin/memory"
   },
   {
     "id": "linux-x64",
@@ -23,8 +23,8 @@
     "arch": "x64",
     "goos": "linux",
     "goarch": "amd64",
-    "alias": "@mnemon-dev/mnemon-linux-x64",
-    "binary": "bin/mnemon"
+    "alias": "@jaywanx/memory-cli-linux-x64",
+    "binary": "bin/memory"
   },
   {
     "id": "linux-arm64",
@@ -32,8 +32,8 @@
     "arch": "arm64",
     "goos": "linux",
     "goarch": "arm64",
-    "alias": "@mnemon-dev/mnemon-linux-arm64",
-    "binary": "bin/mnemon"
+    "alias": "@jaywanx/memory-cli-linux-arm64",
+    "binary": "bin/memory"
   },
   {
     "id": "win32-x64",
@@ -41,8 +41,8 @@
     "arch": "x64",
     "goos": "windows",
     "goarch": "amd64",
-    "alias": "@mnemon-dev/mnemon-win32-x64",
-    "binary": "bin/mnemon.exe"
+    "alias": "@jaywanx/memory-cli-win32-x64",
+    "binary": "bin/memory.exe"
   },
   {
     "id": "win32-arm64",
@@ -50,7 +50,7 @@
     "arch": "arm64",
     "goos": "windows",
     "goarch": "arm64",
-    "alias": "@mnemon-dev/mnemon-win32-arm64",
-    "binary": "bin/mnemon.exe"
+    "alias": "@jaywanx/memory-cli-win32-arm64",
+    "binary": "bin/memory.exe"
   }
 ]

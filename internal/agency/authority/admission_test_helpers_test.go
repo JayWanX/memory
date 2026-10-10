@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 var attachmentBoundarySequence atomic.Uint64

@@ -56,10 +56,10 @@ jobs:
           cache-dependency-path: go.sum
 
       - name: Build Windows Memory product
-        run: go build -o mnemon.exe .
+        run: go build -o memory.exe .
 
       - name: Test installed ZCode hooks in Windows PowerShell 5.1
         shell: powershell
         run: |
-          $env:MNEMON_TEST_BIN = (Resolve-Path ./mnemon.exe).Path
+          $env:MEMORY_TEST_BIN = (Resolve-Path ./memory.exe).Path
           go test ./test/memory/zcode -v -count=1

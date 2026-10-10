@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 func queryPlan(t *testing.T, db *DB, query string, args ...any) string {

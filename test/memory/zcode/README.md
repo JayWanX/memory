@@ -4,7 +4,7 @@ These opt-in process tests run with `go test ./test/memory/zcode -v -count=1`.
 They are outside `make test`; `make test-integration` includes the package.
 On Windows, `powershell.exe` 5.1 is required and the suite installs hooks through
 the built product's `setup --target zcode --global --yes` command in a temporary
-home containing spaces and Chinese characters. Set `MNEMON_TEST_BIN` to reuse
+home containing spaces and Chinese characters. Set `MEMORY_TEST_BIN` to reuse
 an existing product binary; otherwise the test builds one.
 
 The **Manual Integration** workflow's `zcode-windows` suite runs only this
@@ -21,7 +21,7 @@ Empty and malformed payloads retain the existing blocking reminder behavior.
 These tests do not claim general natural-language evaluation detection.
 
 On other platforms, the shell Stop cases run normally. Set
-`MNEMON_TEST_POWERSHELL` to an explicit `pwsh` path to also probe the PowerShell
+`MEMORY_TEST_POWERSHELL` to an explicit `pwsh` path to also probe the PowerShell
 assets using the production hook writer. PowerShell 7 evidence does not replace
 Windows PowerShell 5.1 validation of source encoding and native setup.
 

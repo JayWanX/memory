@@ -7,10 +7,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/graph"
-	"github.com/mnemon-dev/mnemon/internal/memory/search"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/graph"
+	"github.com/JayWanX/memory/internal/memory/search"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -238,7 +238,7 @@ func init() {
 	_ = recallCmd.Flags().MarkHidden("smart")
 	recallCmd.Flags().StringVar(&recIntent, "intent", "", "override intent (WHY|WHEN|ENTITY|GENERAL)")
 	recallCmd.Flags().BoolVar(&recVerbose, "verbose", false, "output full recall response (signals, meta, timestamps)")
-	recallCmd.Flags().BoolVar(&recBrief, "brief", false, "output short excerpts for discovery; use 'mnemon show <id>' for full content")
+	recallCmd.Flags().BoolVar(&recBrief, "brief", false, "output short excerpts for discovery; use 'memory show <id>' for full content")
 	recallCmd.Flags().IntVar(&recExcerpt, "excerpt-chars", defaultBriefExcerptChars, "maximum characters per --brief excerpt")
 	rootCmd.AddCommand(recallCmd)
 }

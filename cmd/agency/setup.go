@@ -10,32 +10,32 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/agency/attach"
-	"github.com/mnemon-dev/mnemon/internal/daemon"
+	"github.com/JayWanX/memory/internal/agency/attach"
+	"github.com/JayWanX/memory/internal/daemon"
 	"github.com/spf13/cobra"
 )
 
 func runSetup(command *cobra.Command, _ []string) error {
 	runtime, err := command.Flags().GetString("runtime")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency setup: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency setup: %w", err)}
 	}
 	projectRoot, err := command.Flags().GetString("project-root")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency setup: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency setup: %w", err)}
 	}
 	if runtime != setupRuntimePi {
-		return fmt.Errorf("mnemon agency setup: unsupported runtime %q", runtime)
+		return fmt.Errorf("memory agency setup: unsupported runtime %q", runtime)
 	}
 	if command.Flags().Changed("project-root") && strings.TrimSpace(projectRoot) == "" {
-		return errors.New("mnemon agency setup: --project-root must not be empty")
+		return errors.New("memory agency setup: --project-root must not be empty")
 	}
 	if err := setupProject(command.Context(), projectRoot); err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency setup: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency setup: %w", err)}
 	}
 	if _, err := io.WriteString(command.OutOrStdout(),
-		`{"schema":"mnemon.setup","status":"ready","version":1}`+"\n"); err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency setup: %w", err)}
+		`{"schema":"memory.setup","status":"ready","version":1}`+"\n"); err != nil {
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency setup: %w", err)}
 	}
 	return nil
 }

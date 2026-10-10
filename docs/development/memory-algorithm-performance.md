@@ -142,10 +142,10 @@ and [decode after](benchmarks/2026-10-03-memory-decode-after.txt).
 
 ### Compatibility and validation after the merge
 
-- `go build -o mnemon .`, `make test`, and
+- `go build -o memory .`, `make test`, and
   `go test -race ./internal/memory/... ./cmd/memory -count=1` passed on the final
   production implementation.
-- `MNEMON_EMBED_ENDPOINT=http://127.0.0.1:1 bash scripts/e2e_test.sh`: all
+- `MEMORY_EMBED_ENDPOINT=http://127.0.0.1:1 bash scripts/e2e_test.sh`: all
   **258 assertions passed** after the buffer change.
 - `npm test --prefix npm/cli`: **13 passed**. The imported OpenCode runtime suite
   and ZCode shell hooks passed locally. The Windows PowerShell hook probe was
@@ -394,12 +394,12 @@ implementation measurements are mixed into these files.
 
 ### Correctness and verification
 
-- `go build -o mnemon .` — passed.
+- `go build -o memory .` — passed.
 - `make test` — passed, including vet, deterministic tests and architecture
   checks. The pure Memory-local top-K leaf is included in the dependency graph
   and regular deterministic test list.
 - `go test -race ./internal/memory/... ./cmd/memory -count=1` — passed.
-- `MNEMON_EMBED_ENDPOINT=http://127.0.0.1:1 bash scripts/e2e_test.sh` — all
+- `MEMORY_EMBED_ENDPOINT=http://127.0.0.1:1 bash scripts/e2e_test.sh` — all
   **258 assertions passed**, with embedding providers unavailable by design.
 - Cached traversal is checked against the previous independent implementation
   for all four intents, multiple budgets, multiple anchors, cyclic graphs,

@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/daemon"
+	"github.com/JayWanX/memory/internal/daemon"
 )
 
 func TestPeerPrepareAndEnrollUseTheDeclaredCommandPath(t *testing.T) {
@@ -70,7 +70,7 @@ func TestPeerRejectsMalformedOptionsBeforeCreatingState(t *testing.T) {
 				args, exit, stdout, stderr)
 		}
 	}
-	if _, err := os.Lstat(filepath.Join(project, ".mnemon")); !errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Lstat(filepath.Join(project, ".memory")); !errors.Is(err, os.ErrNotExist) {
 		t.Fatalf("invalid peer command created project state: %v", err)
 	}
 }

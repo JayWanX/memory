@@ -39,9 +39,9 @@ func TestExtractEntities_AcronymStopwords(t *testing.T) {
 }
 
 func TestExtractEntities_URLs(t *testing.T) {
-	entities := ExtractEntities("Visit https://github.com/mnemon-dev/mnemon for details")
+	entities := ExtractEntities("Visit https://github.com/JayWanX/memory for details")
 	has := toSet(entities)
-	if !has["https://github.com/mnemon-dev/mnemon"] {
+	if !has["https://github.com/JayWanX/memory"] {
 		t.Errorf("want URL entity, got %v", entities)
 	}
 }

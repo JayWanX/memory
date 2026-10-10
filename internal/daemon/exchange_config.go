@@ -13,7 +13,7 @@ import (
 const (
 	exchangeConfigFile    = "exchange.json"
 	exchangeConfigPending = ".exchange.pending"
-	exchangeConfigSchema  = "mnemon.r7.exchange"
+	exchangeConfigSchema  = "memory.r7.exchange"
 )
 
 type exchangeConfigWire struct {

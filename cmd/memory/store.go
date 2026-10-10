@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -25,7 +25,7 @@ var storeListCmd = &cobra.Command{
 			return err
 		}
 		if len(names) == 0 {
-			fmt.Println("  (no stores yet — run 'mnemon store create <name>' or any command to create default)")
+			fmt.Println("  (no stores yet — run 'memory store create <name>' or any command to create default)")
 			return nil
 		}
 		active := resolveStoreName()
@@ -83,7 +83,7 @@ var storeSetCmd = &cobra.Command{
 			return fmt.Errorf("invalid store name %q: must match [a-zA-Z0-9][a-zA-Z0-9_-]*", name)
 		}
 		if !store.StoreExists(dataDir, name) {
-			return fmt.Errorf("store %q does not exist (use 'mnemon store create %s' first)", name, name)
+			return fmt.Errorf("store %q does not exist (use 'memory store create %s' first)", name, name)
 		}
 		if err := store.WriteActive(dataDir, name); err != nil {
 			return fmt.Errorf("write active file: %w", err)
@@ -112,7 +112,7 @@ var storeRemoveCmd = &cobra.Command{
 		}
 		active := resolveStoreName()
 		if name == active {
-			return fmt.Errorf("cannot remove the active store %q (switch first with 'mnemon store set <other>')", name)
+			return fmt.Errorf("cannot remove the active store %q (switch first with 'memory store set <other>')", name)
 		}
 		dir := store.StoreDir(dataDir, name)
 		if err := os.RemoveAll(dir); err != nil {

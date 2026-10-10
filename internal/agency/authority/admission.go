@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // AdmissionResult carries exact durable Receipt bytes. Replay returns the same

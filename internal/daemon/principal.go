@@ -5,10 +5,10 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
-const defaultPrincipalDomain = "mnemon.r7.default-agent-principal.v1"
+const defaultPrincipalDomain = "memory.r7.default-agent-principal.v1"
 
 // DefaultAgentPrincipal deterministically derives the one T0 local governed
 // actor from the transport public key in an independent domain. No Principal

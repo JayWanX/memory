@@ -6,8 +6,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func configureRememberTest(t *testing.T) {
@@ -33,9 +33,9 @@ func configureRememberTest(t *testing.T) {
 	remEntities = ""
 	remEntityMode = "merge"
 	remNoDiff = true
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
-	t.Setenv("MNEMON_MAX_INSIGHTS", "1")
-	t.Setenv("MNEMON_AUTO_PRUNE_MIN_AGE", "0")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_MAX_INSIGHTS", "1")
+	t.Setenv("MEMORY_AUTO_PRUNE_MIN_AGE", "0")
 }
 
 func seedOldPruneCandidate(t *testing.T, id string) {

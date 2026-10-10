@@ -3,7 +3,7 @@ package search
 import (
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 func TestClassifySuggestion_Add(t *testing.T) {

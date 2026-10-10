@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// KimiWriteSkill writes the mnemon skill to the Kimi Code skills directory.
+// KimiWriteSkill writes the memory skill to the Kimi Code skills directory.
 func KimiWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -24,7 +24,7 @@ func KimiWriteSkill(configDir string) (string, error) {
 
 // KimiWriteHook writes a hook script to the Kimi Code hooks directory.
 func KimiWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -35,9 +35,9 @@ func KimiWriteHook(configDir, filename string, content []byte) (string, error) {
 	return hookPath, nil
 }
 
-// KimiRegisterHooks registers Mnemon lifecycle hooks in config.toml.
+// KimiRegisterHooks registers Memory lifecycle hooks in config.toml.
 func KimiRegisterHooks(configDir string) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -62,13 +62,13 @@ func KimiRegisterHooks(configDir string) (string, error) {
 	return configPath, nil
 }
 
-// KimiEject removes mnemon skill and hooks from the given Kimi Code config dir.
+// KimiEject removes memory skill and hooks from the given Kimi Code config dir.
 func KimiEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving Kimi Code integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -101,7 +101,7 @@ func KimiEject(configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)
@@ -164,7 +164,7 @@ func removeKimiHooks(config string) string {
 			i++
 		}
 		block := strings.Join(lines[start:i], "")
-		if containsMnemon(block) {
+		if containsMemory(block) {
 			continue
 		}
 		out.WriteString(block)

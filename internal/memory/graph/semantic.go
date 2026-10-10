@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/internal/topk"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/search"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/internal/topk"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/search"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 // Minimum similarity to be considered a semantic candidate (token overlap fallback).
@@ -108,7 +108,7 @@ func CreateSemanticEdges(db *store.DB, insight *model.Insight, embedCache EmbedC
 // (MAGMA-compliant); falls back to token overlap otherwise.
 // If embedCache is non-nil, it is used instead of querying the database.
 // These are candidates only — Claude evaluates and creates actual semantic
-// edges via `mnemon link`.
+// edges via `memory link`.
 func FindSemanticCandidates(db *store.DB, insight *model.Insight, embedCache EmbedCache) []SemanticCandidate {
 	if embedCache == nil {
 		embedCache = buildEmbedCache(db)

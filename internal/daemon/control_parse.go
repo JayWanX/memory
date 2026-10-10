@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
 )
 
 func prepareControlRequest(request *http.Request, readOnly, requireAttachment,

@@ -3,7 +3,7 @@ package authority
 import (
 	"fmt"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // bindIntent resolves only handles offered by one sealed ViewAuthority. The

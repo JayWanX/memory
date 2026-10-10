@@ -14,11 +14,11 @@ func TestCursorRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
   "version": 1,
   "hooks": {
     "sessionStart": [
-      {"command": "/old/mnemon/prime.sh"},
+      {"command": "/old/memory/prime.sh"},
       {"command": "/keep/custom.sh"}
     ],
     "stop": [
-      {"command": "/old/mnemon/stop.sh"}
+      {"command": "/old/memory/stop.sh"}
     ]
   }
 }`), 0644); err != nil {
@@ -38,7 +38,7 @@ func TestCursorRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	if len(sessionStart) != 2 {
 		t.Fatalf("expected custom hook plus new prime hook: %#v", sessionStart)
 	}
-	if !strings.Contains(sessionStart[1].(map[string]any)["command"].(string), "hooks/mnemon/prime.sh") {
+	if !strings.Contains(sessionStart[1].(map[string]any)["command"].(string), "hooks/memory/prime.sh") {
 		t.Fatalf("expected new prime hook, got %#v", sessionStart[1])
 	}
 	stop := hooks["stop"].([]any)
@@ -50,7 +50,7 @@ func TestCursorRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	}
 }
 
-func TestCursorEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
+func TestCursorEjectRemovesOnlyMemoryFilesAndHooks(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := CursorWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -80,14 +80,14 @@ func TestCursorEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkillDir); err != nil {
 		t.Fatalf("custom skill should be preserved: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "hooks", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon hooks should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "hooks", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory hooks should be removed, err=%v", err)
 	}
 	data, err = ReadJSONFile(hooksPath)
 	if err != nil {
@@ -95,8 +95,8 @@ func TestCursorEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	}
 	hooks = data["hooks"].(map[string]any)
 	sessionStart := hooks["sessionStart"].([]any)
-	if len(sessionStart) != 1 || containsMnemon(sessionStart[0]) {
-		t.Fatalf("custom hook should be preserved and mnemon removed: %#v", sessionStart)
+	if len(sessionStart) != 1 || containsMemory(sessionStart[0]) {
+		t.Fatalf("custom hook should be preserved and memory removed: %#v", sessionStart)
 	}
 	if _, ok := hooks["stop"]; ok {
 		t.Fatalf("stop hooks should be removed: %#v", hooks)

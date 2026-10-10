@@ -6,7 +6,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { targets } from "../npm/cli/lib/targets.js";
 
-const packageName = "@mnemon-dev/mnemon";
+const packageName = "@jaywanx/memory-cli";
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const defaultRepositoryRoot = path.resolve(scriptDirectory, "..");
 
@@ -112,13 +112,13 @@ function selectBinaryArtifact(artifacts, target) {
   const matches = artifacts.filter(
     (artifact) =>
       artifact?.type === "Binary" &&
-      artifact?.extra?.ID === "mnemon" &&
+      artifact?.extra?.ID === "memory" &&
       artifact?.goos === target.goos &&
       artifact?.goarch === target.goarch,
   );
   if (matches.length !== 1) {
     throw new Error(
-      `Expected one Mnemon binary for ${target.goos}/${target.goarch}, found ${matches.length}`,
+      `Expected one Memory binary for ${target.goos}/${target.goarch}, found ${matches.length}`,
     );
   }
   return matches[0];
@@ -158,22 +158,22 @@ function platformPackage(target, version) {
   return {
     name: packageName,
     version,
-    description: `Mnemon native binary for ${target.platform}/${target.arch}`,
+    description: `Memory native binary for ${target.platform}/${target.arch}`,
     os: [target.platform],
     cpu: [target.arch],
     files: ["bin", "README.md", "LICENSE"],
     repository: {
       type: "git",
-      url: "git+https://github.com/mnemon-dev/mnemon.git",
+      url: "git+https://github.com/JayWanX/memory.git",
     },
-    homepage: "https://github.com/mnemon-dev/mnemon",
+    homepage: "https://github.com/JayWanX/memory",
     license: "Apache-2.0",
     publishConfig: { access: "public" },
   };
 }
 
 function platformReadme(target, version) {
-  return `# Mnemon ${target.id}\n\n` +
+  return `# Memory ${target.id}\n\n` +
     `Native ${target.platform}/${target.arch} artifact for ` +
     `\`${packageName}@${version}\`. Install \`${packageName}\` instead of this ` +
     `platform artifact directly.\n`;

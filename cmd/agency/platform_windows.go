@@ -10,7 +10,7 @@ import (
 
 const platformAgencyNotice = " Agency operations are not supported on Windows."
 
-var errUnsupported = errors.New("mnemon agency is not supported on Windows")
+var errUnsupported = errors.New("memory agency is not supported on Windows")
 
 func runSetup(*cobra.Command, []string) error       { return errUnsupported }
 func runPeerPrepare(*cobra.Command, []string) error { return errUnsupported }

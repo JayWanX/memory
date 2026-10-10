@@ -1,4 +1,4 @@
-# Mnemon Memory — 用法与参考
+# Memory Memory — 用法与参考
 
 > 你不需要自己运行 Memory 命令 — agent 会在 Hook 和 Skill 指引下执行。本文档只介绍根命名空间下的 Memory CLI，供理解能力、调试和高级手动操作使用。持久 Agent 工作与 Peer 协作请参阅 [Agency Preview 指南](AGENCY.md)。
 
@@ -10,9 +10,9 @@
 
 | 标志 | 默认值 | 说明 |
 |---|---|---|
-| `--store <name>` | (自动) | 命名记忆体（覆盖 `MNEMON_STORE` 和 active 文件） |
-| `--data-dir <path>` | `~/.mnemon` | 基础数据目录 |
-| `--embed-model <name>` | `nomic-embed-text` | 嵌入模型（覆盖 `MNEMON_EMBED_MODEL`） |
+| `--store <name>` | (自动) | 命名记忆体（覆盖 `MEMORY_STORE` 和 active 文件） |
+| `--data-dir <path>` | `~/.memory` | 基础数据目录 |
+| `--embed-model <name>` | `nomic-embed-text` | 嵌入模型（覆盖 `MEMORY_EMBED_MODEL`） |
 | `--readonly` | `false` | 打开不可变的 Memory 数据库快照；拒绝写命令且不创建 WAL 文件 |
 | `--version` | | 打印版本并退出 |
 
@@ -20,7 +20,7 @@
 数据的命令，并禁用 recall 计数器和 oplog 等附带写入。请勿用它跟随由另一个
 进程持续修改的数据库；不可变快照会有意忽略并发 WAL 更新。
 `--data-dir` 接受文件系统路径，包括 Windows 盘符路径和相对于当前目录的路径。
-Mnemon 会在内部解析并编码只读 SQLite 文件 URI，无需手动添加 `file:` 前缀。
+Memory 会在内部解析并编码只读 SQLite 文件 URI，无需手动添加 `file:` 前缀。
 
 ---
 
@@ -29,62 +29,62 @@ Mnemon 会在内部解析并编码只读 SQLite 文件 URI，无需手动添加 
 通过推荐的 npm 方式安装后，可以升级到 npm `latest` 指向的版本：
 
 ```bash
-mnemon update
+memory update
 ```
 
 在调用 npm 前，npm 启动器会确认当前软件包确实属于同一个全局 npm
-prefix。若 `mnemon` 来自 Homebrew、`go install`、源码构建、其他 Node 包管理器
+prefix。若 `memory` 来自 Homebrew、`go install`、源码构建、其他 Node 包管理器
 或另一个 npm prefix，命令会以 fail-closed 方式退出，避免静默产生第二份安装。
-首次迁移请执行 `npm install --global @mnemon-dev/mnemon@latest`，并确保 npm
-全局 bin 目录中的 `mnemon` 在 `PATH` 中优先。
+首次迁移请执行 `npm install --global @jaywanx/memory-cli@latest`，并确保 npm
+全局 bin 目录中的 `memory` 在 `PATH` 中优先。
 
 升级只替换 CLI 包，不会修改 Memory 数据，也不会静默改写已安装的宿主集成。
-当某个版本的 release notes 明确要求刷新集成时，再重新运行 `mnemon setup`。
+当某个版本的 release notes 明确要求刷新集成时，再重新运行 `memory setup`。
 
 ---
 
 ## Memory 设置
 
-将 mnemon 部署到 LLM CLI 环境中。安装后首先运行此命令。
+将 memory 部署到 LLM CLI 环境中。安装后首先运行此命令。
 
 ```bash
 # 交互式：检测环境并安装（项目本地）
-mnemon setup
+memory setup
 
 # 用户级安装（所有项目）
-mnemon setup --global
+memory setup --global
 
 # 非交互式：仅指定目标
-mnemon setup --target claude-code
-mnemon setup --target codex
-mnemon setup --target cursor
-mnemon setup --target zcode --global
-mnemon setup --target minimax-code
-mnemon setup --target trae
-mnemon setup --target qoder
-mnemon setup --target qoderwork
-mnemon setup --target codebuddy
-mnemon setup --target workbuddy
-mnemon setup --target kimi
-mnemon setup --target opencode
-mnemon setup --target openclaw
-mnemon setup --target pi
-mnemon setup --target nanobot --global
-mnemon setup --target hermes
+memory setup --target claude-code
+memory setup --target codex
+memory setup --target cursor
+memory setup --target zcode --global
+memory setup --target minimax-code
+memory setup --target trae
+memory setup --target qoder
+memory setup --target qoderwork
+memory setup --target codebuddy
+memory setup --target workbuddy
+memory setup --target kimi
+memory setup --target opencode
+memory setup --target openclaw
+memory setup --target pi
+memory setup --target nanobot --global
+memory setup --target hermes
 
 # 自动确认所有提示（CI 友好）
-mnemon setup --yes
+memory setup --yes
 
-# 移除 mnemon 集成
-mnemon setup --eject
-mnemon setup --eject --target claude-code
+# 移除 memory 集成
+memory setup --eject
+memory setup --eject --target claude-code
 ```
 
 | 标志 | 默认值 | 说明 |
 |---|---|---|
 | `--global` | `false` | 安装到用户级配置而非项目本地（ZCode 生命周期 hooks 必须使用；MiniMax Code 安装到 `~/.minimax/`；Nanobot 推荐安装到 `~/.nanobot/workspace/`；Pi 安装到 `~/.pi/agent/`；Hermes 安装到 `~/.hermes/`；QoderWork 安装到 `~/.qoderwork/`；Kimi Code 安装到 `~/.kimi-code/` 或 `$KIMI_CODE_HOME/`；OpenCode 安装到 `~/.config/opencode/`） |
 | `--target <name>` | (自动检测) | 目标环境：`claude-code`、`codex`、`cursor`、`zcode`、`minimax-code`、`trae`、`qoder`、`qoderwork`、`codebuddy`、`workbuddy`、`kimi`、`opencode`、`openclaw`、`nanobot`、`pi` 或 `hermes` |
-| `--eject` | `false` | 移除 mnemon 集成 |
+| `--eject` | `false` | 移除 memory 集成 |
 | `--yes` | `false` | 自动确认所有提示 |
 
 ### OpenCode
@@ -93,12 +93,12 @@ mnemon setup --eject --target claude-code
 更早的 v1 加载器可能要求函数导出，无法使用共用的 `server`/`setup` 入口，
 请先升级 OpenCode。
 
-更新 Mnemon 后，在项目中重新运行 `mnemon setup --target opencode --yes`；
-若原来是用户级安装，则加 `--global`。完成后重启 OpenCode。只更新 Mnemon
-二进制不会替换已安装的 `.opencode/plugins/mnemon.js` 或
-`~/.config/opencode/plugins/mnemon.js`。
+更新 Memory 后，在项目中重新运行 `memory setup --target opencode --yes`；
+若原来是用户级安装，则加 `--global`。完成后重启 OpenCode。只更新 Memory
+二进制不会替换已安装的 `.opencode/plugins/memory.js` 或
+`~/.config/opencode/plugins/memory.js`。
 
-请确保 OpenCode 的 `PATH` 能找到 `mnemon`。该 plugin 使用两种 OpenCode
+请确保 OpenCode 的 `PATH` 能找到 `memory`。该 plugin 使用两种 OpenCode
 运行时均提供的 Node 子进程 API，无需单独安装 Bun。Unix 和 Windows 均支持
 原生可执行文件和标准 npm 安装。npm 安装会直接定位对应平台的二进制，
 确保超时时能终止记忆命令。
@@ -106,7 +106,7 @@ mnemon setup --eject --target claude-code
 每次模型请求前，recall 会加入最新的用户消息。工具续调用复用本轮 recall，
 不会重复插入；新一轮用户消息会刷新 recall。缓存按 session 隔离，最多保留
 128 个 session，并在 plugin 卸载时清空。Compaction 会收到持久记忆指引，
-shell 命令会收到 `MNEMON_OPENCODE=1`。CLI 不可用或调用失败不会阻断对话，
+shell 命令会收到 `MEMORY_OPENCODE=1`。CLI 不可用或调用失败不会阻断对话，
 每次调用的超时上限为五秒。
 
 ---
@@ -117,42 +117,42 @@ shell 命令会收到 `MNEMON_OPENCODE=1`。CLI 不可用或调用失败不会�
 
 ```bash
 # Remember — 存储新洞察（仅跳过内容完全相同的记忆，保留不同内容）
-mnemon remember "选择 Qdrant 而非 Milvus 做向量搜索" \
+memory remember "选择 Qdrant 而非 Milvus 做向量搜索" \
   --cat decision --imp 5 --entities "Qdrant,Milvus" --tags "architecture,search" --source agent
 
 # 跳过重复/冲突检测
-mnemon remember "原始笔记" --no-diff
+memory remember "原始笔记" --no-diff
 
 # Recall — 意图感知的图增强检索（默认输出为紧凑格式）
-mnemon recall "vector database" --limit 10
+memory recall "vector database" --limit 10
 
 # 仅发现候选 — 返回短摘要，再按 ID 获取完整内容
-mnemon recall "vector database" --brief --excerpt-chars 160
-mnemon show <id>
+memory recall "vector database" --brief --excerpt-chars 160
+memory show <id>
 
 # 输出完整召回结果（signals、meta、时间戳）
-mnemon recall "vector database" --verbose
+memory recall "vector database" --verbose
 
 # 显式指定意图覆盖
-mnemon recall "为什么选择 Qdrant" --intent WHY
+memory recall "为什么选择 Qdrant" --intent WHY
 
 # 按分类/来源过滤
-mnemon recall "auth" --cat decision --source agent
+memory recall "auth" --cat decision --source agent
 
 # 简单 SQL LIKE 匹配（更快，无图遍历）
-mnemon recall "auth" --basic
+memory recall "auth" --basic
 
 # Search — 基于 token 评分的关键词搜索
-mnemon search "authentication" --limit 10
-mnemon search "authentication" --brief --excerpt-chars 160
+memory search "authentication" --limit 10
+memory search "authentication" --brief --excerpt-chars 160
 
 # Import — 批量导入 Memory draft（格式与 LLM prompt 见 docs/IMPORT.md）
-mnemon import memory_draft.json
-mnemon import --dry-run memory_draft.json   # 只验证，不写入
-mnemon import --no-diff memory_draft.json   # 跳过去重
+memory import memory_draft.json
+memory import --dry-run memory_draft.json   # 只验证，不写入
+memory import --no-diff memory_draft.json   # 跳过去重
 
 # Forget — 软删除洞察
-mnemon forget <id>
+memory forget <id>
 ```
 
 `remember` 和 `import` 仅跳过与活跃记忆逐字节完全相同的内容。不同主体、
@@ -162,8 +162,8 @@ mnemon forget <id>
 完全重复时，兼容字段 `replaced_id` 指向保持不变的已有记忆。
 使用 `--no-diff` 则连完全重复的内容也会插入。
 
-如需淘汰已被取代的记忆，先保存新事实，用 `mnemon show <new-id>` 验证，
-再显式执行 `mnemon forget <old-id>`。相似度本身不会授权替换；
+如需淘汰已被取代的记忆，先保存新事实，用 `memory show <new-id>` 验证，
+再显式执行 `memory forget <old-id>`。相似度本身不会授权替换；
 基于容量的自动清理仍独立生效。
 
 **Remember 标志：**
@@ -187,7 +187,7 @@ mnemon forget <id>
 | `--cat` | | 按分类过滤 |
 | `--source` | | 按来源过滤 |
 | `--basic` | `false` | 使用简单 SQL LIKE 匹配代替智能召回 |
-| `--brief` | `false` | 输出仅含短摘要的紧凑 JSON；使用 `mnemon show <id>` 获取选中项全文 |
+| `--brief` | `false` | 输出仅含短摘要的紧凑 JSON；使用 `memory show <id>` 获取选中项全文 |
 | `--excerpt-chars` | `240` | 每条 `--brief` 摘要最多包含的 Unicode 字符数 |
 | `--verbose` | `false` | 输出完整召回响应（signals、meta、时间戳） |
 
@@ -222,9 +222,9 @@ ENTITY。新增语言忽略成对引号/代码引用中的词语；英/中文引
 宿主 agent 可根据用户含义显式选择意图，同时保留查询和记忆的原语言：
 
 ```bash
-mnemon recall '¿Por qué elegimos PostgreSQL?' --intent WHY --verbose
-mnemon recall 'हमने PostgreSQL कब चुना?' --intent WHEN --verbose
-mnemon recall 'Was ist PostgreSQL?' --intent ENTITY --verbose
+memory recall '¿Por qué elegimos PostgreSQL?' --intent WHY --verbose
+memory recall 'हमने PostgreSQL कब चुना?' --intent WHEN --verbose
+memory recall 'Was ist PostgreSQL?' --intent ENTITY --verbose
 ```
 
 `--intent WHY|WHEN|ENTITY|GENERAL` 与语言无关，优先于自动检测：WHY 为原因、
@@ -243,66 +243,66 @@ WHEN 为时间、ENTITY 为是什么/是谁、GENERAL 为中性遍历。意图�
 
 ```bash
 # Link — 创建类型化边
-mnemon link <source_id> <target_id> --type semantic --weight 0.85
-mnemon link <source_id> <target_id> --type causal --weight 0.8 \
+memory link <source_id> <target_id> --type semantic --weight 0.85
+memory link <source_id> <target_id> --type causal --weight 0.8 \
   --meta '{"sub_type":"causes","reason":"..."}'
-mnemon link <new_id> <old_id> --type supersedes --weight 1.0
+memory link <new_id> <old_id> --type supersedes --weight 1.0
 
 # Related — 从某个洞察出发的 BFS 遍历
-mnemon related <id> --edge causal --depth 2
+memory related <id> --edge causal --depth 2
 ```
 
 ### 生命周期管理
 
 ```bash
 # GC — 查看低保留度候选
-mnemon gc --threshold 0.5 --limit 20
+memory gc --threshold 0.5 --limit 20
 
 # GC keep — 提升某个洞察的保留度
-mnemon gc --keep <id>
+memory gc --keep <id>
 
 # GC compact — 以 VACUUM 重写存储，保持冷启动召回速度
-mnemon gc --compact
+memory gc --compact
 ```
 
 ### 记忆体管理
 
-Mnemon 支持命名记忆体（store）进行数据隔离。每个记忆体拥有独立的数据库。
+Memory 支持命名记忆体（store）进行数据隔离。每个记忆体拥有独立的数据库。
 
 ```bash
 # 列出所有记忆体（* 标记当前活跃的）
-mnemon store list
+memory store list
 
 # 创建新记忆体
-mnemon store create work
+memory store create work
 
 # 切换默认活跃记忆体
-mnemon store set work
+memory store set work
 
 # 删除记忆体（不可删除当前活跃的）
-mnemon store remove old-project
+memory store remove old-project
 ```
 
 **记忆体解析优先级**（从高到低）：
 
 1. `--store <name>` CLI 标志
-2. `MNEMON_STORE` 环境变量
-3. `~/.mnemon/active` 文件
+2. `MEMORY_STORE` 环境变量
+3. `~/.memory/active` 文件
 4. 回退到 `"default"`
 
-不同 agent 或进程可通过 `MNEMON_STORE` 环境变量使用不同记忆体 — 无全局状态竞争。旧版数据库（`~/.mnemon/mnemon.db`）在首次运行时自动迁移到 `~/.mnemon/data/default/`。
+不同 agent 或进程可通过 `MEMORY_STORE` 环境变量使用不同记忆体 — 无全局状态竞争。旧版数据库（`~/.memory/memory.db`）在首次运行时自动迁移到 `~/.memory/data/default/`。
 
 ### 可观测性
 
 ```bash
-mnemon status             # 记忆统计
-mnemon log                # 操作日志（默认：最近 20 条）
-mnemon log --limit 50     # 显示更多条目
-mnemon receipt            # 输出包含近期操作哈希的 JSON 回执
-mnemon receipt --limit 50 # 在回执中包含更多操作
+memory status             # 记忆统计
+memory log                # 操作日志（默认：最近 20 条）
+memory log --limit 50     # 显示更多条目
+memory receipt            # 输出包含近期操作哈希的 JSON 回执
+memory receipt --limit 50 # 在回执中包含更多操作
 ```
 
-`mnemon receipt` 是经过隐私缩减的 Memory 边界审计导出，用于共享或归档观察，
+`memory receipt` 是经过隐私缩减的 Memory 边界审计导出，用于共享或归档观察，
 而不公开原始记忆、召回查询、路径或操作详情。它输出操作名、时间戳以及标识符和
 详情的 SHA-256 哈希，便于团队关联观察到的 `remember`、`recall`、`forget` 或
 GC 活动，同时不暴露底层内容；它不是带签名、可由第三方独立验证的 proof。
@@ -311,14 +311,14 @@ GC 活动，同时不暴露底层内容；它不是带签名、可由第三方�
 
 ```json
 {
-  "schema": "mnemon.memory.receipt.v1",
+  "schema": "memory.memory.receipt.v1",
   "privacy": {
     "raw_detail_included": false,
     "hash_algorithm": "sha256"
   },
   "events": [
     {
-      "event_name": "mnemon.memory.operation.observed",
+      "event_name": "memory.memory.operation.observed",
       "operation": "remember",
       "detail_present": true,
       "detail_hash": "..."
@@ -333,11 +333,11 @@ GC 活动，同时不暴露底层内容；它不是带签名、可由第三方�
 
 ```bash
 # DOT 格式 — 使用 Graphviz 渲染（brew install graphviz）
-mnemon viz --format dot -o graph.dot
+memory viz --format dot -o graph.dot
 dot -Tpng graph.dot -o graph.png
 
 # 交互式 HTML — 直接在浏览器中打开（vis.js，无需安装）
-mnemon viz --format html -o graph.html
+memory viz --format html -o graph.html
 open graph.html
 ```
 
@@ -349,16 +349,16 @@ open graph.html
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `MNEMON_DATA_DIR` | `~/.mnemon` | 基础数据目录 |
-| `MNEMON_STORE` | `default` | 活跃命名记忆体 |
-| `MNEMON_EMBED_ENDPOINT` | `http://localhost:11434` | 嵌入 API 端点 |
-| `MNEMON_EMBED_MODEL` | `nomic-embed-text` | 嵌入模型 |
-| `MNEMON_EMBED_PROTOCOL` | （自动探测） | `ollama` 或 `openai`；以 `/v1` 结尾的端点自动选择 `openai` |
-| `MNEMON_EMBED_API_KEY` | （无） | OpenAI 兼容服务器的 Bearer 令牌 |
-| `MNEMON_EMBED_KEEP_ALIVE` | 30m | 每次请求后 Ollama 保持嵌入模型加载的时长 |
-| `MNEMON_EMBED_DIMENSIONS` | (原生维度) | 嵌入向量维度；可设置截断值（例如 Matryoshka 模型使用 `256`） |
-| `MNEMON_MAX_INSIGHTS` | `1000` | 触发自动清理的活跃洞察数量上限；设为 `0` 可关闭自动清理 |
-| `MNEMON_AUTO_PRUNE_MIN_AGE` | `24h` | 可被自动清理前的最短存活时间；支持 `24h`、整数天 `7d`，设为 `0` 可关闭保护期 |
+| `MEMORY_DATA_DIR` | `~/.memory` | 基础数据目录 |
+| `MEMORY_STORE` | `default` | 活跃命名记忆体 |
+| `MEMORY_EMBED_ENDPOINT` | `http://localhost:11434` | 嵌入 API 端点 |
+| `MEMORY_EMBED_MODEL` | `nomic-embed-text` | 嵌入模型 |
+| `MEMORY_EMBED_PROTOCOL` | （自动探测） | `ollama` 或 `openai`；以 `/v1` 结尾的端点自动选择 `openai` |
+| `MEMORY_EMBED_API_KEY` | （无） | OpenAI 兼容服务器的 Bearer 令牌 |
+| `MEMORY_EMBED_KEEP_ALIVE` | 30m | 每次请求后 Ollama 保持嵌入模型加载的时长 |
+| `MEMORY_EMBED_DIMENSIONS` | (原生维度) | 嵌入向量维度；可设置截断值（例如 Matryoshka 模型使用 `256`） |
+| `MEMORY_MAX_INSIGHTS` | `1000` | 触发自动清理的活跃洞察数量上限；设为 `0` 可关闭自动清理 |
+| `MEMORY_AUTO_PRUNE_MIN_AGE` | `24h` | 可被自动清理前的最短存活时间；支持 `24h`、整数天 `7d`，设为 `0` 可关闭保护期 |
 
 如果所有候选 insight 都仍处于保护期内，活跃数量可暂时高于上限。保护期按本地
 实际入库时间计算，因此刚导入的历史记忆也会受到保护。每次删除均为软删除，与
@@ -369,7 +369,7 @@ open graph.html
 
 ## 嵌入向量支持（可选）
 
-Mnemon 无需嵌入服务即可完整运行 — 所有核心功能（remember、recall、link、图遍历）开箱即用。配置 Ollama 或 OpenAI 兼容服务器可通过向量相似度增强召回精度，但从不是必需的。
+Memory 无需嵌入服务即可完整运行 — 所有核心功能（remember、recall、link、图遍历）开箱即用。配置 Ollama 或 OpenAI 兼容服务器可通过向量相似度增强召回精度，但从不是必需的。
 
 ### 有无嵌入的对比
 
@@ -380,7 +380,7 @@ Mnemon 无需嵌入服务即可完整运行 — 所有核心功能（remember、
 | **遍历评分** | 纯结构分 | 结构 + 语义 |
 | **重排序权重** | 关键词 45%、实体 25%、图 30% | 关键词 30%、实体 15%、相似度 35%、图 20% |
 
-配置的嵌入服务不可用时，重排序系统会自动将相似度权重重新分配给关键词和图信号 — 无需额外配置或降级模式标志。Mnemon 在运行时以 2 秒超时检测服务可用性。
+配置的嵌入服务不可用时，重排序系统会自动将相似度权重重新分配给关键词和图信号 — 无需额外配置或降级模式标志。Memory 在运行时以 2 秒超时检测服务可用性。
 
 ### 安装
 
@@ -394,17 +394,17 @@ ollama pull nomic-embed-text     # 下载嵌入模型
 使用 OpenAI 兼容服务器时，将端点指向其 `/v1` 基础 URL，并选择服务器上的嵌入模型。无需认证的本地服务器可省略 API key：
 
 ```bash
-export MNEMON_EMBED_ENDPOINT=http://127.0.0.1:18000/v1
-export MNEMON_EMBED_MODEL=bge-m3-mlx-8bit
-export MNEMON_EMBED_API_KEY=sk-... # 无需认证的本地服务器可省略
+export MEMORY_EMBED_ENDPOINT=http://127.0.0.1:18000/v1
+export MEMORY_EMBED_MODEL=bge-m3-mlx-8bit
+export MEMORY_EMBED_API_KEY=sk-... # 无需认证的本地服务器可省略
 ```
 
-仅当兼容端点不以 `/v1` 结尾时，才需要显式设置 `MNEMON_EMBED_PROTOCOL=openai`。
+仅当兼容端点不以 `/v1` 结尾时，才需要显式设置 `MEMORY_EMBED_PROTOCOL=openai`。
 
 验证：
 
 ```bash
-mnemon embed --status
+memory embed --status
 ```
 
 ```json
@@ -424,13 +424,13 @@ mnemon embed --status
 
 ### 回填已有洞察
 
-如果在使用 mnemon 之后才配置嵌入服务，已有洞察不会有嵌入向量。一条命令即可回填：
+如果在使用 memory 之后才配置嵌入服务，已有洞察不会有嵌入向量。一条命令即可回填：
 
 ```bash
-mnemon embed --all
+memory embed --all
 ```
 
-这会为所有未嵌入的洞察生成嵌入向量并自动创建语义边。可在前后使用 `mnemon embed --status` 检查覆盖率。
+这会为所有未嵌入的洞察生成嵌入向量并自动创建语义边。可在前后使用 `memory embed --status` 检查覆盖率。
 
 ---
 
@@ -438,7 +438,7 @@ mnemon embed --all
 
 ```
 ┌──────────────────┐     CLI commands      ┌──────────────────┐
-│   LLM Agent      │ ───────────────────── │     Mnemon       │
+│   LLM Agent      │ ───────────────────── │     Memory       │
 │ (Claude Code,    │  remember, recall,    │                  │
 │  Cursor, etc.)   │  link, forget, gc     │  SQLite (WAL)    │
 └──────────────────┘                       │  ┌────────────┐  │
@@ -446,7 +446,7 @@ mnemon embed --all
         The LLM decides WHAT               │  ├────────────┤  │
         to remember and link.              │  │ 4 Edge     │  │
                                            │  │ Types:     │  │
-        Mnemon handles HOW                 │  │ temporal   │  │
+        Memory handles HOW                 │  │ temporal   │  │
         to store, index, and               │  │ entity     │  │
         retrieve.                          │  │ causal     │  │
                                            │  │ semantic   │  │

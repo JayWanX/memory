@@ -5,7 +5,7 @@ import { spawnSync } from "node:child_process";
 
 import { runChild } from "./child.js";
 
-const packageName = "@mnemon-dev/mnemon";
+const packageName = "@jaywanx/memory-cli";
 
 export async function updateNpmInstall({
   packageRoot,
@@ -50,9 +50,9 @@ export async function updateNpmInstall({
 
   const updated = await readPackage(currentRoot);
   if (current.version === updated.version) {
-    stdout.write(`Mnemon is already up to date (${updated.version}).\n`);
+    stdout.write(`Memory is already up to date (${updated.version}).\n`);
   } else {
-    stdout.write(`Updated Mnemon ${current.version} -> ${updated.version}.\n`);
+    stdout.write(`Updated Memory ${current.version} -> ${updated.version}.\n`);
   }
   return { code: 0, signal: null };
 }
@@ -123,7 +123,7 @@ async function resolveNpmInvocation() {
       // Keep searching PATH for a complete Node.js/npm installation.
     }
   }
-  throw new Error("npm is required to update Mnemon but was not found on PATH");
+  throw new Error("npm is required to update Memory but was not found on PATH");
 }
 
 async function canonicalPath(value) {
@@ -172,7 +172,7 @@ function samePath(left, right) {
 
 function notManagedError(reason) {
   return new Error(
-    `this Mnemon installation is not managed by npm: ${reason}; ` +
+    `this Memory installation is not managed by npm: ${reason}; ` +
       `migrate once with: npm install --global ${packageName}@latest`,
   );
 }

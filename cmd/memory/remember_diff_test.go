@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/search"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/search"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func configureRememberDiffTest(t *testing.T) {
@@ -14,7 +14,7 @@ func configureRememberDiffTest(t *testing.T) {
 	storeName = store.DefaultStoreName
 	remNoDiff = false
 	remImportance = 5
-	t.Setenv("MNEMON_MAX_INSIGHTS", "1000")
+	t.Setenv("MEMORY_MAX_INSIGHTS", "1000")
 }
 
 type rememberDiffOutput struct {

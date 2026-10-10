@@ -3,8 +3,8 @@ package graph
 import (
 	"database/sql"
 	"errors"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 // BFSNode represents a node discovered during BFS traversal.

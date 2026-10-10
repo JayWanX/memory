@@ -2,7 +2,7 @@
 
 <p><strong>English</strong> · <a href="README.zh-CN.md">中文</a></p>
 
-A research preview of Mnemon as a **memory agent**. It keeps conversations as raw, dated records and divides the work
+A research preview of Memory as a **memory agent**. It keeps conversations as raw, dated records and divides the work
 of memory the way dual-process accounts divide thinking:
 
 - **System 1**: a fast decision model, [Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev) from
@@ -14,22 +14,22 @@ of memory the way dual-process accounts divide thinking:
 The agent runs as a second [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) instance beside
 the main agent and hands it a small View at every turn.
 
-**Code, paper and run records:** [Grivn/mnemon-memory-agent](https://github.com/Grivn/mnemon-memory-agent)
+**Code, paper and run records:** [Grivn/memory-memory-agent](https://github.com/Grivn/memory-memory-agent)
 
 ## Results
 
-- **LoCoMo 91.7%**, first of the 15 systems that answer with gpt-4.1-mini (Mnemon and the 14 systems OmniMemEval
+- **LoCoMo 91.7%**, first of the 15 systems that answer with gpt-4.1-mini (Memory and the 14 systems OmniMemEval
   re-evaluated), from 3.8k tokens of context per question.
 - **LongMemEval-S 94.4%** with DeepSeek-V4.1-Flash answering, on par with the best published results.
 - On the same records, Jev separates gold evidence better than DeepSeek and gpt-4.1-mini and is 3–11× faster.
 
-Details, baselines and caveats are in the paper, *Mnemon: Raw Records, Fast Judgments, Slow Thoughts*
-([arXiv:2609.36059](https://arxiv.org/abs/2609.36059); [PDF](https://github.com/Grivn/mnemon-memory-agent/blob/master/docs/paper/main.pdf)).
+Details, baselines and caveats are in the paper, *Memory: Raw Records, Fast Judgments, Slow Thoughts*
+([arXiv:2609.36059](https://arxiv.org/abs/2609.36059); [PDF](https://github.com/Grivn/memory-memory-agent/blob/master/docs/paper/main.pdf)).
 
 ## Status
 
-- A frozen research snapshot. It is not part of the `mnemon` binary, its releases or Mnemon Agency, and the evaluated
-  system does not use the `mnemon` binary.
-- Its results will be brought step by step into Mnemon and [dsh-mnemon](https://github.com/omdsh-dev/dsh-mnemon).
-- Next, DSH will serve as a micro agent kernel, with Mnemon running on it as a memory agent, the form this preview
+- A frozen research snapshot. It is not part of the `memory` binary, its releases or Memory Agency, and the evaluated
+  system does not use the `memory` binary.
+- Its results will be brought step by step into Memory and [dsh-memory](https://github.com/omdsh-dev/dsh-mnemon).
+- Next, DSH will serve as a micro agent kernel, with Memory running on it as a memory agent, the form this preview
   already takes.

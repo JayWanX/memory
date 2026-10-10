@@ -40,11 +40,11 @@ func TestNestedSettingsHostsRegisterHooks(t *testing.T) {
 			if err := os.WriteFile(settingsPath, []byte(`{
   "hooks": {
     "SessionStart": [
-      {"hooks": [{"type": "command", "command": "/old/mnemon/prime.sh"}]},
+      {"hooks": [{"type": "command", "command": "/old/memory/prime.sh"}]},
       {"hooks": [{"type": "command", "command": "/keep/custom.sh"}]}
     ],
     "Stop": [
-      {"hooks": [{"type": "command", "command": "/old/mnemon/stop.sh"}]}
+      {"hooks": [{"type": "command", "command": "/old/memory/stop.sh"}]}
     ]
   },
   "other": true
@@ -69,7 +69,7 @@ func TestNestedSettingsHostsRegisterHooks(t *testing.T) {
 				t.Fatalf("expected custom hook plus new prime hook: %#v", sessionStart)
 			}
 			command := sessionStart[1].(map[string]any)["hooks"].([]any)[0].(map[string]any)["command"].(string)
-			if !strings.Contains(command, "hooks/mnemon/prime.sh") {
+			if !strings.Contains(command, "hooks/memory/prime.sh") {
 				t.Fatalf("expected new prime hook, got %#v", sessionStart[1])
 			}
 			if _, ok := hooks["UserPromptSubmit"]; !ok {
@@ -119,14 +119,14 @@ func TestNestedSettingsHostsEject(t *testing.T) {
 			if errs := host.eject(dir); len(errs) > 0 {
 				t.Fatalf("eject errors: %v", errs)
 			}
-			if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-				t.Fatalf("mnemon skill should be removed, err=%v", err)
+			if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+				t.Fatalf("memory skill should be removed, err=%v", err)
 			}
 			if _, err := os.Stat(customSkillDir); err != nil {
 				t.Fatalf("custom skill should be preserved: %v", err)
 			}
-			if _, err := os.Stat(filepath.Join(dir, "hooks", "mnemon")); !os.IsNotExist(err) {
-				t.Fatalf("mnemon hooks should be removed, err=%v", err)
+			if _, err := os.Stat(filepath.Join(dir, "hooks", "memory")); !os.IsNotExist(err) {
+				t.Fatalf("memory hooks should be removed, err=%v", err)
 			}
 			data, err = ReadJSONFile(settingsPath)
 			if err != nil {
@@ -134,8 +134,8 @@ func TestNestedSettingsHostsEject(t *testing.T) {
 			}
 			hooks = data["hooks"].(map[string]any)
 			sessionStart := hooks["SessionStart"].([]any)
-			if len(sessionStart) != 1 || containsMnemon(sessionStart[0]) {
-				t.Fatalf("custom hook should be preserved and mnemon removed: %#v", sessionStart)
+			if len(sessionStart) != 1 || containsMemory(sessionStart[0]) {
+				t.Fatalf("custom hook should be preserved and memory removed: %#v", sessionStart)
 			}
 			if _, ok := hooks["UserPromptSubmit"]; ok {
 				t.Fatalf("user prompt hooks should be removed: %#v", hooks)

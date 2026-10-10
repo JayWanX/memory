@@ -5,7 +5,7 @@ import (
 	"errors"
 	"io"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const maxIntentInputBytes = agency.MaxIntentCanonicalBytes
@@ -110,7 +110,7 @@ func (app *terminal) runCapture(ctx context.Context, store *journalStore, client
 	if err != nil {
 		return app.writeCommandError(err)
 	}
-	return app.writeJSON(captureStatus{Schema: "mnemon.artifact.capture", Version: 1,
+	return app.writeJSON(captureStatus{Schema: "memory.artifact.capture", Version: 1,
 		Handle: captured.Handle, ByteSize: captured.ByteSize})
 }
 
@@ -356,7 +356,7 @@ func readBoundedInput(reader io.Reader, maximum int, code controlErrorCode,
 func agentReceiptOutcome(raw []byte) (string, error) {
 	receipt, err := agency.ParseAgentReceiptProjectionCanonicalJSON(raw)
 	if err != nil {
-		return "", errors.New("Mnemon Agency returned an invalid AgentReceipt")
+		return "", errors.New("Memory Agency returned an invalid AgentReceipt")
 	}
 	return receipt.Outcome().String(), nil
 }
@@ -364,7 +364,7 @@ func agentReceiptOutcome(raw []byte) (string, error) {
 func (app *terminal) writeCanonicalProjection(raw []byte) int {
 	if len(raw) < 2 || raw[0] != '{' || raw[len(raw)-1] != '}' {
 		return app.writeError(newControlError(codeInternal,
-			"Mnemon Agency returned an invalid R7 projection"))
+			"Memory Agency returned an invalid R7 projection"))
 	}
 	if _, err := app.stdout.Write(append(append([]byte(nil), raw...), '\n')); err != nil {
 		return 1

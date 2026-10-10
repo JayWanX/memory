@@ -20,7 +20,7 @@ func TestAgencyHelpAndVersion(t *testing.T) {
 	}{
 		{name: "empty", want: "Available Commands:"},
 		{name: "help", args: []string{"--help"}, want: "Available Commands:"},
-		{name: "version flag", args: []string{"--version"}, want: "mnemon agency version test-version\n"},
+		{name: "version flag", args: []string{"--version"}, want: "memory agency version test-version\n"},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			stdout, stderr, exit := executeAgency(test.args, "", "test-version")
@@ -99,7 +99,7 @@ func TestHiddenTerminalKeepsItsExactGrammarAndExitStatus(t *testing.T) {
 
 func executeAgency(args []string, input, version string) (string, string, int) {
 	var stdout, stderr bytes.Buffer
-	root := &cobra.Command{Use: "mnemon", SilenceErrors: true, SilenceUsage: true}
+	root := &cobra.Command{Use: "memory", SilenceErrors: true, SilenceUsage: true}
 	root.AddCommand(New(version))
 	root.SetArgs(append([]string{"agency"}, args...))
 	root.SetIn(strings.NewReader(input))

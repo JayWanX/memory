@@ -1,4 +1,4 @@
-// Package importdraft defines the versioned public import schema for Mnemon
+// Package importdraft defines the versioned public import schema for Memory
 // memory draft files. The schema intentionally decouples from internal DB
 // structures so both can evolve independently.
 package importdraft
@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 // CurrentSchemaVersion is the only schema version this build can import.
@@ -29,7 +29,7 @@ type MemoryDraft struct {
 	Insights []DraftInsight `json:"insights"`
 
 	// Edges is an optional list of explicit relationships between insights.
-	// Mnemon also auto-creates edges via its graph engine; these supplement
+	// Memory also auto-creates edges via its graph engine; these supplement
 	// or override auto-detected relationships.
 	Edges []DraftEdge `json:"edges,omitempty"`
 }
@@ -52,7 +52,7 @@ type DraftInsight struct {
 	Tags []string `json:"tags,omitempty"`
 
 	// Entities are named subjects in the memory (people, projects, tools).
-	// Mnemon merges these with its own auto-extraction.
+	// Memory merges these with its own auto-extraction.
 	Entities []string `json:"entities,omitempty"`
 
 	// Source overrides the top-level source field for this specific insight.

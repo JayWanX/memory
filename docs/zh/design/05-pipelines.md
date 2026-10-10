@@ -4,12 +4,12 @@
 
 ## 5.1 写入管线：Remember
 
-`mnemon remember` 是写入记忆的核心命令。它包含内置的 diff 步骤，在存储前自动检测重复和冲突。写入事务在一个 SQLite 事务中原子执行。
+`memory remember` 是写入记忆的核心命令。它包含内置的 diff 步骤，在存储前自动检测重复和冲突。写入事务在一个 SQLite 事务中原子执行。
 
 ### 流程详解
 
 ```
-mnemon remember "选择 Qdrant 作为向量数据库" \
+memory remember "选择 Qdrant 作为向量数据库" \
   --cat decision --imp 5 --entities "Qdrant,Milvus"
 ```
 
@@ -80,13 +80,13 @@ COMMIT
 未插入）。跳过时，兼容字段 `replaced_id` 指向保持不变的已有记忆。
 启发式 `UPDATE`、`CONFLICT` 或近似 `DUPLICATE` 建议仍会返回 `action="added"`。
 
-LLM 收到这个输出后，可以评估候选并通过 `mnemon link` 命令建立它认为合理的边。
+LLM 收到这个输出后，可以评估候选并通过 `memory link` 命令建立它认为合理的边。
 
 ---
 
 ## 5.2 读取管线：Smart Recall
 
-`mnemon recall` 是 Mnemon 的核心检索算法。Smart recall 是所有查询的默认模式。它结合意图检测、多信号锚点选择、Beam Search 图遍历和多因子重排序，实现了意图感知的图增强检索。使用 `--basic` 可回退到旧版 SQL LIKE 检索。
+`memory recall` 是 Memory 的核心检索算法。Smart recall 是所有查询的默认模式。它结合意图检测、多信号锚点选择、Beam Search 图遍历和多因子重排序，实现了意图感知的图增强检索。使用 `--basic` 可回退到旧版 SQL LIKE 检索。
 
 ![Smart Recall Pipeline](../../diagrams/03-smart-recall-pipeline.jpg)
 
@@ -206,7 +206,7 @@ final = w_kw·keyword + w_ent·entity + w_sim·similarity + w_gr·graph
 }
 ```
 
-这是 Mnemon 的独特创新：**将检索管线的内部信号暴露给宿主 LLM**。由于宿主 LLM 拥有完整的对话上下文，它能比管线内部的任何算法做出更好的重排序判断。
+这是 Memory 的独特创新：**将检索管线的内部信号暴露给宿主 LLM**。由于宿主 LLM 拥有完整的对话上下文，它能比管线内部的任何算法做出更好的重排序判断。
 
 ---
 
@@ -222,7 +222,7 @@ flowchart TD
     Write -. 仅 remember .-> Advisory[相似度建议供复核参考]
 ```
 
-Diff 已**内置于 `remember`** — 无需单独调用。当调用 `mnemon remember` 时，它会自动在插入前运行 diff 检查。
+Diff 已**内置于 `remember`** — 无需单独调用。当调用 `memory remember` 时，它会自动在插入前运行 diff 检查。
 
 调用 `remember` 时，内置 diff 在事务之前运行：
 
@@ -245,12 +245,12 @@ Diff 已**内置于 `remember`** — 无需单独调用。当调用 `mnemon reme
 
 ```bash
 # Diff 自动执行，结果仅供参考
-mnemon remember "选择 PostgreSQL 替代 SQLite 作为主数据库" \
+memory remember "选择 PostgreSQL 替代 SQLite 作为主数据库" \
   --cat decision --imp 5 --source agent
 # → 完全重复：action="skipped"，已有记忆保持不变
 # → 内容不同：action="added"，保留已有记忆
 
 # 如果新事实取代了指定旧记忆，先验证，再淘汰
-mnemon show <new-id>
-mnemon forget <old-id>
+memory show <new-id>
+memory forget <old-id>
 ```

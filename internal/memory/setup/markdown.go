@@ -6,11 +6,11 @@ import (
 )
 
 const (
-	markerStart = "<!-- mnemon:start -->"
-	markerEnd   = "<!-- mnemon:end -->"
+	markerStart = "<!-- memory:start -->"
+	markerEnd   = "<!-- memory:end -->"
 )
 
-// EjectMemoryBlock removes everything between <!-- mnemon:start --> and <!-- mnemon:end --> inclusive.
+// EjectMemoryBlock removes everything between <!-- memory:start --> and <!-- memory:end --> inclusive.
 // Returns true if the file was modified.
 func EjectMemoryBlock(filePath string) (bool, error) {
 	content, err := os.ReadFile(filePath)

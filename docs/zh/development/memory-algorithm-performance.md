@@ -87,7 +87,7 @@ N=10,000，单位：**CPU 毫秒/次**。
 
 ## 验证
 
-- 最终实现通过 `go build -o mnemon .`、`make test`、Memory/命令层 race 检查，
+- 最终实现通过 `go build -o memory .`、`make test`、Memory/命令层 race 检查，
   以及全部 **258 项 CLI E2E** 断言。
 - npm 测试 **13 项通过**；上游 OpenCode 运行时和 ZCode shell hook 套件在本机
   通过。macOS 上跳过了 Windows PowerShell 专用探针，未将其写为已通过。

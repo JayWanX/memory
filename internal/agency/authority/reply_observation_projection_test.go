@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestPendingReplyObservationUsesAnchorIndex(t *testing.T) {

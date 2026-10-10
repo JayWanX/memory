@@ -14,7 +14,7 @@ func TestOpenCodeWriteSkillAndPlugin(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write skill: %v", err)
 	}
-	if skillPath != filepath.Join(dir, "skills", "mnemon", "SKILL.md") {
+	if skillPath != filepath.Join(dir, "skills", "memory", "SKILL.md") {
 		t.Fatalf("skill path = %q", skillPath)
 	}
 	skill, err := os.ReadFile(skillPath)
@@ -29,7 +29,7 @@ func TestOpenCodeWriteSkillAndPlugin(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write plugin: %v", err)
 	}
-	if pluginPath != filepath.Join(dir, "plugins", "mnemon.js") {
+	if pluginPath != filepath.Join(dir, "plugins", "memory.js") {
 		t.Fatalf("plugin path = %q", pluginPath)
 	}
 	plugin, err := os.ReadFile(pluginPath)
@@ -37,7 +37,7 @@ func TestOpenCodeWriteSkillAndPlugin(t *testing.T) {
 		t.Fatalf("read plugin: %v", err)
 	}
 	for _, want := range []string{
-		`export default { id: "mnemon", setup, server }`,
+		`export default { id: "memory", setup, server }`,
 		`ctx.session.hook("context"`, `ctx.session.hook("compaction"`, `ctx.shell.hook("create.before"`,
 		"experimental.chat.messages.transform", "experimental.session.compacting", "shell.env",
 	} {
@@ -68,13 +68,13 @@ func TestOpenCodeRegisterInstructionsPreservesUnrelatedConfig(t *testing.T) {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
     "CONTRIBUTING.md",
-    "/old/.mnemon/prompt/guide.md"
+    "/old/.memory/prompt/guide.md"
   ],
   "theme": "dark"
 }`), 0644); err != nil {
 		t.Fatalf("write config: %v", err)
 	}
-	promptDir := filepath.Join(root, "mnemon", "prompt")
+	promptDir := filepath.Join(root, "memory", "prompt")
 
 	if _, err := OpenCodeRegisterInstructions(configDir, promptDir); err != nil {
 		t.Fatalf("register instructions: %v", err)
@@ -95,7 +95,7 @@ func TestOpenCodeRegisterInstructionsPreservesUnrelatedConfig(t *testing.T) {
 		t.Fatalf("existing instruction should be preserved: %#v", instructions)
 	}
 	gotGuide, _ := instructions[1].(string)
-	if !strings.HasSuffix(filepath.ToSlash(gotGuide), "/mnemon/prompt/guide.md") {
+	if !strings.HasSuffix(filepath.ToSlash(gotGuide), "/memory/prompt/guide.md") {
 		t.Fatalf("new guide instruction not registered: %#v", instructions)
 	}
 
@@ -111,7 +111,7 @@ func TestOpenCodeRegisterInstructionsPreservesUnrelatedConfig(t *testing.T) {
 	}
 }
 
-func TestOpenCodeEjectRemovesOnlyMnemonFilesAndInstructions(t *testing.T) {
+func TestOpenCodeEjectRemovesOnlyMemoryFilesAndInstructions(t *testing.T) {
 	root := t.TempDir()
 	configDir := filepath.Join(root, ".opencode")
 	if _, err := OpenCodeWriteSkill(configDir); err != nil {
@@ -120,7 +120,7 @@ func TestOpenCodeEjectRemovesOnlyMnemonFilesAndInstructions(t *testing.T) {
 	if _, err := OpenCodeWritePlugin(configDir); err != nil {
 		t.Fatalf("write plugin: %v", err)
 	}
-	promptDir := filepath.Join(root, "mnemon", "prompt")
+	promptDir := filepath.Join(root, "memory", "prompt")
 	if _, err := OpenCodeRegisterInstructions(configDir, promptDir); err != nil {
 		t.Fatalf("register instructions: %v", err)
 	}
@@ -146,14 +146,14 @@ func TestOpenCodeEjectRemovesOnlyMnemonFilesAndInstructions(t *testing.T) {
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(configDir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(configDir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkillDir); err != nil {
 		t.Fatalf("custom skill should remain: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(configDir, "plugins", "mnemon.js")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon plugin should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(configDir, "plugins", "memory.js")); !os.IsNotExist(err) {
+		t.Fatalf("memory plugin should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customPlugin); err != nil {
 		t.Fatalf("custom plugin should remain: %v", err)
@@ -171,7 +171,7 @@ func TestOpenCodeEjectRemovesOnlyMnemonFilesAndInstructions(t *testing.T) {
 func TestOpenCodeEjectRemovesEmptyGeneratedConfig(t *testing.T) {
 	root := t.TempDir()
 	configDir := filepath.Join(root, ".opencode")
-	promptDir := filepath.Join(root, "mnemon", "prompt")
+	promptDir := filepath.Join(root, "memory", "prompt")
 	if _, err := OpenCodeRegisterInstructions(configDir, promptDir); err != nil {
 		t.Fatalf("register instructions: %v", err)
 	}

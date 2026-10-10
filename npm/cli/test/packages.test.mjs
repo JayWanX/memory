@@ -20,7 +20,7 @@ test("release versions and dist tags are deterministic", () => {
 });
 
 test("GoReleaser binaries become pinned npm platform aliases", async (t) => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "mnemon-npm-packages-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "memory-npm-packages-"));
   t.after(() => rm(temporary, { recursive: true, force: true }));
   const dist = path.join(temporary, "dist");
   const artifacts = [];
@@ -34,7 +34,7 @@ test("GoReleaser binaries become pinned npm platform aliases", async (t) => {
       goos: target.goos,
       goarch: target.goarch,
       path: binary,
-      extra: { ID: "mnemon" },
+      extra: { ID: "memory" },
     });
   }
   await writeFile(path.join(dist, "artifacts.json"), JSON.stringify(artifacts), "utf8");
@@ -51,27 +51,27 @@ test("GoReleaser binaries become pinned npm platform aliases", async (t) => {
   assert.equal(cli.version, "1.2.3");
   assert.equal(cli.private, undefined);
   assert.equal(
-    cli.optionalDependencies["@mnemon-dev/mnemon-darwin-arm64"],
-    "npm:@mnemon-dev/mnemon@1.2.3-darwin-arm64",
+    cli.optionalDependencies["@jaywanx/memory-cli-darwin-arm64"],
+    "npm:@jaywanx/memory-cli@1.2.3-darwin-arm64",
   );
   const platform = JSON.parse(
     await readFile(path.join(output, "linux-x64", "package.json"), "utf8"),
   );
-  assert.equal(platform.name, "@mnemon-dev/mnemon");
+  assert.equal(platform.name, "@jaywanx/memory-cli");
   assert.equal(platform.version, "1.2.3-linux-x64");
   assert.deepEqual(platform.os, ["linux"]);
   assert.deepEqual(platform.cpu, ["x64"]);
   assert.equal(
-    await readFile(path.join(output, "linux-x64", "bin", "mnemon"), "utf8"),
+    await readFile(path.join(output, "linux-x64", "bin", "memory"), "utf8"),
     "binary:linux-x64",
   );
 });
 
 test("artifact paths outside GoReleaser dist fail closed", async (t) => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "mnemon-npm-escape-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "memory-npm-escape-"));
   t.after(() => rm(temporary, { recursive: true, force: true }));
   const dist = path.join(temporary, "dist");
-  const outside = path.join(temporary, "mnemon");
+  const outside = path.join(temporary, "memory");
   await mkdir(dist, { recursive: true });
   await writeFile(outside, "binary", { mode: 0o755 });
   const artifacts = targets.map((target) => ({
@@ -79,7 +79,7 @@ test("artifact paths outside GoReleaser dist fail closed", async (t) => {
     goos: target.goos,
     goarch: target.goarch,
     path: outside,
-    extra: { ID: "mnemon" },
+    extra: { ID: "memory" },
   }));
   await writeFile(path.join(dist, "artifacts.json"), JSON.stringify(artifacts), "utf8");
   await assert.rejects(

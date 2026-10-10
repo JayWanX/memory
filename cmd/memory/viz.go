@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 	"github.com/spf13/cobra"
 )
 
@@ -106,7 +106,7 @@ func edgeColor(t model.EdgeType) string {
 
 func renderDOT(insights []*model.Insight, edges []*model.Edge) string {
 	var b strings.Builder
-	b.WriteString("digraph mnemon {\n")
+	b.WriteString("digraph memory {\n")
 	b.WriteString("  rankdir=LR;\n")
 	b.WriteString("  node [shape=box, style=\"filled,rounded\", fontsize=10, fontname=\"Helvetica\"];\n")
 	b.WriteString("  edge [fontsize=8, fontname=\"Helvetica\"];\n\n")
@@ -208,7 +208,7 @@ const htmlTemplate = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>Mnemon Knowledge Graph</title>
+<title>Memory Knowledge Graph</title>
 <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 <style>
   body { margin: 0; padding: 0; background: #1a1a2e; font-family: sans-serif; }

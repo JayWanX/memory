@@ -6,12 +6,12 @@
 
 ## 5.1 Write Pipeline: Remember
 
-`mnemon remember` is the core command for writing memories. It includes a built-in diff step that automatically detects duplicates and conflicts before storage. The write transaction executes atomically within a single SQLite transaction.
+`memory remember` is the core command for writing memories. It includes a built-in diff step that automatically detects duplicates and conflicts before storage. The write transaction executes atomically within a single SQLite transaction.
 
 ### Detailed Flow
 
 ```
-mnemon remember "Chose Qdrant as the vector database" \
+memory remember "Chose Qdrant as the vector database" \
   --cat decision --imp 5 --entities "Qdrant,Milvus"
 ```
 
@@ -83,13 +83,13 @@ content, no insert). On a skipped repeat, the legacy `replaced_id` field names
 the existing memory; it is not deleted or changed. A heuristic `UPDATE`,
 `CONFLICT`, or near-`DUPLICATE` suggestion still produces `action="added"`.
 
-After receiving this output, the LLM can evaluate candidates and establish edges it considers appropriate via the `mnemon link` command.
+After receiving this output, the LLM can evaluate candidates and establish edges it considers appropriate via the `memory link` command.
 
 ---
 
 ## 5.2 Read Pipeline: Smart Recall
 
-`mnemon recall` is Mnemon's core retrieval algorithm. Smart recall is the default mode for all queries. It combines intent detection, multi-signal anchor selection, Beam Search graph traversal, and multi-factor re-ranking to achieve intent-aware graph-enhanced retrieval. Use `--basic` for legacy SQL LIKE fallback.
+`memory recall` is Memory's core retrieval algorithm. Smart recall is the default mode for all queries. It combines intent detection, multi-signal anchor selection, Beam Search graph traversal, and multi-factor re-ranking to achieve intent-aware graph-enhanced retrieval. Use `--basic` for legacy SQL LIKE fallback.
 
 ![Smart Recall Pipeline](../diagrams/03-smart-recall-pipeline.jpg)
 
@@ -213,7 +213,7 @@ Each retrieval result includes a detailed signal breakdown:
 }
 ```
 
-This is a unique innovation in Mnemon: **exposing the retrieval pipeline's internal signals to the host LLM**. Since the host LLM has the full conversation context, it can make better re-ranking judgments than any algorithm inside the pipeline.
+This is a unique innovation in Memory: **exposing the retrieval pipeline's internal signals to the host LLM**. Since the host LLM has the full conversation context, it can make better re-ranking judgments than any algorithm inside the pipeline.
 
 ---
 
@@ -229,7 +229,7 @@ flowchart TD
     Write -. remember only .-> Advisory[Similarity suggestions for review]
 ```
 
-Diff is **built into `remember`** — no separate call needed. When `mnemon remember` is invoked, it automatically runs a diff check before inserting.
+Diff is **built into `remember`** — no separate call needed. When `memory remember` is invoked, it automatically runs a diff check before inserting.
 
 When `remember` is called, the built-in diff runs before the transaction:
 
@@ -252,12 +252,12 @@ Store new content, then retire a specific old fact only when appropriate:
 
 ```bash
 # Diff suggestions are automatic and advisory
-mnemon remember "Chose PostgreSQL to replace SQLite as the primary database" \
+memory remember "Chose PostgreSQL to replace SQLite as the primary database" \
   --cat decision --imp 5 --source agent
 # → Exact repeat: action="skipped"; existing memory unchanged
 # → Different content: action="added"; existing memories retained
 
 # If the new fact supersedes a specific old memory, verify before retiring it
-mnemon show <new-id>
-mnemon forget <old-id>
+memory show <new-id>
+memory forget <old-id>
 ```

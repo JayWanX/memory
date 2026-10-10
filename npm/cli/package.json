@@ -1,11 +1,11 @@
 {
-  "name": "@mnemon-dev/mnemon",
+  "name": "@jaywanx/memory-cli",
   "version": "0.0.0",
   "private": true,
   "description": "Persistent memory and durable agency for LLM agents",
   "type": "module",
   "bin": {
-    "mnemon": "bin/mnemon.js"
+    "memory": "bin/memory.js"
   },
   "files": [
     "bin",
@@ -21,18 +21,18 @@
     "node": ">=22"
   },
   "keywords": [
-    "mnemon",
+    "memory",
     "agent-memory",
     "llm",
     "cli"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mnemon-dev/mnemon.git"
+    "url": "git+https://github.com/JayWanX/memory.git"
   },
-  "homepage": "https://github.com/mnemon-dev/mnemon",
+  "homepage": "https://github.com/JayWanX/memory",
   "bugs": {
-    "url": "https://github.com/mnemon-dev/mnemon/issues"
+    "url": "https://github.com/JayWanX/memory/issues"
   },
   "license": "Apache-2.0",
   "publishConfig": {

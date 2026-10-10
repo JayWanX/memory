@@ -8,7 +8,7 @@
 # Round 1; UTC 2026-10-03T11:31:33.486556+00:00; load (4.611328125, 5.7109375, 7.35693359375)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10387 ns/op	     10308 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11565 ns/op	     11519 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -123,7 +123,7 @@ PASS
 # Round 2; UTC 2026-10-03T11:31:50.299860+00:00; load (4.5546875, 5.64306640625, 7.3037109375)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10205 ns/op	     10201 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11041 ns/op	     11040 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -238,7 +238,7 @@ PASS
 # Round 3; UTC 2026-10-03T11:32:40.652975+00:00; load (4.57763671875, 5.46875, 7.1416015625)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10806 ns/op	     10646 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11303 ns/op	     11262 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -353,7 +353,7 @@ PASS
 # Round 4; UTC 2026-10-03T11:32:57.202703+00:00; load (4.69140625, 5.4375, 7.0908203125)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10384 ns/op	     10349 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11135 ns/op	     11125 cpu-ns/op	    2296 B/op	      69 allocs/op
@@ -468,7 +468,7 @@ PASS
 # Round 5; UTC 2026-10-03T11:33:48.208844+00:00; load (4.06298828125, 5.11474609375, 6.873046875)
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=1/ByID         	   10000	     10299 ns/op	     10196 cpu-ns/op	    2392 B/op	      73 allocs/op
 BenchmarkMemoryRead/N=1/AllActive    	   10000	     11276 ns/op	     11192 cpu-ns/op	    2296 B/op	      69 allocs/op

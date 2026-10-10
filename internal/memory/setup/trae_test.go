@@ -14,11 +14,11 @@ func TestTraeRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
   "version": 1,
   "hooks": {
     "SessionStart": [
-      {"hooks": [{"type": "command", "command": "/old/mnemon/prime.sh"}]},
+      {"hooks": [{"type": "command", "command": "/old/memory/prime.sh"}]},
       {"hooks": [{"type": "command", "command": "/keep/custom.sh"}]}
     ],
     "Stop": [
-      {"hooks": [{"type": "command", "command": "/old/mnemon/stop.sh"}]}
+      {"hooks": [{"type": "command", "command": "/old/memory/stop.sh"}]}
     ]
   }
 }`), 0644); err != nil {
@@ -38,7 +38,7 @@ func TestTraeRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	if len(sessionStart) != 2 {
 		t.Fatalf("expected custom hook plus new prime hook: %#v", sessionStart)
 	}
-	if !strings.Contains(sessionStart[1].(map[string]any)["hooks"].([]any)[0].(map[string]any)["command"].(string), "hooks/mnemon/prime.sh") {
+	if !strings.Contains(sessionStart[1].(map[string]any)["hooks"].([]any)[0].(map[string]any)["command"].(string), "hooks/memory/prime.sh") {
 		t.Fatalf("expected new prime hook, got %#v", sessionStart[1])
 	}
 	if _, ok := hooks["UserPromptSubmit"]; !ok {
@@ -50,7 +50,7 @@ func TestTraeRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	}
 }
 
-func TestTraeEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
+func TestTraeEjectRemovesOnlyMemoryFilesAndHooks(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := TraeWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -82,14 +82,14 @@ func TestTraeEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkillDir); err != nil {
 		t.Fatalf("custom skill should be preserved: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "hooks", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon hooks should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "hooks", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory hooks should be removed, err=%v", err)
 	}
 	data, err = ReadJSONFile(hooksPath)
 	if err != nil {
@@ -97,8 +97,8 @@ func TestTraeEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	}
 	hooks = data["hooks"].(map[string]any)
 	sessionStart := hooks["SessionStart"].([]any)
-	if len(sessionStart) != 1 || containsMnemon(sessionStart[0]) {
-		t.Fatalf("custom hook should be preserved and mnemon removed: %#v", sessionStart)
+	if len(sessionStart) != 1 || containsMemory(sessionStart[0]) {
+		t.Fatalf("custom hook should be preserved and memory removed: %#v", sessionStart)
 	}
 	if _, ok := hooks["UserPromptSubmit"]; ok {
 		t.Fatalf("user prompt hooks should be removed: %#v", hooks)

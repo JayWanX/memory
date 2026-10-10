@@ -11,7 +11,7 @@ import (
 const defaultBriefExcerptChars = 240
 
 // briefResult is the intentionally small discovery projection shared by
-// recall and search. Full content remains available through `mnemon show`.
+// recall and search. Full content remains available through `memory show`.
 type briefResult struct {
 	ID         string   `json:"id"`
 	Excerpt    string   `json:"excerpt"`
@@ -33,7 +33,7 @@ func newBriefResponse(results []briefResult, hint string) briefResponse {
 	}
 	response := briefResponse{Results: results, Hint: hint}
 	if len(results) > 0 {
-		response.DetailCommand = "mnemon show <id>"
+		response.DetailCommand = "memory show <id>"
 	}
 	return response
 }

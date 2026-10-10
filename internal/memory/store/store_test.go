@@ -12,8 +12,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 // testDB creates a fresh SQLite database in a temp directory, auto-closed on test cleanup.
@@ -137,11 +137,11 @@ func TestOpenReadOnlyDoesNotCreateSidecars(t *testing.T) {
 	if err := os.MkdirAll(snapshotDir, 0o755); err != nil {
 		t.Fatalf("create snapshot dir: %v", err)
 	}
-	database, err := os.ReadFile(filepath.Join(sourceDir, "mnemon.db"))
+	database, err := os.ReadFile(filepath.Join(sourceDir, "memory.db"))
 	if err != nil {
 		t.Fatalf("read source DB: %v", err)
 	}
-	if err := os.WriteFile(filepath.Join(snapshotDir, "mnemon.db"), database, 0o444); err != nil {
+	if err := os.WriteFile(filepath.Join(snapshotDir, "memory.db"), database, 0o444); err != nil {
 		t.Fatalf("write snapshot DB: %v", err)
 	}
 
@@ -161,7 +161,7 @@ func TestOpenReadOnlyDoesNotCreateSidecars(t *testing.T) {
 	}
 
 	for _, suffix := range []string{"-wal", "-shm", "-journal"} {
-		path := filepath.Join(snapshotDir, "mnemon.db"+suffix)
+		path := filepath.Join(snapshotDir, "memory.db"+suffix)
 		if _, err := os.Stat(path); !os.IsNotExist(err) {
 			t.Fatalf("read-only snapshot created sidecar %s (stat error %v)", path, err)
 		}
@@ -718,7 +718,7 @@ func TestMigrateRemoveNarrativeEdges_KeepsRealEdgesNamedLikeTheSentinel(t *testi
 
 func TestMigrateStoredAtBackfillsLegacyInsights(t *testing.T) {
 	dir := t.TempDir()
-	dbPath := filepath.Join(dir, "mnemon.db")
+	dbPath := filepath.Join(dir, "memory.db")
 	legacy, err := sql.Open("sqlite", dbPath)
 	if err != nil {
 		t.Fatalf("open legacy database: %v", err)
@@ -988,7 +988,7 @@ func TestGetSupersededIDs_ScopesToRequestedIDs(t *testing.T) {
 
 func disableAutoPruneGrace(t *testing.T) {
 	t.Helper()
-	t.Setenv("MNEMON_AUTO_PRUNE_MIN_AGE", "0")
+	t.Setenv("MEMORY_AUTO_PRUNE_MIN_AGE", "0")
 }
 
 func TestAutoPrune_PrunesLowestEI(t *testing.T) {
@@ -1142,7 +1142,7 @@ func TestMaxInsightsLimit(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Setenv("MNEMON_MAX_INSIGHTS", tt.env)
+			t.Setenv("MEMORY_MAX_INSIGHTS", tt.env)
 			if got := MaxInsightsLimit(); got != tt.want {
 				t.Errorf("MaxInsightsLimit() with %q = %d, want %d", tt.env, got, tt.want)
 			}
@@ -1167,7 +1167,7 @@ func TestAutoPruneMinAge(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Setenv("MNEMON_AUTO_PRUNE_MIN_AGE", tt.env)
+			t.Setenv("MEMORY_AUTO_PRUNE_MIN_AGE", tt.env)
 			if got := AutoPruneMinAge(); got != tt.want {
 				t.Errorf("AutoPruneMinAge() with %q = %s, want %s", tt.env, got, tt.want)
 			}
@@ -1176,7 +1176,7 @@ func TestAutoPruneMinAge(t *testing.T) {
 }
 
 func TestAutoPrune_DefaultGraceProtectsNewbornInsights(t *testing.T) {
-	t.Setenv("MNEMON_AUTO_PRUNE_MIN_AGE", "")
+	t.Setenv("MEMORY_AUTO_PRUNE_MIN_AGE", "")
 	db := testDB(t)
 
 	old := makeInsight("old", "eligible old memory", 1)
@@ -1264,7 +1264,7 @@ func TestAutoPrune_UnlimitedCeilingPrunesNothing(t *testing.T) {
 
 // A raised ceiling has to change what AutoPrune actually takes, not only what
 // gc reports: the same store that prunes under a lower resolved ceiling is
-// left whole once MNEMON_MAX_INSIGHTS resolves above its size.
+// left whole once MEMORY_MAX_INSIGHTS resolves above its size.
 func TestAutoPrune_RaisedCeilingChangesEnforcement(t *testing.T) {
 	disableAutoPruneGrace(t)
 	db := testDB(t)
@@ -1274,7 +1274,7 @@ func TestAutoPrune_RaisedCeilingChangesEnforcement(t *testing.T) {
 		}
 	}
 
-	t.Setenv("MNEMON_MAX_INSIGHTS", "8")
+	t.Setenv("MEMORY_MAX_INSIGHTS", "8")
 	pruned, err := db.AutoPrune(MaxInsightsLimit(), nil)
 	if err != nil {
 		t.Fatalf("auto prune: %v", err)
@@ -1285,7 +1285,7 @@ func TestAutoPrune_RaisedCeilingChangesEnforcement(t *testing.T) {
 
 	// Control: the same store over a lower resolved ceiling does prune, so the
 	// zero above is the ceiling's doing rather than an inert store.
-	t.Setenv("MNEMON_MAX_INSIGHTS", "3")
+	t.Setenv("MEMORY_MAX_INSIGHTS", "3")
 	pruned, err = db.AutoPrune(MaxInsightsLimit(), nil)
 	if err != nil {
 		t.Fatalf("auto prune: %v", err)
@@ -1608,10 +1608,10 @@ func TestMigrateIfNeeded(t *testing.T) {
 	}
 	db.InsertInsight(makeInsight("mig-1", "legacy data", 3))
 	db.Close()
-	if err := os.WriteFile(filepath.Join(base, "mnemon.db-wal"), []byte("wal"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(base, "memory.db-wal"), []byte("wal"), 0o644); err != nil {
 		t.Fatalf("write legacy wal: %v", err)
 	}
-	if err := os.WriteFile(filepath.Join(base, "mnemon.db-shm"), []byte("shm"), 0o644); err != nil {
+	if err := os.WriteFile(filepath.Join(base, "memory.db-shm"), []byte("shm"), 0o644); err != nil {
 		t.Fatalf("write legacy shm: %v", err)
 	}
 
@@ -1621,25 +1621,25 @@ func TestMigrateIfNeeded(t *testing.T) {
 	}
 
 	// Old file should be gone
-	if _, err := os.Stat(filepath.Join(base, "mnemon.db")); !os.IsNotExist(err) {
-		t.Error("old mnemon.db should be moved")
+	if _, err := os.Stat(filepath.Join(base, "memory.db")); !os.IsNotExist(err) {
+		t.Error("old memory.db should be moved")
 	}
-	if _, err := os.Stat(filepath.Join(base, "mnemon.db-wal")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(base, "memory.db-wal")); !os.IsNotExist(err) {
 		t.Error("old WAL should be moved")
 	}
-	if _, err := os.Stat(filepath.Join(base, "mnemon.db-shm")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(base, "memory.db-shm")); !os.IsNotExist(err) {
 		t.Error("old SHM should be moved")
 	}
-	if got, err := os.ReadFile(filepath.Join(StoreDir(base, DefaultStoreName), "mnemon.db-wal")); err != nil || string(got) != "wal" {
+	if got, err := os.ReadFile(filepath.Join(StoreDir(base, DefaultStoreName), "memory.db-wal")); err != nil || string(got) != "wal" {
 		t.Fatalf("migrated WAL mismatch: got=%q err=%v", got, err)
 	}
-	if got, err := os.ReadFile(filepath.Join(StoreDir(base, DefaultStoreName), "mnemon.db-shm")); err != nil || string(got) != "shm" {
+	if got, err := os.ReadFile(filepath.Join(StoreDir(base, DefaultStoreName), "memory.db-shm")); err != nil || string(got) != "shm" {
 		t.Fatalf("migrated SHM mismatch: got=%q err=%v", got, err)
 	}
-	if err := os.Remove(filepath.Join(StoreDir(base, DefaultStoreName), "mnemon.db-wal")); err != nil {
+	if err := os.Remove(filepath.Join(StoreDir(base, DefaultStoreName), "memory.db-wal")); err != nil {
 		t.Fatalf("remove fake migrated WAL: %v", err)
 	}
-	if err := os.Remove(filepath.Join(StoreDir(base, DefaultStoreName), "mnemon.db-shm")); err != nil {
+	if err := os.Remove(filepath.Join(StoreDir(base, DefaultStoreName), "memory.db-shm")); err != nil {
 		t.Fatalf("remove fake migrated SHM: %v", err)
 	}
 
@@ -1705,7 +1705,7 @@ func TestLoadKnownEntities_DistinctUnion(t *testing.T) {
 	a := makeInsight("ent-a", "first", 3)
 	a.Entities = []string{"Athena", "Hestia"}
 	b := makeInsight("ent-b", "second", 3)
-	b.Entities = []string{"Hestia", "Mnemon"} // Hestia overlaps with a
+	b.Entities = []string{"Hestia", "Memory"} // Hestia overlaps with a
 	for _, ins := range []*model.Insight{a, b} {
 		if err := db.InsertInsight(ins); err != nil {
 			t.Fatalf("insert %s: %v", ins.ID, err)
@@ -1716,7 +1716,7 @@ func TestLoadKnownEntities_DistinctUnion(t *testing.T) {
 	if err != nil {
 		t.Fatalf("load known entities: %v", err)
 	}
-	for _, want := range []string{"Athena", "Hestia", "Mnemon"} {
+	for _, want := range []string{"Athena", "Hestia", "Memory"} {
 		if !known[want] {
 			t.Errorf("want %q in known set, got %v", want, known)
 		}

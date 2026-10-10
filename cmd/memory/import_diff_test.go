@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/importdraft"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/importdraft"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func configureImportDiffTest(t *testing.T) {
@@ -269,9 +269,9 @@ type importDiffSummary struct {
 
 func setupImportDiffTest(t *testing.T, noDiff bool) *store.DB {
 	t.Helper()
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
-	t.Setenv("MNEMON_EMBED_PROTOCOL", "ollama")
-	t.Setenv("MNEMON_MAX_INSIGHTS", "1000")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_EMBED_PROTOCOL", "ollama")
+	t.Setenv("MEMORY_MAX_INSIGHTS", "1000")
 	oldDataDir, oldStoreName, oldReadOnly := dataDir, storeName, readOnly
 	oldImportNoDiff, oldImportDryRun := importNoDiff, importDryRun
 	t.Cleanup(func() {

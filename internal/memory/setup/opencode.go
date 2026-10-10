@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// OpenCodeWriteSkill writes the mnemon skill to the OpenCode skills directory.
+// OpenCodeWriteSkill writes the memory skill to the OpenCode skills directory.
 func OpenCodeWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -22,20 +22,20 @@ func OpenCodeWriteSkill(configDir string) (string, error) {
 	return skillPath, nil
 }
 
-// OpenCodeWritePlugin writes the mnemon plugin to the OpenCode plugins directory.
+// OpenCodeWritePlugin writes the memory plugin to the OpenCode plugins directory.
 func OpenCodeWritePlugin(configDir string) (string, error) {
 	pluginDir := filepath.Join(configDir, "plugins")
 	if err := os.MkdirAll(pluginDir, 0755); err != nil {
 		return "", err
 	}
-	pluginPath := filepath.Join(pluginDir, "mnemon.js")
+	pluginPath := filepath.Join(pluginDir, "memory.js")
 	if err := os.WriteFile(pluginPath, assets.OpenCodePlugin, 0644); err != nil {
 		return "", err
 	}
 	return pluginPath, nil
 }
 
-// OpenCodeRegisterInstructions registers the generated mnemon guide in opencode.json.
+// OpenCodeRegisterInstructions registers the generated memory guide in opencode.json.
 func OpenCodeRegisterInstructions(configDir, promptDir string) (string, error) {
 	configPath := OpenCodeConfigPath(configDir)
 	data, err := ReadJSONFile(configPath)
@@ -68,7 +68,7 @@ func OpenCodeConfigPath(configDir string) string {
 	return filepath.Join(configDir, "opencode.json")
 }
 
-// OpenCodeEject removes mnemon skill, plugin, and instruction registration.
+// OpenCodeEject removes memory skill, plugin, and instruction registration.
 func OpenCodeEject(configDir string) []error {
 	var errs []error
 
@@ -78,8 +78,8 @@ func OpenCodeEject(configDir string) []error {
 		label string
 		path  string
 	}{
-		{"Skill", filepath.Join(configDir, "skills", "mnemon")},
-		{"Plugin", filepath.Join(configDir, "plugins", "mnemon.js")},
+		{"Skill", filepath.Join(configDir, "skills", "memory")},
+		{"Plugin", filepath.Join(configDir, "plugins", "memory.js")},
 	}
 
 	for i, target := range targets {
@@ -131,7 +131,7 @@ func removeOpenCodeInstructions(data map[string]any) {
 	filtered := make([]any, 0, len(existing))
 	for _, value := range existing {
 		s, ok := value.(string)
-		if ok && isOpenCodeMnemonInstruction(s) {
+		if ok && isOpenCodeMemoryInstruction(s) {
 			continue
 		}
 		filtered = append(filtered, value)
@@ -152,8 +152,8 @@ func removeOpenCodeEmptySchema(data map[string]any) {
 	}
 }
 
-func isOpenCodeMnemonInstruction(s string) bool {
+func isOpenCodeMemoryInstruction(s string) bool {
 	normalized := filepath.ToSlash(s)
-	return strings.Contains(normalized, "mnemon/prompt/guide.md") ||
-		strings.Contains(normalized, ".mnemon/prompt/guide.md")
+	return strings.Contains(normalized, "memory/prompt/guide.md") ||
+		strings.Contains(normalized, ".memory/prompt/guide.md")
 }

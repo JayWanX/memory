@@ -1,4 +1,4 @@
-// Package cmd composes the single Mnemon product command.
+// Package cmd composes the single Memory product command.
 package cmd
 
 import (
@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/mnemon-dev/mnemon/cmd/agency"
-	"github.com/mnemon-dev/mnemon/cmd/memory"
+	"github.com/JayWanX/memory/cmd/agency"
+	"github.com/JayWanX/memory/cmd/memory"
 	"github.com/spf13/cobra"
 )
 
 var version = "dev"
 
-// Execute runs one Mnemon command. Process exit remains the root main package's
+// Execute runs one Memory command. Process exit remains the root main package's
 // responsibility; a long-running command owns any graceful signal handling it
 // requires so ordinary Memory commands retain the operating system defaults.
 func Execute(ctx context.Context, args []string, stdin io.Reader, stdout, stderr io.Writer) int {
@@ -75,7 +75,7 @@ func belongsToCommand(command *cobra.Command, name string) bool {
 func productRoot() *cobra.Command {
 	root := memory.New(version)
 	root.Short = "Memory and durable agency for LLM agents"
-	root.Long = "Mnemon gives LLM agents persistent memory and a local authority for durable, peer-to-peer work."
+	root.Long = "Memory gives LLM agents persistent memory and a local authority for durable, peer-to-peer work."
 	root.SilenceErrors = false
 	root.SilenceUsage = false
 	// Memory's current command tree is process-global. Remove prior product

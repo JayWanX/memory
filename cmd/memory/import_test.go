@@ -8,14 +8,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func TestImportGraceProtectsNewbornBatchAndReportsIDs(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
-	t.Setenv("MNEMON_MAX_INSIGHTS", "1")
-	t.Setenv("MNEMON_AUTO_PRUNE_MIN_AGE", "")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_MAX_INSIGHTS", "1")
+	t.Setenv("MEMORY_AUTO_PRUNE_MIN_AGE", "")
 
 	oldDataDir, oldStoreName, oldReadOnly := dataDir, storeName, readOnly
 	oldImportNoDiff, oldImportDryRun := importNoDiff, importDryRun
@@ -86,7 +86,7 @@ func TestImportGraceProtectsNewbornBatchAndReportsIDs(t *testing.T) {
 }
 
 func TestImportRepairsBackdatedTemporalBackbone(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
 
 	oldDataDir, oldStoreName, oldReadOnly := dataDir, storeName, readOnly
 	oldImportNoDiff, oldImportDryRun := importNoDiff, importDryRun
@@ -194,7 +194,7 @@ func TestImportRepairsBackdatedTemporalBackbone(t *testing.T) {
 }
 
 func TestImportRefreshesEffectiveImportanceAfterExplicitEdges(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
 
 	oldDataDir, oldStoreName, oldReadOnly := dataDir, storeName, readOnly
 	oldImportNoDiff, oldImportDryRun := importNoDiff, importDryRun

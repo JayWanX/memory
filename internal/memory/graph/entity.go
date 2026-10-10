@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 // Maximum number of existing nodes to link per entity (avoid hot-entity explosion).
@@ -98,7 +98,7 @@ var techDictionary = map[string]bool{
 	// Protocols & Formats
 	"gRPC": true, "GraphQL": true, "WebSocket": true, "OAuth": true,
 	"JWT": true, "YAML": true, "TOML": true, "Protobuf": true,
-	// Mnemon-specific
+	// Memory-specific
 	"MAGMA": true, "MCP": true, "RLM": true,
 }
 

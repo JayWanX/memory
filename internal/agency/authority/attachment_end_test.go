@@ -6,7 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestEndInteractiveAttachmentReleasesClaimWithoutDomainEffect(t *testing.T) {

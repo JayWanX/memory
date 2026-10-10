@@ -1,20 +1,20 @@
 services:
-  mnemon:
+  memory:
     build:
       context: .
       target: runtime
       args:
         VERSION: ${VERSION:-dev}
-    image: mnemon-dev/mnemon:${VERSION:-dev}
+    image: JayWanX/memory:${VERSION:-dev}
     env_file:
       - .env
     environment:
-      MNEMON_DATA_DIR: /mnemon
+      MEMORY_DATA_DIR: /memory
     volumes:
-      - mnemon-data:/mnemon
+      - memory-data:/memory
     command: ["status"]
 
-  mnemon-dev:
+  JayWanX:
     build:
       context: .
       target: dev
@@ -24,12 +24,12 @@ services:
     env_file:
       - .env
     environment:
-      MNEMON_DATA_DIR: /mnemon
+      MEMORY_DATA_DIR: /memory
     volumes:
       - .:/workspace
       - go-build-cache:/root/.cache/go-build
       - go-mod-cache:/go/pkg/mod
-      - mnemon-data:/mnemon
+      - memory-data:/memory
     command: ["bash"]
 
   ollama:
@@ -42,7 +42,7 @@ services:
       - "11434:11434"
 
 volumes:
-  mnemon-data:
+  memory-data:
   go-build-cache:
   go-mod-cache:
   ollama-data:

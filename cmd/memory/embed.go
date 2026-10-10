@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/embed"
 	"github.com/spf13/cobra"
 )
 
@@ -20,9 +20,9 @@ var embedCmd = &cobra.Command{
 	Long: `Generate embedding vectors for insights using the configured provider.
 
 Modes:
-  mnemon embed --status            Show embedding coverage statistics
-  mnemon embed --all               Backfill embeddings for all un-embedded insights
-  mnemon embed <id>                Generate embedding for a specific insight`,
+  memory embed --status            Show embedding coverage statistics
+  memory embed --all               Backfill embeddings for all un-embedded insights
+  memory embed <id>                Generate embedding for a specific insight`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		db, err := openDB()
 		if err != nil {

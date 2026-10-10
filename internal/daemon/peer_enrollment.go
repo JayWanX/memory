@@ -10,14 +10,14 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
 )
 
 const (
-	peerEnrollmentSchema = "mnemon.r7.peer-enrollment"
-	peerRouteDomain      = "mnemon.r7.peer-route.v1"
+	peerEnrollmentSchema = "memory.r7.peer-enrollment"
+	peerRouteDomain      = "memory.r7.peer-route.v1"
 	defaultTargetAlias   = "target:default"
 )
 

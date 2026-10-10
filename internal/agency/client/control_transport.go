@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func (client *controlClient) post(ctx context.Context, route string, input any,
@@ -41,7 +41,7 @@ func (client *controlClient) postProjection(ctx context.Context, route string, i
 	}
 	response, err := client.http.Do(request)
 	if err != nil {
-		return nil, newControlError(codeMnemondUnavailable, "Mnemon Agency local control is unavailable")
+		return nil, newControlError(codeMemorydUnavailable, "Memory Agency local control is unavailable")
 	}
 	return readProjectionResponse(response, maximum)
 }
@@ -58,7 +58,7 @@ func (client *controlClient) postArtifact(ctx context.Context, route string, inp
 	}
 	response, err := client.http.Do(request)
 	if err != nil {
-		return nil, newControlError(codeMnemondUnavailable, "Mnemon Agency local control is unavailable")
+		return nil, newControlError(codeMemorydUnavailable, "Memory Agency local control is unavailable")
 	}
 	return readArtifactResponse(response)
 }
@@ -71,7 +71,7 @@ func newPostRequest(ctx context.Context, route string, input any,
 		return nil, newControlError(codeInvalidArgument, "Agency request cannot be encoded canonically")
 	}
 	request, err := http.NewRequestWithContext(ctx, http.MethodPost,
-		"http://mnemond"+route, bytes.NewReader(body))
+		"http://memoryd"+route, bytes.NewReader(body))
 	if err != nil {
 		return nil, invalidControlResponse("local Agency request cannot be created")
 	}
@@ -90,7 +90,7 @@ func (client *controlClient) send(request *http.Request, response any, maximum i
 	}
 	httpResponse, err := client.http.Do(request)
 	if err != nil {
-		return newControlError(codeMnemondUnavailable, "Mnemon Agency local control is unavailable")
+		return newControlError(codeMemorydUnavailable, "Memory Agency local control is unavailable")
 	}
 	defer httpResponse.Body.Close()
 	raw, err := io.ReadAll(io.LimitReader(httpResponse.Body, maximum+1))
@@ -108,14 +108,14 @@ func (client *controlClient) send(request *http.Request, response any, maximum i
 		return decodeRemoteError(object, httpResponse.StatusCode)
 	}
 	if httpResponse.StatusCode != http.StatusOK || decodeClosedJSON(object, response) != nil {
-		return invalidControlResponse("Mnemon Agency returned an invalid success envelope")
+		return invalidControlResponse("Memory Agency returned an invalid success envelope")
 	}
 	return nil
 }
 
 func readProjectionResponse(response *http.Response, maximum int) ([]byte, *controlError) {
 	if response == nil || response.Body == nil {
-		return nil, invalidControlResponse("Mnemon Agency returned no Agency projection")
+		return nil, invalidControlResponse("Memory Agency returned no Agency projection")
 	}
 	defer response.Body.Close()
 	raw, err := io.ReadAll(io.LimitReader(response.Body, int64(maximum)+2))
@@ -129,14 +129,14 @@ func readProjectionResponse(response *http.Response, maximum int) ([]byte, *cont
 	}
 	if response.StatusCode != http.StatusOK || len(object) < 2 || object[0] != '{' ||
 		object[len(object)-1] != '}' {
-		return nil, invalidControlResponse("Mnemon Agency returned an invalid Agency projection")
+		return nil, invalidControlResponse("Memory Agency returned an invalid Agency projection")
 	}
 	return append([]byte(nil), object...), nil
 }
 
 func readArtifactResponse(response *http.Response) ([]byte, *controlError) {
 	if response == nil || response.Body == nil {
-		return nil, invalidControlResponse("Mnemon Agency returned no Artifact content")
+		return nil, invalidControlResponse("Memory Agency returned no Artifact content")
 	}
 	defer response.Body.Close()
 	raw, err := io.ReadAll(io.LimitReader(response.Body, int64(agency.MaxAgentArtifactReadBytes)+1))
@@ -147,7 +147,7 @@ func readArtifactResponse(response *http.Response) ([]byte, *controlError) {
 	if response.StatusCode < 200 || response.StatusCode >= 300 {
 		if response.Header.Get("Content-Type") != "application/json" || len(raw) > maxPrivateResponse {
 			clear(raw)
-			return nil, invalidControlResponse("Mnemon Agency returned an invalid Artifact error")
+			return nil, invalidControlResponse("Memory Agency returned an invalid Artifact error")
 		}
 		object, apiErr := canonicalResponseObject(raw)
 		if apiErr != nil {
@@ -164,7 +164,7 @@ func readArtifactResponse(response *http.Response) ([]byte, *controlError) {
 		response.ContentLength != int64(len(raw)) || digestErr != nil || digest.IsZero() ||
 		agency.Sum(raw) != digest || agency.ValidateAgentArtifactText(raw) != nil {
 		clear(raw)
-		return nil, invalidControlResponse("Mnemon Agency returned invalid Artifact content")
+		return nil, invalidControlResponse("Memory Agency returned invalid Artifact content")
 	}
 	return raw, nil
 }
@@ -191,7 +191,7 @@ func decodeRemoteError(object []byte, status int) *controlError {
 	var remote controlError
 	if decodeClosedJSON(object, &remote) != nil || validateControlError(&remote) != nil ||
 		httpStatusForError(&remote) != status {
-		return invalidControlResponse("Mnemon Agency returned an invalid Agency error envelope")
+		return invalidControlResponse("Memory Agency returned an invalid Agency error envelope")
 	}
 	return &remote
 }
@@ -208,7 +208,7 @@ func httpStatusForError(value *controlError) int {
 	switch value.Code {
 	case codeAuthenticationFailed:
 		return http.StatusUnauthorized
-	case codeOperationPending, codeMnemondUnavailable:
+	case codeOperationPending, codeMemorydUnavailable:
 		return http.StatusServiceUnavailable
 	case codeContextStale, codeActionNotAllowed, codeOperationMismatch:
 		return http.StatusConflict

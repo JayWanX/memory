@@ -24,7 +24,7 @@ test("npm launcher hides native child consoles by default", async (t) => {
   const { runChild } = await import("../lib/child.js?windows-hide-child");
   const { productionRunner } = await import("../lib/update.js?windows-hide-update");
 
-  await runChild("mnemon", ["status"]);
+  await runChild("memory", ["status"]);
   const runner = productionRunner();
   assert.equal(runner.output("npm", ["--version"]), "output");
 
@@ -47,7 +47,7 @@ test("explicit child options can still override the default", async () => {
   });
 
   const { runChild } = await import("../lib/child.js?windows-hide-override");
-  await runChild("mnemon", ["status"], { windowsHide: false });
+  await runChild("memory", ["status"], { windowsHide: false });
   assert.equal(spawnCalls[0][2].windowsHide, false);
   mock.restoreAll();
 });

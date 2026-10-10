@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func TestBuildReceiptOmitsRawDetails(t *testing.T) {
@@ -25,7 +25,7 @@ func TestBuildReceiptOmitsRawDetails(t *testing.T) {
 	}
 
 	doc := buildReceipt("default", 20, entries, generatedAt)
-	if doc.Schema != "mnemon.memory.receipt.v1" {
+	if doc.Schema != "memory.memory.receipt.v1" {
 		t.Fatalf("unexpected schema: %s", doc.Schema)
 	}
 	if doc.GeneratedAt != generatedAt.Format(time.RFC3339) {

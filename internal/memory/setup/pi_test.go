@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 func TestPiWriteSkillAndExtension(t *testing.T) {
@@ -16,12 +16,12 @@ func TestPiWriteSkillAndExtension(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write skill: %v", err)
 	}
-	if skillPath != filepath.Join(dir, "skills", "mnemon", "SKILL.md") {
+	if skillPath != filepath.Join(dir, "skills", "memory", "SKILL.md") {
 		t.Fatalf("skill path = %q", skillPath)
 	}
 	if data, err := os.ReadFile(skillPath); err != nil {
 		t.Fatalf("read skill: %v", err)
-	} else if !strings.Contains(string(data), "name: mnemon") {
+	} else if !strings.Contains(string(data), "name: memory") {
 		t.Fatalf("unexpected skill content: %q", string(data))
 	}
 
@@ -29,7 +29,7 @@ func TestPiWriteSkillAndExtension(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write extension: %v", err)
 	}
-	if extPath != filepath.Join(dir, "extensions", "mnemon.ts") {
+	if extPath != filepath.Join(dir, "extensions", "memory.ts") {
 		t.Fatalf("extension path = %q", extPath)
 	}
 	if data, err := os.ReadFile(extPath); err != nil {
@@ -47,7 +47,7 @@ func TestPiExtensionMapsLifecycleEvents(t *testing.T) {
 		`pi.on("before_agent_start"`,
 		`pi.on("agent_end"`,
 		`pi.on("session_before_compact"`,
-		"process.env.MNEMON_DATA_DIR",
+		"process.env.MEMORY_DATA_DIR",
 		"process.env.PI_CODING_AGENT_DIR",
 	} {
 		if !strings.Contains(extension, want) {
@@ -56,7 +56,7 @@ func TestPiExtensionMapsLifecycleEvents(t *testing.T) {
 	}
 }
 
-func TestPiEjectRemovesOnlyMnemonFiles(t *testing.T) {
+func TestPiEjectRemovesOnlyMemoryFiles(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := PiWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -73,11 +73,11 @@ func TestPiEjectRemovesOnlyMnemonFiles(t *testing.T) {
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "extensions", "mnemon.ts")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon extension should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "extensions", "memory.ts")); !os.IsNotExist(err) {
+		t.Fatalf("memory extension should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(other); err != nil {
 		t.Fatalf("custom extension should be preserved: %v", err)

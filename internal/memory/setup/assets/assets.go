@@ -134,16 +134,16 @@ var KimiStopHook []byte
 //go:embed opencode/SKILL.md
 var OpenCodeSkill []byte
 
-//go:embed opencode/mnemon.js
+//go:embed opencode/memory.js
 var OpenCodePlugin []byte
 
 //go:embed openclaw/SKILL.md
 var OpenClawSkill []byte
 
-//go:embed openclaw/hooks/mnemon-prime/HOOK.md
+//go:embed openclaw/hooks/memory-prime/HOOK.md
 var OpenClawHookMD []byte
 
-//go:embed openclaw/hooks/mnemon-prime/handler.js
+//go:embed openclaw/hooks/memory-prime/handler.js
 var OpenClawHookHandler []byte
 
 //go:embed openclaw/plugin/package.json
@@ -167,7 +167,7 @@ var NanobotSkill []byte
 //go:embed pi/SKILL.md
 var PiSkill []byte
 
-//go:embed pi/mnemon.ts
+//go:embed pi/memory.ts
 var PiExtension []byte
 
 //go:embed hermes/SKILL.md

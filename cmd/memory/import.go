@@ -7,12 +7,12 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/graph"
-	"github.com/mnemon-dev/mnemon/internal/memory/importdraft"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/search"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/graph"
+	"github.com/JayWanX/memory/internal/memory/importdraft"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/search"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +26,7 @@ var importCmd = &cobra.Command{
 	Short: "Import a memory draft file",
 	Long: `Import insights from a memory draft JSON file (schema_version: "1").
 
-Each insight passes through Mnemon's normal write path: deduplication,
+Each insight passes through Memory's normal write path: deduplication,
 graph edge construction, embeddings, and lifecycle scoring are all applied
 automatically.
 

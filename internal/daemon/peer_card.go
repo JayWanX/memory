@@ -7,10 +7,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
-const peerCardSchema = "mnemon.r7.peer-card"
+const peerCardSchema = "memory.r7.peer-card"
 
 // PeerCard is the bounded public projection of one node's transport endpoint.
 // It is an owner-exchanged candidate, not enrollment authority.

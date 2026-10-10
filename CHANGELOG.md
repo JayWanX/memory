@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Mnemon will be documented in this file.
+All notable changes to Memory will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
@@ -9,31 +9,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- `npm install --global @mnemon-dev/mnemon` is now the canonical CLI install
+- `npm install --global @jaywanx/memory-cli` is now the canonical CLI install
   path. Tagged releases publish pinned native artifacts for macOS, Linux, and
   Windows before advancing the npm `latest` or `next` channel.
-- `mnemon update` upgrades an npm-managed installation through its owning npm
+- `memory update` upgrades an npm-managed installation through its owning npm
   prefix. The npm launcher performs replacement without keeping the native
   process running, including on Windows. Installations from another source fail
   closed with a one-time npm migration command instead of silently creating a
   shadowed executable.
-- `mnemon recall --brief` and `mnemon search --brief` now provide a bounded,
+- `memory recall --brief` and `memory search --brief` now provide a bounded,
   unindented JSON discovery projection. `--excerpt-chars` controls the per-item
-  excerpt limit, and `mnemon show <id>` retrieves one selected insight in full.
-- `mnemon setup --target zcode` now installs a ZCode-compatible Mnemon skill.
+  excerpt limit, and `memory show <id>` retrieves one selected insight in full.
+- `memory setup --target zcode` now installs a ZCode-compatible Memory skill.
   With `--global`, setup also registers user-level `SessionStart`,
   `UserPromptSubmit`, and `Stop` process hooks in
   `~/.zcode/cli/config.json`; project-local setup intentionally skips hooks
   because ZCode does not execute project-level hook configuration. Hook assets
   use Bash on macOS/Linux and native Windows PowerShell on Windows.
-- `mnemon setup --eject --target zcode` removes Mnemon-owned ZCode files and
+- `memory setup --eject --target zcode` removes Memory-owned ZCode files and
   hook entries while preserving unrelated skills, hook events, and settings.
-- `mnemon setup --target minimax-code` now installs a MiniMax Code skill to
-  `.minimax/skills/mnemon/SKILL.md`, or to
-  `~/.minimax/skills/mnemon/SKILL.md` with `--global`.
+- `memory setup --target minimax-code` now installs a MiniMax Code skill to
+  `.minimax/skills/memory/SKILL.md`, or to
+  `~/.minimax/skills/memory/SKILL.md` with `--global`.
 - MiniMax Code detection recognizes both the current `~/.minimax/` data
   directory and the legacy `~/.mavis/` directory migrated by current releases.
-- `mnemon setup --eject --target minimax-code` removes only the Mnemon skill
+- `memory setup --eject --target minimax-code` removes only the Memory skill
   while preserving other MiniMax Code skills.
 
 ### Tests
@@ -82,13 +82,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- `mnemon setup --target cursor` now installs a Cursor integration, including a
-  Mnemon skill, prompt files, and Cursor lifecycle hooks under `.cursor/` or
-  `~/.cursor/`. The session-start hook primes Cursor with Mnemon guidance and
+- `memory setup --target cursor` now installs a Cursor integration, including a
+  Memory skill, prompt files, and Cursor lifecycle hooks under `.cursor/` or
+  `~/.cursor/`. The session-start hook primes Cursor with Memory guidance and
   memory status, the stop hook can nudge for durable-memory writeback, and an
   optional pre-compaction hook can remind users to preserve durable context.
-- `mnemon setup --eject --target cursor` removes the installed Cursor skill and
-  Mnemon hook entries while preserving unrelated Cursor hook configuration.
+- `memory setup --eject --target cursor` removes the installed Cursor skill and
+  Memory hook entries while preserving unrelated Cursor hook configuration.
 - Cursor environment detection is included in interactive setup when the
   `cursor` binary or `~/.cursor/` config directory is present.
 
@@ -107,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Harness modules remain experimental and are not part of the v0.1.15 public
   stability guarantee. This release includes substantial internal harness
   iteration, documentation, and validation work, but release-path commands such
-  as `mnemon setup` continue to keep formal integrations under `cmd/` and
+  as `memory setup` continue to keep formal integrations under `cmd/` and
   `internal/`.
 
 ## [0.1.14] - 2026-06-08
@@ -115,7 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Entity extraction now has an index-aware fourth path for known entities. When
-  Mnemon has already seen an entity through provided metadata or earlier
+  Memory has already seen an entity through provided metadata or earlier
   extraction, later graph operations can admit wider candidate tokens that match
   the known-entity index. This improves recall for personal project names,
   internal codenames, and single-segment CamelCase entities without globally
@@ -137,9 +137,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - Claude Code project-local setup now detects the degenerate `$HOME/.claude`
-  collision. When `mnemon setup` is run from `$HOME`, the apparent local
+  collision. When `memory setup` is run from `$HOME`, the apparent local
   `.claude/` directory is actually Claude Code's user-global config directory;
-  Mnemon now writes absolute hook commands in that case so hooks resolve
+  Memory now writes absolute hook commands in that case so hooks resolve
   correctly from every future Claude Code session directory.
 - Added symlink-aware and `CLAUDE_CONFIG_DIR`-aware coverage for Claude Code
   config collision detection, plus regression tests that genuine project-local
@@ -160,14 +160,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - English/Chinese import guide coverage and setup skill guidance for using
-  `mnemon import` on historical chat exports.
+  `memory import` on historical chat exports.
 
 ## [0.1.10] - 2026-05-27
 
 ### Added
 
-- `mnemon import <file>` bulk-imports memory draft JSON files into a selected
-  Mnemon store. Imported insights use the normal write path for duplicate and
+- `memory import <file>` bulk-imports memory draft JSON files into a selected
+  Memory store. Imported insights use the normal write path for duplicate and
   conflict detection, embeddings when Ollama is available, entity/causal/
   semantic graph construction, lifecycle scoring, and capacity pruning.
 - `internal/importdraft` defines the public draft schema for historical chat
@@ -177,8 +177,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
     `entities`, `source`, and RFC 3339 `created_at`
   - explicit edge fields for `source_index`, `target_index`, `edge_type`,
     `weight`, and `reason`
-- `mnemon import --dry-run` validates draft structure without writing to the
-  database, and `mnemon import --no-diff` inserts all draft insights without
+- `memory import --dry-run` validates draft structure without writing to the
+  database, and `memory import --no-diff` inserts all draft insights without
   duplicate/conflict detection.
 - [Import documentation](docs/IMPORT.md) with the full schema reference,
   category and importance guidance, edge-type guidance, examples, operational
@@ -201,7 +201,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - The graph engine now supports internal `EngineOptions` with `TemporalMode`,
   allowing import to skip real-time temporal generation without changing the
-  behavior of `mnemon remember`.
+  behavior of `memory remember`.
 - Store internals gained helpers for source-ordered active insight scans and
   typed single-edge deletion, used by temporal repair during imports.
 
@@ -233,7 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.1.8] - 2026-05-24
 
 ### Added
-- `--embed-model` global flag exposes the existing `MNEMON_EMBED_MODEL` env
+- `--embed-model` global flag exposes the existing `MEMORY_EMBED_MODEL` env
   var on the CLI, applied consistently across `embed`, `recall`, and
   `remember`. Useful for switching to multilingual models such as
   `nomic-embed-text-v2-moe:latest` on code-switched corpora without exporting
@@ -243,7 +243,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.1.7] - 2026-05-23
 
 ### Added
-- Privacy-safe memory receipts via `mnemon receipt`, allowing users to show
+- Privacy-safe memory receipts via `memory receipt`, allowing users to show
   memory activity with identifiers, timestamps, summaries, and relation metadata
   without exposing stored memory content.
 
@@ -258,13 +258,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.1.6] - 2026-05-18
 
 ### Added
-- Codex integration: `mnemon setup --target codex` deploys the mnemon skill,
+- Codex integration: `memory setup --target codex` deploys the memory skill,
   prompt files, and Codex lifecycle hooks (`SessionStart`, `UserPromptSubmit`,
-  `Stop`) into `.codex/` or `~/.codex/`. `mnemon setup --eject --target codex`
+  `Stop`) into `.codex/` or `~/.codex/`. `memory setup --eject --target codex`
   removes the installed Codex surface while preserving unrelated hooks.
-- Nanobot integration: `mnemon setup --target nanobot` deploys a skill file to
-  `.nanobot/skills/mnemon/SKILL.md` (local) or `~/.nanobot/workspace/skills/mnemon/SKILL.md`
-  (global, recommended). `mnemon setup --eject` removes it. Detection is automatic
+- Nanobot integration: `memory setup --target nanobot` deploys a skill file to
+  `.nanobot/skills/memory/SKILL.md` (local) or `~/.nanobot/workspace/skills/memory/SKILL.md`
+  (global, recommended). `memory setup --eject` removes it. Detection is automatic
   when the `nanobot` binary or `~/.nanobot/workspace/` directory is present.
 
 ### Note
@@ -308,13 +308,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.1.3] - 2026-05-03
 
 ### Added
-- `MNEMON_EMBED_DIMENSIONS` env var for Matryoshka dimension truncation (e.g., 256-dim instead of 768)
+- `MEMORY_EMBED_DIMENSIONS` env var for Matryoshka dimension truncation (e.g., 256-dim instead of 768)
 
 ## [0.1.1] - 2026-02-22
 
 ### Added
 - OpenClaw full integration: internal hook (`agent:bootstrap`) + plugin (`before_prompt_build`)
-- `mnemon setup --target openclaw` now auto-deploys skill, hook, plugin, and config
+- `memory setup --target openclaw` now auto-deploys skill, hook, plugin, and config
 - Optional hook selection for OpenClaw (remind, nudge, compact) matching Claude Code parity
 - Plugin version patching from binary ldflags
 - LLM-supervised tagline in README
@@ -333,28 +333,28 @@ Initial public release.
 - Intent-aware smart recall with beam search graph traversal
 - Built-in deduplication and conflict resolution
 - Retention lifecycle: importance decay, access-count boosting, garbage collection
-- Named memory stores for data isolation (`mnemon store list|create|set|remove`)
-- `MNEMON_STORE` environment variable and `--store` CLI flag for store selection
-- Automatic migration of legacy `~/.mnemon/mnemon.db` to `~/.mnemon/data/default/`
+- Named memory stores for data isolation (`memory store list|create|set|remove`)
+- `MEMORY_STORE` environment variable and `--store` CLI flag for store selection
+- Automatic migration of legacy `~/.memory/memory.db` to `~/.memory/data/default/`
 - Optional embedding support via Ollama (`nomic-embed-text`)
-- Knowledge graph visualization (`mnemon viz`)
+- Knowledge graph visualization (`memory viz`)
 - Claude Code integration via hooks (prime, remind, nudge, compact)
 - OpenClaw integration via skill deployment
-- `mnemon setup` interactive installer with `--eject` support
+- `memory setup` interactive installer with `--eject` support
 - Release pipeline: GoReleaser, GitHub Actions, Homebrew tap
 - Comprehensive documentation with Chinese translations
 
-[Unreleased]: https://github.com/mnemon-dev/mnemon/compare/v0.1.15...HEAD
-[0.1.15]: https://github.com/mnemon-dev/mnemon/compare/v0.1.14...v0.1.15
-[0.1.14]: https://github.com/mnemon-dev/mnemon/compare/v0.1.13...v0.1.14
-[0.1.11]: https://github.com/mnemon-dev/mnemon/compare/v0.1.10...v0.1.11
-[0.1.10]: https://github.com/mnemon-dev/mnemon/compare/v0.1.9...v0.1.10
-[0.1.9]: https://github.com/mnemon-dev/mnemon/compare/v0.1.8...v0.1.9
-[0.1.8]: https://github.com/mnemon-dev/mnemon/compare/v0.1.7...v0.1.8
-[0.1.7]: https://github.com/mnemon-dev/mnemon/compare/v0.1.6...v0.1.7
-[0.1.6]: https://github.com/mnemon-dev/mnemon/compare/v0.1.5...v0.1.6
-[0.1.5]: https://github.com/mnemon-dev/mnemon/compare/v0.1.4...v0.1.5
-[0.1.4]: https://github.com/mnemon-dev/mnemon/compare/v0.1.3...v0.1.4
-[0.1.3]: https://github.com/mnemon-dev/mnemon/compare/v0.1.2...v0.1.3
-[0.1.1]: https://github.com/mnemon-dev/mnemon/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/mnemon-dev/mnemon/releases/tag/v0.1.0
+[Unreleased]: https://github.com/JayWanX/memory/compare/v0.1.15...HEAD
+[0.1.15]: https://github.com/JayWanX/memory/compare/v0.1.14...v0.1.15
+[0.1.14]: https://github.com/JayWanX/memory/compare/v0.1.13...v0.1.14
+[0.1.11]: https://github.com/JayWanX/memory/compare/v0.1.10...v0.1.11
+[0.1.10]: https://github.com/JayWanX/memory/compare/v0.1.9...v0.1.10
+[0.1.9]: https://github.com/JayWanX/memory/compare/v0.1.8...v0.1.9
+[0.1.8]: https://github.com/JayWanX/memory/compare/v0.1.7...v0.1.8
+[0.1.7]: https://github.com/JayWanX/memory/compare/v0.1.6...v0.1.7
+[0.1.6]: https://github.com/JayWanX/memory/compare/v0.1.5...v0.1.6
+[0.1.5]: https://github.com/JayWanX/memory/compare/v0.1.4...v0.1.5
+[0.1.4]: https://github.com/JayWanX/memory/compare/v0.1.3...v0.1.4
+[0.1.3]: https://github.com/JayWanX/memory/compare/v0.1.2...v0.1.3
+[0.1.1]: https://github.com/JayWanX/memory/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/JayWanX/memory/releases/tag/v0.1.0

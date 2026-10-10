@@ -13,7 +13,7 @@ type Environment struct {
 	Display   string // "Claude Code", "Codex", "Cursor", "ZCode", "MiniMax Code", "Trae", "Qoder", "QoderWork", "CodeBuddy", "WorkBuddy", "Kimi Code", "OpenCode", "OpenClaw", "Nanobot", "Pi", "Hermes Agent"
 	Detected  bool   // CLI binary or global config dir found
 	BinPath   string // exec.LookPath result
-	Installed bool   // mnemon integration present at ConfigDir
+	Installed bool   // memory integration present at ConfigDir
 	Version   string // CLI version string
 	ConfigDir string // target config dir (local or global)
 }
@@ -72,11 +72,11 @@ func detectZCode(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	hooksPath := filepath.Join(configDir, "cli", "config.json")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(hooksPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(hooksPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -114,8 +114,8 @@ func detectClaude(global bool) Environment {
 		env.Detected = true
 	}
 
-	// Check if mnemon integration is already installed at the target location
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	// Check if memory integration is already installed at the target location
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -155,7 +155,7 @@ func detectCodex(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -193,7 +193,7 @@ func detectCursor(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -240,7 +240,7 @@ func detectMiniMaxCode(global bool) Environment {
 		}
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -272,11 +272,11 @@ func detectTrae(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	hooksPath := filepath.Join(configDir, "hooks.json")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(hooksPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(hooksPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -313,11 +313,11 @@ func detectQoder(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	settingsPath := filepath.Join(configDir, "settings.json")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -348,11 +348,11 @@ func detectQoderWork() Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	settingsPath := filepath.Join(configDir, "settings.json")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -389,11 +389,11 @@ func detectCodeBuddy(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	settingsPath := filepath.Join(configDir, "settings.json")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -430,11 +430,11 @@ func detectWorkBuddy(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	settingsPath := filepath.Join(configDir, "settings.json")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(settingsPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -468,11 +468,11 @@ func detectKimi() Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	configPath := filepath.Join(configDir, "config.toml")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
-	} else if data, err := os.ReadFile(configPath); err == nil && strings.Contains(string(data), "mnemon") {
+	} else if data, err := os.ReadFile(configPath); err == nil && strings.Contains(string(data), "memory") {
 		env.Installed = true
 	}
 
@@ -512,14 +512,14 @@ func detectOpenCode(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
-	pluginPath := filepath.Join(configDir, "plugins", "mnemon.js")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
+	pluginPath := filepath.Join(configDir, "plugins", "memory.js")
 	configPath := OpenCodeConfigPath(configDir)
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	} else if _, err := os.Stat(pluginPath); err == nil {
 		env.Installed = true
-	} else if data, err := ReadJSONFile(configPath); err == nil && containsMnemon(data) {
+	} else if data, err := ReadJSONFile(configPath); err == nil && containsMemory(data) {
 		env.Installed = true
 	}
 
@@ -557,8 +557,8 @@ func detectOpenClaw(global bool) Environment {
 		env.Detected = true
 	}
 
-	// Check if mnemon integration is already installed at the target location
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	// Check if memory integration is already installed at the target location
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -606,8 +606,8 @@ func detectNanobot(global bool) Environment {
 		env.Detected = true
 	}
 
-	// Check if mnemon integration is already installed at the target location
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	// Check if memory integration is already installed at the target location
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -646,7 +646,7 @@ func detectPi(global bool) Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}
@@ -678,7 +678,7 @@ func detectHermes() Environment {
 		env.Detected = true
 	}
 
-	skillPath := filepath.Join(configDir, "skills", "mnemon", "SKILL.md")
+	skillPath := filepath.Join(configDir, "skills", "memory", "SKILL.md")
 	if _, err := os.Stat(skillPath); err == nil {
 		env.Installed = true
 	}

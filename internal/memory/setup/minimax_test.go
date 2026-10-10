@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 func TestMiniMaxCodeWriteSkill(t *testing.T) {
@@ -16,7 +16,7 @@ func TestMiniMaxCodeWriteSkill(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write skill: %v", err)
 	}
-	wantPath := filepath.Join(dir, "skills", "mnemon", "SKILL.md")
+	wantPath := filepath.Join(dir, "skills", "memory", "SKILL.md")
 	if skillPath != wantPath {
 		t.Fatalf("skill path = %q, want %q", skillPath, wantPath)
 	}
@@ -45,8 +45,8 @@ func TestMiniMaxCodeEjectPreservesOtherSkills(t *testing.T) {
 	if errs := MiniMaxCodeEject(dir); len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkill); err != nil {
 		t.Fatalf("custom skill should be preserved: %v", err)

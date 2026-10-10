@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 func TestActiveReadPlansAvoidFullSort(t *testing.T) {

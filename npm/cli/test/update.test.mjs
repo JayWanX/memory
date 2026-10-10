@@ -36,9 +36,9 @@ test("update replaces the package through its owning npm prefix", async (t) => {
     "--prefix",
     fixture.prefix,
     "--include=optional",
-    "@mnemon-dev/mnemon@latest",
+    "@jaywanx/memory-cli@latest",
   ]);
-  assert.deepEqual(output, ["Updated Mnemon 0.2.8 -> 0.2.9.\n"]);
+  assert.deepEqual(output, ["Updated Memory 0.2.8 -> 0.2.9.\n"]);
 });
 
 test("update reports an already-current installation", async (t) => {
@@ -49,18 +49,18 @@ test("update reports an already-current installation", async (t) => {
     runner: fixture.runner,
     stdout: { write: (value) => output.push(value) },
   });
-  assert.deepEqual(output, ["Mnemon is already up to date (0.2.8).\n"]);
+  assert.deepEqual(output, ["Memory is already up to date (0.2.8).\n"]);
 });
 
 test("update rejects npm from a different global installation", async (t) => {
   const fixture = await npmFixture(t, "0.2.8");
   const otherRoot = path.join(fixture.base, "other", "lib", "node_modules");
-  await mkdir(path.join(otherRoot, "@mnemon-dev", "mnemon"), { recursive: true });
+  await mkdir(path.join(otherRoot, "@jaywanx", "memory-cli"), { recursive: true });
   fixture.runner.globalRoot = otherRoot;
 
   await assert.rejects(
     updateNpmInstall({ packageRoot: fixture.packageRoot, runner: fixture.runner }),
-    /not managed by npm.*npm install --global @mnemon-dev\/mnemon@latest/,
+    /not managed by npm.*npm install --global @jaywanx\/memory-cli@latest/,
   );
   assert.equal(fixture.runner.runArgs, undefined);
 });
@@ -75,10 +75,10 @@ test("launcher invokes npm without keeping the native binary open", async (t) =>
     'const {readFileSync,writeFileSync}=require("node:fs");',
     'const path=require("node:path");',
     "const args=process.argv.slice(2);",
-    'if(args.join(" ")==="root --global"){console.log(process.env.MNEMON_TEST_GLOBAL);}',
-    'else if(args.join(" ")==="prefix --global"){console.log(process.env.MNEMON_TEST_PREFIX);}',
+    'if(args.join(" ")==="root --global"){console.log(process.env.MEMORY_TEST_GLOBAL);}',
+    'else if(args.join(" ")==="prefix --global"){console.log(process.env.MEMORY_TEST_PREFIX);}',
     'else if(args.includes("install")){',
-    ' const file=path.join(process.env.MNEMON_TEST_PACKAGE,"package.json");',
+    ' const file=path.join(process.env.MEMORY_TEST_PACKAGE,"package.json");',
     ' const data=JSON.parse(readFileSync(file,"utf8"));',
     ' data.version="0.2.9";',
     ' writeFileSync(file,JSON.stringify(data)+"\\n");',
@@ -107,32 +107,32 @@ test("launcher invokes npm without keeping the native binary open", async (t) =>
   const env = {
     ...process.env,
     [pathKey]: `${fakeBin}${path.delimiter}${process.env[pathKey] ?? ""}`,
-    MNEMON_TEST_GLOBAL: fixture.globalRoot,
-    MNEMON_TEST_PREFIX: fixture.prefix,
-    MNEMON_TEST_PACKAGE: fixture.packageRoot,
+    MEMORY_TEST_GLOBAL: fixture.globalRoot,
+    MEMORY_TEST_PREFIX: fixture.prefix,
+    MEMORY_TEST_PACKAGE: fixture.packageRoot,
   };
   const launched = spawnSync(
     process.execPath,
-    [path.join(fixture.packageRoot, "bin", "mnemon.js"), "update"],
+    [path.join(fixture.packageRoot, "bin", "memory.js"), "update"],
     { encoding: "utf8", env },
   );
   assert.deepEqual(
     { status: launched.status, stdout: launched.stdout, stderr: launched.stderr },
     {
       status: 0,
-      stdout: "Updated Mnemon 0.2.8 -> 0.2.9.\n",
+      stdout: "Updated Memory 0.2.8 -> 0.2.9.\n",
       stderr: "",
     },
   );
 });
 
 async function npmFixture(t, version) {
-  let base = await mkdtemp(path.join(os.tmpdir(), "mnemon-update-test-"));
+  let base = await mkdtemp(path.join(os.tmpdir(), "memory-update-test-"));
   base = await realpath(base);
   t.after(() => rm(base, { recursive: true, force: true }));
   const prefix = path.join(base, "prefix");
   const globalRoot = path.join(prefix, "lib", "node_modules");
-  const packageRoot = path.join(globalRoot, "@mnemon-dev", "mnemon");
+  const packageRoot = path.join(globalRoot, "@jaywanx", "memory-cli");
   await writePackage(packageRoot, version);
   const runner = {
     globalRoot,
@@ -161,6 +161,6 @@ async function npmFixture(t, version) {
 async function writePackage(root, version) {
   await mkdir(root, { recursive: true });
   const existing = await readFile(path.join(root, "package.json"), "utf8").catch(() => "{}");
-  const metadata = { ...JSON.parse(existing), name: "@mnemon-dev/mnemon", version };
+  const metadata = { ...JSON.parse(existing), name: "@jaywanx/memory-cli", version };
   await writeFile(path.join(root, "package.json"), `${JSON.stringify(metadata)}\n`, "utf8");
 }

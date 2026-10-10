@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/artifact"
 )
 
 // DeliveryHandler receives opaque candidate bytes only after the TLS key has

@@ -1,4 +1,4 @@
 #!/bin/bash
-# mnemon UserPromptSubmit hook
+# memory UserPromptSubmit hook
 # Lightweight prompt: remind AI to evaluate recall/remember need
-echo "[mnemon] Evaluate: recall needed? After responding, evaluate: remember needed?"
+echo "[memory] Evaluate: recall needed? After responding, evaluate: remember needed?"

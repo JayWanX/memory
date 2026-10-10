@@ -9,15 +9,15 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency/authority"
 )
 
 func TestResolveProjectStateIsPureAndPhysical(t *testing.T) {
 	root := canonicalTempDir(t)
 	resolved, state, err := ResolveProjectState(root)
-	if err != nil || resolved != root || state != filepath.Join(root, ".mnemon", "agency") {
+	if err != nil || resolved != root || state != filepath.Join(root, ".memory", "agency") {
 		t.Fatalf("ResolveProjectState = (%q, %q, %v)", resolved, state, err)
 	}
 	if entries, err := os.ReadDir(root); err != nil || len(entries) != 0 {
@@ -35,7 +35,7 @@ func TestProvisionCreatesOneReplayableNodeIdentityAndPrincipal(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantState := filepath.Join(root, ".mnemon", "agency")
+	wantState := filepath.Join(root, ".memory", "agency")
 	if first.StateDirectory() != wantState || second.StateDirectory() != wantState ||
 		first.PeerID().IsZero() || first.Principal().IsZero() || first.Replayed() ||
 		!second.Replayed() || first.PeerID() != second.PeerID() ||
@@ -320,16 +320,16 @@ func TestProvisionRejectsSymlinkAndUnsafeDirectoryWithoutRepair(t *testing.T) {
 	if _, err := Provision(context.Background(), rootLink); !errors.Is(err, ErrProvision) {
 		t.Fatalf("symlink root Provision = %v", err)
 	}
-	if _, err := os.Lstat(filepath.Join(realRoot, ".mnemon")); !errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Lstat(filepath.Join(realRoot, ".memory")); !errors.Is(err, os.ErrNotExist) {
 		t.Fatalf("rejected symlink root was mutated: %v", err)
 	}
 
 	unsafeRoot := canonicalTempDir(t)
-	node := filepath.Join(unsafeRoot, ".mnemon", "agency")
+	node := filepath.Join(unsafeRoot, ".memory", "agency")
 	if err := os.MkdirAll(node, 0o755); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.Chmod(filepath.Join(unsafeRoot, ".mnemon"), 0o700); err != nil {
+	if err := os.Chmod(filepath.Join(unsafeRoot, ".memory"), 0o700); err != nil {
 		t.Fatal(err)
 	}
 	if err := os.Chmod(node, 0o755); err != nil {

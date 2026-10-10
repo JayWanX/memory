@@ -84,7 +84,7 @@
         <mxCell id="p3_title" value="&lt;b&gt;LLM-Supervised&lt;/b&gt; ★" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=15;fontColor=#1B5E20;" vertex="1" parent="1">
           <mxGeometry x="900" y="74" width="460" height="24" as="geometry"/>
         </mxCell>
-        <mxCell id="p3_rep" value="Mnemon" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=11;fontColor=#2E7D32;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="p3_rep" value="Memory" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=11;fontColor=#2E7D32;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="900" y="96" width="460" height="18" as="geometry"/>
         </mxCell>
         <mxCell id="p3_brain" value="&lt;b&gt;Host LLM (Brain)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Full context · Opus-level judgment&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;fontSize=10;" vertex="1" parent="1">
@@ -107,7 +107,7 @@
         <mxCell id="sep" value="" style="line;strokeWidth=1;strokeColor=#CCCCCC;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="60" y="348" width="1300" height="10" as="geometry"/>
         </mxCell>
-        <mxCell id="sep_label" value="&lt;b&gt;How Mnemon Implements the LLM-Supervised Pattern&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
+        <mxCell id="sep_label" value="&lt;b&gt;How Memory Implements the LLM-Supervised Pattern&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;strokeColor=none;fillColor=none;fontSize=13;fontColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="350" y="360" width="700" height="24" as="geometry"/>
         </mxCell>
 
@@ -231,7 +231,7 @@
         </mxCell>
 
         <!-- Recall → Search: horizontal arrow (both center y=520) -->
-        <mxCell id="e_recall_out" value="mnemon recall" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#2E7D32;strokeWidth=2;endArrow=classic;fontSize=9;fontColor=#2E7D32;exitX=1;exitY=0.3;entryX=0;entryY=0.3;" edge="1" parent="1" source="b_recall" target="o_search">
+        <mxCell id="e_recall_out" value="memory recall" style="html=1;edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#2E7D32;strokeWidth=2;endArrow=classic;fontSize=9;fontColor=#2E7D32;exitX=1;exitY=0.3;entryX=0;entryY=0.3;" edge="1" parent="1" source="b_recall" target="o_search">
           <mxGeometry relative="1" as="geometry"/>
         </mxCell>
         <!-- Search → Recall: return arrow -->

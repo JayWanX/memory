@@ -6,8 +6,8 @@
 .openclaw
 .kanna
 .supervisor
-.mnemon
-.mnemon-dev
+.memory
+.JayWanX
 .dogfood
 .insight
 .idea
@@ -17,8 +17,8 @@
 .plan
 dist
 tmp
-mnemon
-mnemond
+memory
+memoryd
 bin
 vendor
 go.work

@@ -46,7 +46,7 @@ func TestConcurrentEnsureStartsOneProvisionedDaemon(t *testing.T) {
 	var startedRuntime *Runtime
 	var startedErrors chan error
 	deps := ensureDependencies{
-		resolveExecutable: func() (string, error) { return "/test/mnemon", nil },
+		resolveExecutable: func() (string, error) { return "/test/memory", nil },
 		start: func(_ string, gotState string) (ensureChild, error) {
 			starts.Add(1)
 			runtime, err := OpenProvisioned(context.Background(), gotState)
@@ -103,7 +103,7 @@ func TestEnsureKillsItsChildWhenReadinessContextEnds(t *testing.T) {
 		cancel()
 	}()
 	err := ensure(ctx, state, ensureDependencies{
-		resolveExecutable: func() (string, error) { return "/test/mnemon", nil },
+		resolveExecutable: func() (string, error) { return "/test/memory", nil },
 		start: func(string, string) (ensureChild, error) {
 			close(started)
 			return child, nil
@@ -122,7 +122,7 @@ func TestEnsureSettlesAChildThatExitsBeforeReadiness(t *testing.T) {
 	state := provisionEnsureState(t)
 	child := &testEnsureChild{exited: true, status: "exit 2"}
 	err := ensure(context.Background(), state, ensureDependencies{
-		resolveExecutable: func() (string, error) { return "/test/mnemon", nil },
+		resolveExecutable: func() (string, error) { return "/test/memory", nil },
 		start:             func(string, string) (ensureChild, error) { return child, nil },
 	})
 	if err == nil || child.kills.Load() != 1 || child.releases.Load() != 0 {
@@ -139,7 +139,7 @@ func TestEnsureRejectsMissingStartupLockWithoutRepair(t *testing.T) {
 	}
 	var starts atomic.Int32
 	err := ensure(context.Background(), state, ensureDependencies{
-		resolveExecutable: func() (string, error) { return "/test/mnemon", nil },
+		resolveExecutable: func() (string, error) { return "/test/memory", nil },
 		start: func(string, string) (ensureChild, error) {
 			starts.Add(1)
 			return &testEnsureChild{}, nil
@@ -178,7 +178,7 @@ func TestEnsureRejectsMalformedActiveStatusWithoutStarting(t *testing.T) {
 
 	var starts atomic.Int32
 	err = ensure(context.Background(), state, ensureDependencies{
-		resolveExecutable: func() (string, error) { return "/test/mnemon", nil },
+		resolveExecutable: func() (string, error) { return "/test/memory", nil },
 		start: func(string, string) (ensureChild, error) {
 			starts.Add(1)
 			return &testEnsureChild{}, nil
@@ -192,21 +192,21 @@ func TestEnsureRejectsMalformedActiveStatusWithoutStarting(t *testing.T) {
 	}
 }
 
-func TestStartMnemonAgencyReachesTheRealReadyEndpoint(t *testing.T) {
+func TestStartMemoryAgencyReachesTheRealReadyEndpoint(t *testing.T) {
 	state := provisionEnsureState(t)
 	buildDirectory := canonicalTempDir(t)
-	executable := filepath.Join(buildDirectory, "mnemon")
+	executable := filepath.Join(buildDirectory, "memory")
 	build := exec.Command("go", "build", "-o", executable, "../..")
 	if output, err := build.CombinedOutput(); err != nil {
-		t.Fatalf("build real mnemon: %v\n%s", err, output)
+		t.Fatalf("build real memory: %v\n%s", err, output)
 	}
-	child, err := startMnemonAgency(executable, state)
+	child, err := startMemoryAgency(executable, state)
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer func() {
 		if err := child.KillAndWait(); err != nil {
-			t.Errorf("settle real mnemon agency: %v", err)
+			t.Errorf("settle real memory agency: %v", err)
 		}
 	}()
 	deadline := time.Now().Add(5 * time.Second)
@@ -217,12 +217,12 @@ func TestStartMnemonAgencyReachesTheRealReadyEndpoint(t *testing.T) {
 		}
 		exited, status, childErr := child.Exited()
 		if childErr != nil || exited {
-			t.Fatalf("real mnemon agency stopped before readiness: status=%q error=%v probe=%v",
+			t.Fatalf("real memory agency stopped before readiness: status=%q error=%v probe=%v",
 				status, childErr, probeErr)
 		}
 		time.Sleep(10 * time.Millisecond)
 	}
-	t.Fatal("real mnemon agency did not become ready")
+	t.Fatal("real memory agency did not become ready")
 }
 
 func TestExecutableAcceptsOnlyCurrentOrRootOwner(t *testing.T) {
@@ -247,27 +247,27 @@ func TestExecutableAcceptsOnlyCurrentOrRootOwner(t *testing.T) {
 	}
 }
 
-func TestPhysicalMnemonExecutableResolvesOnlyAProtectedCurrentBinary(t *testing.T) {
+func TestPhysicalMemoryExecutableResolvesOnlyAProtectedCurrentBinary(t *testing.T) {
 	t.Parallel()
 	directory := canonicalTempDir(t)
-	executable := filepath.Join(directory, "mnemon-physical")
+	executable := filepath.Join(directory, "memory-physical")
 	if err := os.WriteFile(executable, []byte("binary"), 0o755); err != nil {
 		t.Fatal(err)
 	}
-	link := filepath.Join(directory, "mnemon")
+	link := filepath.Join(directory, "memory")
 	if err := os.Symlink(executable, link); err != nil {
 		t.Fatal(err)
 	}
-	resolved, err := physicalMnemonExecutable(link)
+	resolved, err := physicalMemoryExecutable(link)
 	if err != nil || resolved != executable {
-		t.Fatalf("physicalMnemonExecutable(symlink) = (%q, %v), want %q", resolved, err,
+		t.Fatalf("physicalMemoryExecutable(symlink) = (%q, %v), want %q", resolved, err,
 			executable)
 	}
 	if err := os.Chmod(executable, 0o775); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := physicalMnemonExecutable(link); err == nil {
-		t.Fatal("physicalMnemonExecutable accepted a group-writable binary")
+	if _, err := physicalMemoryExecutable(link); err == nil {
+		t.Fatal("physicalMemoryExecutable accepted a group-writable binary")
 	}
 }
 

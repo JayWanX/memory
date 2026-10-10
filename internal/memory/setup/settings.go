@@ -106,20 +106,20 @@ func WriteJSONFile(path string, data map[string]interface{}) error {
 	return os.Rename(tmp, path)
 }
 
-// containsMnemon recursively checks if any string value contains "mnemon".
-func containsMnemon(v interface{}) bool {
+// containsMemory recursively checks if any string value contains "memory".
+func containsMemory(v interface{}) bool {
 	switch val := v.(type) {
 	case string:
-		return strings.Contains(val, "mnemon")
+		return strings.Contains(val, "memory")
 	case map[string]interface{}:
 		for _, v := range val {
-			if containsMnemon(v) {
+			if containsMemory(v) {
 				return true
 			}
 		}
 	case []interface{}:
 		for _, v := range val {
-			if containsMnemon(v) {
+			if containsMemory(v) {
 				return true
 			}
 		}
@@ -137,18 +137,18 @@ func ensureHooksMap(data map[string]interface{}) map[string]interface{} {
 	return hooks
 }
 
-// filterHookArray removes entries that reference mnemon from a hook event array.
+// filterHookArray removes entries that reference memory from a hook event array.
 func filterHookArray(arr []interface{}) []interface{} {
 	filtered := make([]interface{}, 0)
 	for _, entry := range arr {
-		if !containsMnemon(entry) {
+		if !containsMemory(entry) {
 			filtered = append(filtered, entry)
 		}
 	}
 	return filtered
 }
 
-// RemoveClaudeHooks removes all mnemon-related entries from Claude Code hooks.
+// RemoveClaudeHooks removes all memory-related entries from Claude Code hooks.
 // Cleans up empty hook arrays and the hooks map itself when nothing remains.
 func RemoveClaudeHooks(data map[string]interface{}) {
 	hooks, ok := data["hooks"].(map[string]interface{})
@@ -195,7 +195,7 @@ func removeIfEmpty(dir string) {
 	}
 }
 
-// addClaudeHooksSelective idempotently sets mnemon hooks in Claude Code settings.
+// addClaudeHooksSelective idempotently sets memory hooks in Claude Code settings.
 // Prime (SessionStart) is always registered; Remind and Nudge are conditional.
 func addClaudeHooksSelective(data map[string]interface{}, hooksDir string, sel HookSelection) {
 	RemoveClaudeHooks(data)

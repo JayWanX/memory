@@ -65,7 +65,7 @@ jobs:
           name: npm-release-binaries
           path: |
             dist/artifacts.json
-            dist/mnemon_*/*
+            dist/memory_*/*
           if-no-files-found: error
           retention-days: 1
 

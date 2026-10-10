@@ -2,7 +2,7 @@ package graph
 
 import (
 	"fmt"
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/embed"
 	"math/rand"
 	"reflect"
 	"sort"

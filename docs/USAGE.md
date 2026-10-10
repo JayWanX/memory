@@ -1,4 +1,4 @@
-# Mnemon Memory — Usage & Reference
+# Memory Memory — Usage & Reference
 
 > You don't run Memory commands yourself — the agent does, driven by hooks and guided by the skill file. This document covers the root Memory CLI for understanding what the agent can do, debugging, and advanced manual operation. For durable Agent work and peer collaboration, see the [Agency Preview guide](AGENCY.md).
 
@@ -10,9 +10,9 @@ These root flags configure Memory commands:
 
 | Flag | Default | Description |
 |---|---|---|
-| `--store <name>` | (auto) | Named memory store (overrides `MNEMON_STORE` and active file) |
-| `--data-dir <path>` | `~/.mnemon` | Base data directory |
-| `--embed-model <name>` | `nomic-embed-text` | Embedding model (overrides `MNEMON_EMBED_MODEL`) |
+| `--store <name>` | (auto) | Named memory store (overrides `MEMORY_STORE` and active file) |
+| `--data-dir <path>` | `~/.memory` | Base data directory |
+| `--embed-model <name>` | `nomic-embed-text` | Embedding model (overrides `MEMORY_EMBED_MODEL`) |
 | `--readonly` | `false` | Open an immutable Memory database snapshot; reject write commands and create no WAL files |
 | `--version` | | Print version and exit |
 
@@ -21,7 +21,7 @@ It rejects commands that mutate Memory data and suppresses incidental recall
 counters/oplog writes. Do not use it to follow a database another process is
 actively changing; immutable snapshots deliberately ignore concurrent WAL
 updates. Pass a filesystem path to `--data-dir`, including Windows drive-letter
-paths or paths relative to the current directory. Mnemon resolves and encodes
+paths or paths relative to the current directory. Memory resolves and encodes
 the read-only SQLite file URI internally; do not prepend `file:` yourself.
 
 ---
@@ -32,64 +32,64 @@ The canonical npm installation can update itself to the package tagged
 `latest`:
 
 ```bash
-mnemon update
+memory update
 ```
 
 The npm launcher proves that the active package belongs to the same global npm
-prefix before invoking npm. It fails closed when `mnemon` came from Homebrew,
+prefix before invoking npm. It fails closed when `memory` came from Homebrew,
 `go install`, a source build, another Node package manager, or a different npm
 prefix, preventing a second installation from being created silently. Migrate
-once with `npm install --global @mnemon-dev/mnemon@latest`, then make sure that
-npm's global bin directory is the first `mnemon` on `PATH`.
+once with `npm install --global @jaywanx/memory-cli@latest`, then make sure that
+npm's global bin directory is the first `memory` on `PATH`.
 
 Updating replaces only the CLI package. It does not modify Memory data or
 silently rewrite installed host integrations. Review release notes and rerun
-`mnemon setup` when an integration release explicitly requires a refresh.
+`memory setup` when an integration release explicitly requires a refresh.
 
 ---
 
 ## Memory Setup
 
-Deploy mnemon into LLM CLI environments. This is the first command to run after installation.
+Deploy memory into LLM CLI environments. This is the first command to run after installation.
 
 ```bash
 # Interactive: detect environments and install (project-local)
-mnemon setup
+memory setup
 
 # User-wide install (all projects)
-mnemon setup --global
+memory setup --global
 
 # Non-interactive: specific target only
-mnemon setup --target claude-code
-mnemon setup --target codex
-mnemon setup --target cursor
-mnemon setup --target zcode --global
-mnemon setup --target minimax-code
-mnemon setup --target trae
-mnemon setup --target qoder
-mnemon setup --target qoderwork
-mnemon setup --target codebuddy
-mnemon setup --target workbuddy
-mnemon setup --target kimi
-mnemon setup --target opencode
-mnemon setup --target openclaw
-mnemon setup --target pi
-mnemon setup --target nanobot --global
-mnemon setup --target hermes
+memory setup --target claude-code
+memory setup --target codex
+memory setup --target cursor
+memory setup --target zcode --global
+memory setup --target minimax-code
+memory setup --target trae
+memory setup --target qoder
+memory setup --target qoderwork
+memory setup --target codebuddy
+memory setup --target workbuddy
+memory setup --target kimi
+memory setup --target opencode
+memory setup --target openclaw
+memory setup --target pi
+memory setup --target nanobot --global
+memory setup --target hermes
 
 # Auto-confirm all prompts (CI-friendly)
-mnemon setup --yes
+memory setup --yes
 
-# Remove mnemon integrations
-mnemon setup --eject
-mnemon setup --eject --target claude-code
+# Remove memory integrations
+memory setup --eject
+memory setup --eject --target claude-code
 ```
 
 | Flag | Default | Description |
 |---|---|---|
 | `--global` | `false` | Install to user-wide config instead of project-local (required for ZCode lifecycle hooks; MiniMax Code installs to `~/.minimax/`; recommended for Nanobot: installs to `~/.nanobot/workspace/`; Pi installs to `~/.pi/agent/`; Hermes installs to `~/.hermes/`; QoderWork installs to `~/.qoderwork/`; Kimi Code installs to `~/.kimi-code/` or `$KIMI_CODE_HOME/`; OpenCode installs to `~/.config/opencode/`) |
 | `--target <name>` | (auto-detect) | Target environment: `claude-code`, `codex`, `cursor`, `zcode`, `minimax-code`, `trae`, `qoder`, `qoderwork`, `codebuddy`, `workbuddy`, `kimi`, `opencode`, `openclaw`, `nanobot`, `pi`, or `hermes` |
-| `--eject` | `false` | Remove mnemon integrations |
+| `--eject` | `false` | Remove memory integrations |
 | `--yes` | `false` | Auto-confirm all prompts |
 
 ### OpenCode
@@ -98,13 +98,13 @@ The installed plugin supports OpenCode v2 (verified with 2.0.18) and v1.18.29
 or newer. Earlier v1 releases may require function exports instead of its shared
 `server`/`setup` entrypoint; upgrade OpenCode before refreshing the integration.
 
-After updating Mnemon, run `mnemon setup --target opencode --yes` again in the
+After updating Memory, run `memory setup --target opencode --yes` again in the
 project, or add `--global` if the original installation was user-wide. Restart
-OpenCode afterward. Updating the Mnemon binary alone does not replace an
-already installed `.opencode/plugins/mnemon.js` (or
-`~/.config/opencode/plugins/mnemon.js`).
+OpenCode afterward. Updating the Memory binary alone does not replace an
+already installed `.opencode/plugins/memory.js` (or
+`~/.config/opencode/plugins/memory.js`).
 
-Keep `mnemon` on OpenCode's `PATH`. The plugin runs the CLI through Node's
+Keep `memory` on OpenCode's `PATH`. The plugin runs the CLI through Node's
 child-process API, which both OpenCode runtimes provide; a separate Bun
 installation is unnecessary. Native executables and standard npm installations
 are supported on Unix and Windows. npm installations resolve directly to their
@@ -114,7 +114,7 @@ Recall is added to the latest user message before each model request. Tool
 continuations reuse that turn's recall without duplicating it; a new user turn
 refreshes it. The cache is isolated by session, retains at most 128 sessions,
 and is cleared on plugin unload. Compaction receives the durable-memory
-guidance, and shell commands receive `MNEMON_OPENCODE=1`. Missing or failed CLI
+guidance, and shell commands receive `MEMORY_OPENCODE=1`. Missing or failed CLI
 calls leave the conversation usable; each call has a five-second timeout.
 
 ---
@@ -125,42 +125,42 @@ calls leave the conversation usable; each call has a five-second timeout.
 
 ```bash
 # Remember — store a new insight (exact repeats skipped; distinct content preserved)
-mnemon remember "Chose Qdrant over Milvus for vector search" \
+memory remember "Chose Qdrant over Milvus for vector search" \
   --cat decision --imp 5 --entities "Qdrant,Milvus" --tags "architecture,search" --source agent
 
 # Skip duplicate/conflict detection
-mnemon remember "Raw note" --no-diff
+memory remember "Raw note" --no-diff
 
 # Recall — intent-aware graph-enhanced retrieval (default: compact output)
-mnemon recall "vector database" --limit 10
+memory recall "vector database" --limit 10
 
 # Discovery-only recall — short excerpts, then fetch one full result by ID
-mnemon recall "vector database" --brief --excerpt-chars 160
-mnemon show <id>
+memory recall "vector database" --brief --excerpt-chars 160
+memory show <id>
 
 # Recall with full verbose output (signals, meta, timestamps)
-mnemon recall "vector database" --verbose
+memory recall "vector database" --verbose
 
 # Recall with explicit intent override
-mnemon recall "why did we choose Qdrant" --intent WHY
+memory recall "why did we choose Qdrant" --intent WHY
 
 # Recall with category/source filter
-mnemon recall "auth" --cat decision --source agent
+memory recall "auth" --cat decision --source agent
 
 # Simple SQL LIKE matching (faster, no graph traversal)
-mnemon recall "auth" --basic
+memory recall "auth" --basic
 
 # Search — token-scored keyword search
-mnemon search "authentication" --limit 10
-mnemon search "authentication" --brief --excerpt-chars 160
+memory search "authentication" --limit 10
+memory search "authentication" --brief --excerpt-chars 160
 
 # Import — bulk-import a memory draft file (see docs/IMPORT.md for schema and LLM prompt)
-mnemon import memory_draft.json
-mnemon import --dry-run memory_draft.json   # validate without writing
-mnemon import --no-diff memory_draft.json   # skip deduplication
+memory import memory_draft.json
+memory import --dry-run memory_draft.json   # validate without writing
+memory import --no-diff memory_draft.json   # skip deduplication
 
 # Forget — soft-delete an insight
-mnemon forget <id>
+memory forget <id>
 ```
 
 `remember` and `import` skip only byte-identical content already present in an
@@ -171,8 +171,8 @@ see whether the write was `added` or `skipped`. On an exact repeat, the legacy
 `replaced_id` field identifies the existing memory, which remains unchanged.
 `--no-diff` also inserts exact repeats.
 
-To retire a superseded memory, store the new fact, verify it with `mnemon show
-<new-id>`, then explicitly run `mnemon forget <old-id>`. Similarity alone never
+To retire a superseded memory, store the new fact, verify it with `memory show
+<new-id>`, then explicitly run `memory forget <old-id>`. Similarity alone never
 authorizes replacement. Capacity-based auto-pruning still applies separately.
 
 **Remember flags:**
@@ -196,7 +196,7 @@ authorizes replacement. Capacity-based auto-pruning still applies separately.
 | `--cat` | | Filter by category |
 | `--source` | | Filter by source |
 | `--basic` | `false` | Use simple SQL LIKE matching instead of smart recall |
-| `--brief` | `false` | Emit compact JSON with short excerpts for discovery; fetch selected full content with `mnemon show <id>` |
+| `--brief` | `false` | Emit compact JSON with short excerpts for discovery; fetch selected full content with `memory show <id>` |
 | `--excerpt-chars` | `240` | Maximum Unicode characters per `--brief` excerpt |
 | `--verbose` | `false` | Output full recall response (signals, meta, timestamps) |
 
@@ -258,10 +258,10 @@ The supervising agent can choose an intent from the user's meaning and retain
 the original-language query and memories:
 
 ```bash
-mnemon recall '¿Por qué elegimos PostgreSQL?' --intent WHY --verbose
-mnemon recall 'हमने PostgreSQL कब चुना?' --intent WHEN --verbose
-mnemon recall 'Was ist PostgreSQL?' --intent ENTITY --verbose
-mnemon recall 'PostgreSQL index tuning' --intent GENERAL --verbose
+memory recall '¿Por qué elegimos PostgreSQL?' --intent WHY --verbose
+memory recall 'हमने PostgreSQL कब चुना?' --intent WHEN --verbose
+memory recall 'Was ist PostgreSQL?' --intent ENTITY --verbose
+memory recall 'PostgreSQL index tuning' --intent GENERAL --verbose
 ```
 
 The override is language-independent: WHY selects reasons, WHEN timing, ENTITY
@@ -274,66 +274,66 @@ selection entirely.
 
 ```bash
 # Link — create a typed edge
-mnemon link <source_id> <target_id> --type semantic --weight 0.85
-mnemon link <source_id> <target_id> --type causal --weight 0.8 \
+memory link <source_id> <target_id> --type semantic --weight 0.85
+memory link <source_id> <target_id> --type causal --weight 0.8 \
   --meta '{"sub_type":"causes","reason":"..."}'
-mnemon link <new_id> <old_id> --type supersedes --weight 1.0
+memory link <new_id> <old_id> --type supersedes --weight 1.0
 
 # Related — BFS traversal from an insight
-mnemon related <id> --edge causal --depth 2
+memory related <id> --edge causal --depth 2
 ```
 
 ### Lifecycle Management
 
 ```bash
 # GC — view low-retention candidates
-mnemon gc --threshold 0.5 --limit 20
+memory gc --threshold 0.5 --limit 20
 
 # GC keep — boost an insight's retention
-mnemon gc --keep <id>
+memory gc --keep <id>
 
 # GC compact — rewrite the store with VACUUM to keep cold recalls fast
-mnemon gc --compact
+memory gc --compact
 ```
 
 ### Store Management
 
-Mnemon supports named stores for data isolation. Each store has its own independent database.
+Memory supports named stores for data isolation. Each store has its own independent database.
 
 ```bash
 # List all stores (* marks the active one)
-mnemon store list
+memory store list
 
 # Create a new store
-mnemon store create work
+memory store create work
 
 # Switch the default active store
-mnemon store set work
+memory store set work
 
 # Remove a store (cannot remove the active store)
-mnemon store remove old-project
+memory store remove old-project
 ```
 
 **Store resolution priority** (highest to lowest):
 
 1. `--store <name>` CLI flag
-2. `MNEMON_STORE` environment variable
-3. `~/.mnemon/active` file
+2. `MEMORY_STORE` environment variable
+3. `~/.memory/active` file
 4. Falls back to `"default"`
 
-Different agents or processes can use different stores via the `MNEMON_STORE` environment variable — no global state contention. Legacy databases (`~/.mnemon/mnemon.db`) are automatically migrated to `~/.mnemon/data/default/` on first run.
+Different agents or processes can use different stores via the `MEMORY_STORE` environment variable — no global state contention. Legacy databases (`~/.memory/memory.db`) are automatically migrated to `~/.memory/data/default/` on first run.
 
 ### Observability
 
 ```bash
-mnemon status              # memory statistics
-mnemon log                 # operation log (default: last 20)
-mnemon log --limit 50      # show more entries
-mnemon receipt             # JSON receipt with hashed recent operations
-mnemon receipt --limit 50  # include more operations in the receipt
+memory status              # memory statistics
+memory log                 # operation log (default: last 20)
+memory log --limit 50      # show more entries
+memory receipt             # JSON receipt with hashed recent operations
+memory receipt --limit 50  # include more operations in the receipt
 ```
 
-`mnemon receipt` is a privacy-reduced audit export for sharing or archiving
+`memory receipt` is a privacy-reduced audit export for sharing or archiving
 Memory-boundary observations without publishing raw memories, recall queries,
 paths, or operation details. It emits operation names, timestamps, and SHA-256
 hashes for identifiers/details so a team can correlate observed `remember`,
@@ -344,14 +344,14 @@ Example shape:
 
 ```json
 {
-  "schema": "mnemon.memory.receipt.v1",
+  "schema": "memory.memory.receipt.v1",
   "privacy": {
     "raw_detail_included": false,
     "hash_algorithm": "sha256"
   },
   "events": [
     {
-      "event_name": "mnemon.memory.operation.observed",
+      "event_name": "memory.memory.operation.observed",
       "operation": "remember",
       "detail_present": true,
       "detail_hash": "..."
@@ -366,11 +366,11 @@ Export the knowledge graph for visual exploration:
 
 ```bash
 # DOT format — render with Graphviz (brew install graphviz)
-mnemon viz --format dot -o graph.dot
+memory viz --format dot -o graph.dot
 dot -Tpng graph.dot -o graph.png
 
 # Interactive HTML — open directly in the browser (vis.js, no install needed)
-mnemon viz --format html -o graph.html
+memory viz --format html -o graph.html
 open graph.html
 ```
 
@@ -382,16 +382,16 @@ Nodes are colored by category (decision, fact, insight, preference, context); ed
 
 | Variable | Default | Description |
 |---|---|---|
-| `MNEMON_DATA_DIR` | `~/.mnemon` | Base data directory |
-| `MNEMON_STORE` | `default` | Active named store |
-| `MNEMON_EMBED_ENDPOINT` | `http://localhost:11434` | Embedding API endpoint |
-| `MNEMON_EMBED_MODEL` | `nomic-embed-text` | Embedding model |
-| `MNEMON_EMBED_PROTOCOL` | (auto-detect) | `ollama` or `openai`; endpoints ending in `/v1` select `openai` |
-| `MNEMON_EMBED_API_KEY` | (none) | Bearer token for OpenAI-compatible servers |
-| `MNEMON_EMBED_KEEP_ALIVE` | 30m | How long Ollama keeps the embedding model loaded after each request |
-| `MNEMON_EMBED_DIMENSIONS` | (native) | Embedding dimensions; set to truncate (e.g., `256` for Matryoshka models) |
-| `MNEMON_MAX_INSIGHTS` | `1000` | Active-insight ceiling before auto-pruning starts; `0` disables auto-pruning |
-| `MNEMON_AUTO_PRUNE_MIN_AGE` | `24h` | Minimum age before automatic pruning; accepts durations such as `24h`, integer days such as `7d`, or `0` to disable the grace period |
+| `MEMORY_DATA_DIR` | `~/.memory` | Base data directory |
+| `MEMORY_STORE` | `default` | Active named store |
+| `MEMORY_EMBED_ENDPOINT` | `http://localhost:11434` | Embedding API endpoint |
+| `MEMORY_EMBED_MODEL` | `nomic-embed-text` | Embedding model |
+| `MEMORY_EMBED_PROTOCOL` | (auto-detect) | `ollama` or `openai`; endpoints ending in `/v1` select `openai` |
+| `MEMORY_EMBED_API_KEY` | (none) | Bearer token for OpenAI-compatible servers |
+| `MEMORY_EMBED_KEEP_ALIVE` | 30m | How long Ollama keeps the embedding model loaded after each request |
+| `MEMORY_EMBED_DIMENSIONS` | (native) | Embedding dimensions; set to truncate (e.g., `256` for Matryoshka models) |
+| `MEMORY_MAX_INSIGHTS` | `1000` | Active-insight ceiling before auto-pruning starts; `0` disables auto-pruning |
+| `MEMORY_AUTO_PRUNE_MIN_AGE` | `24h` | Minimum age before automatic pruning; accepts durations such as `24h`, integer days such as `7d`, or `0` to disable the grace period |
 
 Auto-prune may temporarily leave the active count above the ceiling when every
 eligible insight is still inside the grace period. Age is measured from local
@@ -403,7 +403,7 @@ commits atomically with a `prune` oplog entry, and is returned by ID in
 
 ## Embedding Support (Optional)
 
-Mnemon works fully without an embedding provider — all core features (remember, recall, link, graph traversal) function out of the box. Configuring Ollama or an OpenAI-compatible server enhances recall precision through vector similarity, but is never required.
+Memory works fully without an embedding provider — all core features (remember, recall, link, graph traversal) function out of the box. Configuring Ollama or an OpenAI-compatible server enhances recall precision through vector similarity, but is never required.
 
 ### What changes with and without embeddings
 
@@ -414,7 +414,7 @@ Mnemon works fully without an embedding provider — all core features (remember
 | **Traversal scoring** | Pure structural | Structural + semantic |
 | **Rerank weights** | Keyword 45%, Entity 25%, Graph 30% | Keyword 30%, Entity 15%, Similarity 35%, Graph 20% |
 
-When the configured provider is unavailable, the reranking system automatically redistributes similarity weight to keyword and graph signals — no configuration or degraded-mode flag is needed. Mnemon checks provider availability at runtime with a 2-second timeout.
+When the configured provider is unavailable, the reranking system automatically redistributes similarity weight to keyword and graph signals — no configuration or degraded-mode flag is needed. Memory checks provider availability at runtime with a 2-second timeout.
 
 ### Setup
 
@@ -430,18 +430,18 @@ select the server's embedding model. The API key is optional for keyless local
 servers:
 
 ```bash
-export MNEMON_EMBED_ENDPOINT=http://127.0.0.1:18000/v1
-export MNEMON_EMBED_MODEL=bge-m3-mlx-8bit
-export MNEMON_EMBED_API_KEY=sk-... # omit for keyless local servers
+export MEMORY_EMBED_ENDPOINT=http://127.0.0.1:18000/v1
+export MEMORY_EMBED_MODEL=bge-m3-mlx-8bit
+export MEMORY_EMBED_API_KEY=sk-... # omit for keyless local servers
 ```
 
-Set `MNEMON_EMBED_PROTOCOL=openai` explicitly only when the compatible endpoint
+Set `MEMORY_EMBED_PROTOCOL=openai` explicitly only when the compatible endpoint
 does not end in `/v1`.
 
 Verify with:
 
 ```bash
-mnemon embed --status
+memory embed --status
 ```
 
 ```json
@@ -461,13 +461,13 @@ new integrations should use `embedding_available` and `protocol`.
 
 ### Backfilling existing insights
 
-If you configure an embedding provider after already using mnemon, existing insights won't have embeddings. Backfill them in one command:
+If you configure an embedding provider after already using memory, existing insights won't have embeddings. Backfill them in one command:
 
 ```bash
-mnemon embed --all
+memory embed --all
 ```
 
-This generates embeddings for all un-embedded insights and automatically creates semantic edges. You can check coverage before and after with `mnemon embed --status`.
+This generates embeddings for all un-embedded insights and automatically creates semantic edges. You can check coverage before and after with `memory embed --status`.
 
 ---
 
@@ -475,7 +475,7 @@ This generates embeddings for all un-embedded insights and automatically creates
 
 ```
 ┌──────────────────┐     CLI commands      ┌──────────────────┐
-│   LLM Agent      │ ───────────────────── │     Mnemon       │
+│   LLM Agent      │ ───────────────────── │     Memory       │
 │ (Claude Code,    │  remember, recall,    │                  │
 │  Cursor, etc.)   │  link, forget, gc     │  SQLite (WAL)    │
 └──────────────────┘                       │  ┌────────────┐  │
@@ -483,7 +483,7 @@ This generates embeddings for all un-embedded insights and automatically creates
         The LLM decides WHAT               │  ├────────────┤  │
         to remember and link.              │  │ 4 Edge     │  │
                                            │  │ Types:     │  │
-        Mnemon handles HOW                 │  │ temporal   │  │
+        Memory handles HOW                 │  │ temporal   │  │
         to store, index, and               │  │ entity     │  │
         retrieve.                          │  │ causal     │  │
                                            │  │ semantic   │  │

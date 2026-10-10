@@ -1,7 +1,7 @@
 package assets
 
 // These tests execute the actual embedded Codex hook byte slices (the exact bytes
-// `mnemon setup` installs) as real subprocesses and assert only their external
+// `memory setup` installs) as real subprocesses and assert only their external
 // contract: Codex requires each hook's stdout to be exactly one
 // hookSpecificOutput JSON object. They deliberately do not inspect the scripts'
 // internal shell logic. Both tests fail against the pre-patch plain-text hooks
@@ -25,7 +25,7 @@ type hookOutput struct {
 	} `json:"hookSpecificOutput"`
 }
 
-const missingWarn = "[mnemon] Warning: mnemon not found in PATH.\n"
+const missingWarn = "[memory] Warning: memory not found in PATH.\n"
 
 // writeExecutable writes body to dir/name as an executable and returns the path.
 func writeExecutable(t *testing.T, dir, name string, body []byte) string {
@@ -77,7 +77,7 @@ func shSingleQuote(s string) string {
 
 // isolatedBin returns a bin dir containing symlinks to python3 and the coreutils
 // prime.sh invokes (sed/head/cat) and nothing else. A PATH built from it alone
-// exposes exactly the hook's real dependencies while guaranteeing `mnemon` is
+// exposes exactly the hook's real dependencies while guaranteeing `memory` is
 // absent, so the missing-binary branch is deterministic no matter what the host
 // has installed (no /usr/bin:/bin leak).
 func isolatedBin(t *testing.T) string {
@@ -95,17 +95,17 @@ func isolatedBin(t *testing.T) string {
 	return bin
 }
 
-// fakeMnemon writes a stub `mnemon` whose `status` prints statusStdout (empty =>
+// fakeMemory writes a stub `memory` whose `status` prints statusStdout (empty =>
 // prints nothing) and returns the bin dir holding it.
-func fakeMnemon(t *testing.T, statusStdout string) string {
+func fakeMemory(t *testing.T, statusStdout string) string {
 	t.Helper()
 	bin := t.TempDir()
 	body := "#!/bin/bash\n"
 	if statusStdout != "" {
 		body += "printf '%s' " + shSingleQuote(statusStdout) + "\n"
 	}
-	if err := os.WriteFile(filepath.Join(bin, "mnemon"), []byte(body), 0o755); err != nil {
-		t.Fatalf("write fake mnemon: %v", err)
+	if err := os.WriteFile(filepath.Join(bin, "memory"), []byte(body), 0o755); err != nil {
+		t.Fatalf("write fake memory: %v", err)
 	}
 	return bin
 }
@@ -113,7 +113,7 @@ func fakeMnemon(t *testing.T, statusStdout string) string {
 func newPromptHome(t *testing.T) string {
 	t.Helper()
 	home := t.TempDir()
-	if err := os.MkdirAll(filepath.Join(home, ".mnemon", "prompt"), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Join(home, ".memory", "prompt"), 0o755); err != nil {
 		t.Fatal(err)
 	}
 	return home
@@ -128,7 +128,7 @@ func writeGuide(t *testing.T, promptDir, body string) {
 
 func TestCodexUserPromptHook(t *testing.T) {
 	t.Parallel()
-	const wantContext = "[mnemon] Evaluate: recall needed? After responding, evaluate: remember needed?"
+	const wantContext = "[memory] Evaluate: recall needed? After responding, evaluate: remember needed?"
 	script := writeExecutable(t, t.TempDir(), "user_prompt.sh", CodexUserPromptHook)
 
 	// Codex may deliver an empty body or a JSON prompt payload; the hook must
@@ -164,11 +164,11 @@ func TestCodexPrimeHook(t *testing.T) {
 		return o
 	}
 
-	t.Run("missing mnemon: warning + guide, exact", func(t *testing.T) {
+	t.Run("missing memory: warning + guide, exact", func(t *testing.T) {
 		t.Parallel()
 		const guide = "first \"quoted\" line\nback\\slash\ttab\nunicode: café ✓\n"
 		home := newPromptHome(t)
-		writeGuide(t, filepath.Join(home, ".mnemon", "prompt"), guide)
+		writeGuide(t, filepath.Join(home, ".memory", "prompt"), guide)
 		out := runHook(t, script, "{}", []string{"HOME=" + home, "PATH=" + isoPATH})
 		assertExact(t, out, missingWarn+guide)
 	})
@@ -180,25 +180,25 @@ func TestCodexPrimeHook(t *testing.T) {
 		assertExact(t, out, missingWarn)
 	})
 
-	t.Run("mnemon present, stats: count line + guide, exact", func(t *testing.T) {
+	t.Run("memory present, stats: count line + guide, exact", func(t *testing.T) {
 		t.Parallel()
 		home := newPromptHome(t)
-		writeGuide(t, filepath.Join(home, ".mnemon", "prompt"), "STATGUIDE\n")
-		path := fakeMnemon(t, `{"total_insights": 42, "edge_count": 99}`) + ":" + isoPATH
+		writeGuide(t, filepath.Join(home, ".memory", "prompt"), "STATGUIDE\n")
+		path := fakeMemory(t, `{"total_insights": 42, "edge_count": 99}`) + ":" + isoPATH
 		out := runHook(t, script, "{}", []string{"HOME=" + home, "PATH=" + path})
-		assertExact(t, out, "[mnemon] Memory active (42 insights, 99 edges).\nSTATGUIDE\n")
+		assertExact(t, out, "[memory] Memory active (42 insights, 99 edges).\nSTATGUIDE\n")
 	})
 
-	t.Run("mnemon present, empty status: fallback line + guide, exact", func(t *testing.T) {
+	t.Run("memory present, empty status: fallback line + guide, exact", func(t *testing.T) {
 		t.Parallel()
 		home := newPromptHome(t)
-		writeGuide(t, filepath.Join(home, ".mnemon", "prompt"), "EMPTYGUIDE\n")
-		path := fakeMnemon(t, "") + ":" + isoPATH
+		writeGuide(t, filepath.Join(home, ".memory", "prompt"), "EMPTYGUIDE\n")
+		path := fakeMemory(t, "") + ":" + isoPATH
 		out := runHook(t, script, "{}", []string{"HOME=" + home, "PATH=" + path})
-		assertExact(t, out, "[mnemon] Memory active.\nEMPTYGUIDE\n")
+		assertExact(t, out, "[memory] Memory active.\nEMPTYGUIDE\n")
 	})
 
-	t.Run("MNEMON_DATA_DIR override selects that prompt dir, exact", func(t *testing.T) {
+	t.Run("MEMORY_DATA_DIR override selects that prompt dir, exact", func(t *testing.T) {
 		t.Parallel()
 		home := newPromptHome(t) // legacy dir exists but has no guide
 		dataDir := t.TempDir()
@@ -206,16 +206,16 @@ func TestCodexPrimeHook(t *testing.T) {
 			t.Fatal(err)
 		}
 		writeGuide(t, filepath.Join(dataDir, "prompt"), "DATADIR-GUIDE\n")
-		out := runHook(t, script, "{}", []string{"HOME=" + home, "MNEMON_DATA_DIR=" + dataDir, "PATH=" + isoPATH})
+		out := runHook(t, script, "{}", []string{"HOME=" + home, "MEMORY_DATA_DIR=" + dataDir, "PATH=" + isoPATH})
 		assertExact(t, out, missingWarn+"DATADIR-GUIDE\n")
 	})
 
 	t.Run("legacy fallback when data dir has no guide, exact", func(t *testing.T) {
 		t.Parallel()
 		home := newPromptHome(t)
-		writeGuide(t, filepath.Join(home, ".mnemon", "prompt"), "LEGACY-GUIDE\n")
+		writeGuide(t, filepath.Join(home, ".memory", "prompt"), "LEGACY-GUIDE\n")
 		dataDir := t.TempDir() // set, but no prompt/guide.md inside
-		out := runHook(t, script, "{}", []string{"HOME=" + home, "MNEMON_DATA_DIR=" + dataDir, "PATH=" + isoPATH})
+		out := runHook(t, script, "{}", []string{"HOME=" + home, "MEMORY_DATA_DIR=" + dataDir, "PATH=" + isoPATH})
 		assertExact(t, out, missingWarn+"LEGACY-GUIDE\n")
 	})
 
@@ -228,7 +228,7 @@ func TestCodexPrimeHook(t *testing.T) {
 	t.Run("invalid UTF-8 guide: exit 0, no lone surrogates, valid UTF-8", func(t *testing.T) {
 		t.Parallel()
 		home := newPromptHome(t)
-		writeGuide(t, filepath.Join(home, ".mnemon", "prompt"), "good\xff\xfebad\n")
+		writeGuide(t, filepath.Join(home, ".memory", "prompt"), "good\xff\xfebad\n")
 		out := runHook(t, script, "{}", []string{"HOME=" + home, "PATH=" + isoPATH})
 		if strings.Contains(string(out), `\ud`) {
 			t.Errorf("raw stdout contains a lone-surrogate escape (real Codex/serde rejects):\n%s", out)

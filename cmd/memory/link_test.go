@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 // A supersedes edge asserts something about one of the two insights. Recorded

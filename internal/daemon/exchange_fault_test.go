@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
-	"github.com/mnemon-dev/mnemon/internal/agency/peerlink"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency/peerlink"
 )
 
 var (
@@ -193,7 +193,7 @@ func assertDaemonReady(t *testing.T, node *exchangeTestNode) {
 	t.Helper()
 	client := unixHTTPClient(filepath.Join(node.state, controlSocketName))
 	status := controlRequest(t, client, http.MethodGet, routeStatus, nil, nil, http.StatusOK)
-	if string(status) != `{"schema":"mnemon.agency.status","status":"ready","version":1}` {
+	if string(status) != `{"schema":"memory.agency.status","status":"ready","version":1}` {
 		t.Fatalf("daemon status = %s", status)
 	}
 }

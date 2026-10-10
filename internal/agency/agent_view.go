@@ -3,7 +3,7 @@ package agency
 import "sort"
 
 const (
-	AgentViewSchema              = "mnemon.agent.view"
+	AgentViewSchema              = "memory.agent.view"
 	AgentViewVersion             = 8
 	MaxAgentViewCanonicalBytes   = 16 << 10
 	MaxAgentViewReferences       = 8

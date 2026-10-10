@@ -13,7 +13,7 @@ var logLimit int
 var logCmd = &cobra.Command{
 	Use:   "log",
 	Short: "Show recent operations",
-	Long:  "Display the operation log showing what mnemon has been doing (remember, recall, forget, etc).",
+	Long:  "Display the operation log showing what memory has been doing (remember, recall, forget, etc).",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := requirePositiveLimit("--limit", logLimit); err != nil {
 			return err

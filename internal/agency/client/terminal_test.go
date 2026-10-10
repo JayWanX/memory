@@ -14,7 +14,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const testCredentialText = "private-credential-never-project"
@@ -70,7 +70,7 @@ func (client *fakeAgencyClient) End(_ context.Context, value attachment) *contro
 	client.endAttachments = append(client.endAttachments, value.ID)
 	if client.endFailures > 0 {
 		client.endFailures--
-		return newControlError(codeMnemondUnavailable, "test boundary end loss")
+		return newControlError(codeMemorydUnavailable, "test boundary end loss")
 	}
 	return nil
 }
@@ -83,12 +83,12 @@ func (client *fakeAgencyClient) Current(_ context.Context, _ attachment,
 	client.currentOperations = append(client.currentOperations, operation)
 	if client.currentFailures > 0 {
 		client.currentFailures--
-		return nil, newControlError(codeMnemondUnavailable, "test transport loss")
+		return nil, newControlError(codeMemorydUnavailable, "test transport loss")
 	}
 	if len(client.currentView) > 0 {
 		return append([]byte(nil), client.currentView...), nil
 	}
-	return []byte(`{"schema":"mnemon.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`), nil
+	return []byte(`{"schema":"memory.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`), nil
 }
 
 func (client *fakeAgencyClient) Submit(_ context.Context, _ attachment,
@@ -101,9 +101,9 @@ func (client *fakeAgencyClient) Submit(_ context.Context, _ attachment,
 		append([]candidateBinding(nil), candidates...))
 	replayed := len(client.submitOperations) > 1
 	if replayed {
-		return []byte(`{"schema":"mnemon.agent.receipt","version":1,"outcome":"accepted","replayed":true}`), nil
+		return []byte(`{"schema":"memory.agent.receipt","version":1,"outcome":"accepted","replayed":true}`), nil
 	}
-	return []byte(`{"schema":"mnemon.agent.receipt","version":1,"outcome":"accepted","replayed":false}`), nil
+	return []byte(`{"schema":"memory.agent.receipt","version":1,"outcome":"accepted","replayed":false}`), nil
 }
 
 func (client *fakeAgencyClient) Capture(_ context.Context,
@@ -136,7 +136,7 @@ type appFixture struct {
 func newAppFixture(t *testing.T) *appFixture {
 	t.Helper()
 	root := t.TempDir()
-	nodeState := filepath.Join(root, ".mnemon", "agency")
+	nodeState := filepath.Join(root, ".memory", "agency")
 	if err := os.MkdirAll(nodeState, ownerDirectoryMode); err != nil {
 		t.Fatal(err)
 	}
@@ -189,7 +189,7 @@ func testBoundaryEnvelope(t *testing.T, fill byte) []byte {
 	t.Helper()
 	value := base64.RawURLEncoding.EncodeToString(bytes.Repeat([]byte{fill}, 32))
 	raw, err := json.Marshal(map[string]any{
-		"boundary": value, "schema": "mnemon.hook.boundary", "version": 1,
+		"boundary": value, "schema": "memory.hook.boundary", "version": 1,
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -252,7 +252,7 @@ func TestAgentCurrentReadsViewAfterAttach(t *testing.T) {
 	exit := fixture.app(strings.NewReader(""), &output).
 		run(context.Background(), []string{"agent", "current", "--json"})
 	if exit != 0 || output.String() !=
-		`{"schema":"mnemon.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`+"\n" {
+		`{"schema":"memory.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`+"\n" {
 		t.Fatalf("R7 current = exit %d output %q", exit, output.String())
 	}
 }
@@ -265,8 +265,8 @@ func TestAgentCurrentWithoutSetupIsUnavailableWithoutEnsuringDaemon(t *testing.T
 	var output bytes.Buffer
 	app.stdout = &output
 	exit := app.run(context.Background(), []string{"agent", "current", "--json"})
-	if exit != codeMnemondUnavailable.exitStatus() ||
-		!strings.Contains(output.String(), `"code":"mnemond_unavailable"`) || fixture.ensure.Load() != 0 {
+	if exit != codeMemorydUnavailable.exitStatus() ||
+		!strings.Contains(output.String(), `"code":"memoryd_unavailable"`) || fixture.ensure.Load() != 0 {
 		t.Fatalf("unconfigured current = exit %d output %q ensure %d",
 			exit, output.String(), fixture.ensure.Load())
 	}
@@ -307,7 +307,7 @@ func TestHookAttachProjectsNoPrivateAuthorityAndReusesJournal(t *testing.T) {
 	fixture := newAppFixture(t)
 	first := fixture.attach(t)
 	second := fixture.attach(t)
-	if first != second || first != `{"schema":"mnemon.hook.attach","status":"ready","version":1}`+"\n" {
+	if first != second || first != `{"schema":"memory.hook.attach","status":"ready","version":1}`+"\n" {
 		t.Fatalf("hook outputs = %q / %q", first, second)
 	}
 	fixture.client.mu.Lock()
@@ -386,7 +386,7 @@ func TestHookAttachNewBoundaryEndsPredecessorAndRotatesEmptyCurrent(t *testing.T
 
 func TestHookAttachKeepsCurrentThatOwnsAHandling(t *testing.T) {
 	fixture := newAppFixture(t)
-	fixture.client.currentView = []byte(`{"schema":"mnemon.agent.view","version":8,` +
+	fixture.client.currentView = []byte(`{"schema":"memory.agent.view","version":8,` +
 		`"view":"view:test","current":{"facts":{"handle":"r7:subject:test","reply_to":"r7:subject:test","reply_required":false,"reply_observation_pending":false},` +
 		`"semantic":{"kind":"review.request","payload":"review"}},` +
 		`"outstanding":{"open_total":1,"related_total":0,"related_projected":0,"truncated":false},` +
@@ -416,7 +416,7 @@ func TestHookAttachEndFailurePreservesPriorJournal(t *testing.T) {
 	var output bytes.Buffer
 	exit := fixture.app(bytes.NewReader(testBoundaryEnvelope(t, 0x23)), &output).
 		run(context.Background(), []string{"hook", "attach", "--json"})
-	if exit != codeMnemondUnavailable.exitStatus() {
+	if exit != codeMemorydUnavailable.exitStatus() {
 		t.Fatalf("failed predecessor end = exit %d output %q", exit, output.String())
 	}
 	after := loadJournalForTest(t, fixture.nodeState)
@@ -457,7 +457,7 @@ func TestCurrentPersistsOperationBeforeTransportAndReplaysIt(t *testing.T) {
 	var first bytes.Buffer
 	firstExit := fixture.app(strings.NewReader(""), &first).
 		run(context.Background(), []string{"agent", "current", "--json"})
-	if firstExit != codeMnemondUnavailable.exitStatus() {
+	if firstExit != codeMemorydUnavailable.exitStatus() {
 		t.Fatalf("first current exit/output = %d / %s", firstExit, first.String())
 	}
 	fixture.attach(t)

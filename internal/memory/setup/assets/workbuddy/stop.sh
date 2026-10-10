@@ -13,7 +13,7 @@ if [ -z "$SESSION_ID" ]; then
   SESSION_ID="unknown"
 fi
 
-STATE_DIR="${MNEMON_DATA_DIR:-$HOME/.mnemon}/hooks"
+STATE_DIR="${MEMORY_DATA_DIR:-$HOME/.memory}/hooks"
 STATE_FILE="${STATE_DIR}/workbuddy-stop-${SESSION_ID}.seen"
 mkdir -p "$STATE_DIR" 2>/dev/null || true
 
@@ -26,6 +26,6 @@ touch "$STATE_FILE" 2>/dev/null || true
 cat <<'JSON'
 {
   "continue": false,
-  "reason": "[mnemon] Before stopping, evaluate whether this exchange contains durable preferences, decisions, insights, facts, or context worth remembering. If yes, run mnemon remember/link; if no, state that no memory update is needed, then finish."
+  "reason": "[memory] Before stopping, evaluate whether this exchange contains durable preferences, decisions, insights, facts, or context worth remembering. If yes, run memory remember/link; if no, state that no memory update is needed, then finish."
 }
 JSON

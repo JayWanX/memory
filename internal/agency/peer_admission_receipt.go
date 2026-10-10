@@ -5,8 +5,8 @@ import "time"
 const (
 	MaxPeerAdmissionReceiptCanonicalBytes = 4 << 10
 
-	peerAdmissionReceiptDigestDomain    = "mnemon.peer-admission-receipt.v1"
-	peerAdmissionReceiptSignatureDomain = "mnemon.peer-admission-receipt-signature.v1"
+	peerAdmissionReceiptDigestDomain    = "memory.peer-admission-receipt.v1"
+	peerAdmissionReceiptSignatureDomain = "memory.peer-admission-receipt-signature.v1"
 )
 
 type PeerAdmissionOutcome uint8

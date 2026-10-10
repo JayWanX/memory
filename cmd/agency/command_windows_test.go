@@ -18,7 +18,7 @@ func TestWindowsAgencyKeepsHelpAndVersionDiscoverable(t *testing.T) {
 		want string
 	}{
 		{args: []string{"--help"}, want: "Agency operations are not supported on Windows."},
-		{args: []string{"--version"}, want: "mnemon agency version test-version\n"},
+		{args: []string{"--version"}, want: "memory agency version test-version\n"},
 		{args: []string{"peer", "prepare", "--help"}, want: "--advertise"},
 	} {
 		stdout, stderr, exit := executeWindowsAgency(test.args, "test-version")
@@ -47,7 +47,7 @@ func TestWindowsAgencyRejectsEveryOperationalCommand(t *testing.T) {
 
 func executeWindowsAgency(args []string, version string) (string, string, int) {
 	var stdout, stderr bytes.Buffer
-	root := &cobra.Command{Use: "mnemon", SilenceErrors: true, SilenceUsage: true}
+	root := &cobra.Command{Use: "memory", SilenceErrors: true, SilenceUsage: true}
 	root.AddCommand(New(version))
 	root.SetArgs(append([]string{"agency"}, args...))
 	root.SetIn(strings.NewReader(""))

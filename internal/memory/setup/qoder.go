@@ -5,21 +5,21 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// QoderWriteSkill writes the mnemon skill to the Qoder skills directory.
+// QoderWriteSkill writes the memory skill to the Qoder skills directory.
 func QoderWriteSkill(configDir string) (string, error) {
 	return writeQoderSkill(configDir, assets.QoderSkill)
 }
 
-// QoderWorkWriteSkill writes the mnemon skill to the QoderWork skills directory.
+// QoderWorkWriteSkill writes the memory skill to the QoderWork skills directory.
 func QoderWorkWriteSkill(configDir string) (string, error) {
 	return writeQoderSkill(configDir, assets.QoderWorkSkill)
 }
 
 func writeQoderSkill(configDir string, content []byte) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -32,7 +32,7 @@ func writeQoderSkill(configDir string, content []byte) (string, error) {
 
 // QoderWriteHook writes a hook script to the Qoder hooks directory.
 func QoderWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -43,18 +43,18 @@ func QoderWriteHook(configDir, filename string, content []byte) (string, error) 
 	return hookPath, nil
 }
 
-// QoderRegisterHooks registers Mnemon lifecycle hooks in Qoder settings.json.
+// QoderRegisterHooks registers Memory lifecycle hooks in Qoder settings.json.
 func QoderRegisterHooks(configDir string) (string, error) {
 	return registerQoderHooks(configDir)
 }
 
-// QoderWorkRegisterHooks registers Mnemon lifecycle hooks in QoderWork settings.json.
+// QoderWorkRegisterHooks registers Memory lifecycle hooks in QoderWork settings.json.
 func QoderWorkRegisterHooks(configDir string) (string, error) {
 	return registerQoderHooks(configDir)
 }
 
 func registerQoderHooks(configDir string) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -71,12 +71,12 @@ func registerQoderHooks(configDir string) (string, error) {
 	return settingsPath, nil
 }
 
-// QoderEject removes mnemon skill and hooks from the given Qoder config dir.
+// QoderEject removes memory skill and hooks from the given Qoder config dir.
 func QoderEject(configDir string) []error {
 	return ejectQoder("Qoder", configDir)
 }
 
-// QoderWorkEject removes mnemon skill and hooks from the given QoderWork config dir.
+// QoderWorkEject removes memory skill and hooks from the given QoderWork config dir.
 func QoderWorkEject(configDir string) []error {
 	return ejectQoder("QoderWork", configDir)
 }
@@ -86,7 +86,7 @@ func ejectQoder(display, configDir string) []error {
 
 	fmt.Printf("\nRemoving %s integration (%s)...\n", display, configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -110,7 +110,7 @@ func ejectQoder(display, configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)

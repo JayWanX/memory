@@ -5,12 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-// CursorWriteSkill writes the mnemon skill to the Cursor skills directory.
+// CursorWriteSkill writes the memory skill to the Cursor skills directory.
 func CursorWriteSkill(configDir string) (string, error) {
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.MkdirAll(skillDir, 0755); err != nil {
 		return "", err
 	}
@@ -23,7 +23,7 @@ func CursorWriteSkill(configDir string) (string, error) {
 
 // CursorWriteHook writes a hook script to the Cursor hooks directory.
 func CursorWriteHook(configDir, filename string, content []byte) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.MkdirAll(hooksDir, 0755); err != nil {
 		return "", err
 	}
@@ -34,9 +34,9 @@ func CursorWriteHook(configDir, filename string, content []byte) (string, error)
 	return hookPath, nil
 }
 
-// CursorRegisterHooks registers selected Mnemon lifecycle hooks in hooks.json.
+// CursorRegisterHooks registers selected Memory lifecycle hooks in hooks.json.
 func CursorRegisterHooks(configDir string, sel HookSelection) (string, error) {
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	absHooksDir, err := filepath.Abs(hooksDir)
 	if err != nil {
 		return "", err
@@ -53,13 +53,13 @@ func CursorRegisterHooks(configDir string, sel HookSelection) (string, error) {
 	return hooksPath, nil
 }
 
-// CursorEject removes mnemon skill and hooks from the given Cursor config dir.
+// CursorEject removes memory skill and hooks from the given Cursor config dir.
 func CursorEject(configDir string) []error {
 	var errs []error
 
 	fmt.Printf("\nRemoving Cursor integration (%s)...\n", configDir)
 
-	hooksDir := filepath.Join(configDir, "hooks", "mnemon")
+	hooksDir := filepath.Join(configDir, "hooks", "memory")
 	if err := os.RemoveAll(hooksDir); err != nil {
 		StatusError(1, 3, "Hooks", err)
 		errs = append(errs, err)
@@ -83,7 +83,7 @@ func CursorEject(configDir string) []error {
 		}
 	}
 
-	skillDir := filepath.Join(configDir, "skills", "mnemon")
+	skillDir := filepath.Join(configDir, "skills", "memory")
 	if err := os.RemoveAll(skillDir); err != nil {
 		StatusError(3, 3, "Skill", err)
 		errs = append(errs, err)

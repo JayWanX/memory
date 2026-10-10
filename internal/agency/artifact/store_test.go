@@ -11,7 +11,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestStorePutReadReplayAndOwnerOnlyLayout(t *testing.T) {
@@ -215,7 +215,7 @@ func TestStorePutReportsCreationWhenItPromotesAnotherWritersMarker(t *testing.T)
 }
 
 func TestStoreConcurrentProcessesPreserveImmutableFinal(t *testing.T) {
-	const helper = "MNEMON_CAS_PROCESS_HELPER"
+	const helper = "MEMORY_CAS_PROCESS_HELPER"
 	content := bytes.Repeat([]byte("cross-process immutable bytes"), 4096)
 	if os.Getenv(helper) == "1" {
 		runCASProcessHelper(t, content)
@@ -232,7 +232,7 @@ func TestStoreConcurrentProcessesPreserveImmutableFinal(t *testing.T) {
 	outputs := make([]bytes.Buffer, len(commands))
 	for index := range commands {
 		command := exec.Command(os.Args[0], "-test.run=^TestStoreConcurrentProcessesPreserveImmutableFinal$")
-		command.Env = append(os.Environ(), helper+"=1", "MNEMON_CAS_PROCESS_ROOT="+root)
+		command.Env = append(os.Environ(), helper+"=1", "MEMORY_CAS_PROCESS_ROOT="+root)
 		command.ExtraFiles = []*os.File{gateRead}
 		command.Stdout = &outputs[index]
 		command.Stderr = &outputs[index]
@@ -275,7 +275,7 @@ func runCASProcessHelper(t *testing.T, content []byte) {
 		t.Fatal(err)
 	}
 	_ = gate.Close()
-	store, err := Open(os.Getenv("MNEMON_CAS_PROCESS_ROOT"))
+	store, err := Open(os.Getenv("MEMORY_CAS_PROCESS_ROOT"))
 	if err != nil {
 		t.Fatal(err)
 	}

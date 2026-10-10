@@ -1,21 +1,21 @@
-# Mnemon — 记忆导入指南
+# Memory — 记忆导入指南
 
 [English](../IMPORT.md) | **中文**
 
-本文档说明如何将历史聊天记录或外部上下文批量导入 Mnemon 的记忆图谱。
+本文档说明如何将历史聊天记录或外部上下文批量导入 Memory 的记忆图谱。
 
 ---
 
 ## 工作流概览
 
 ```
-聊天导出 / Markdown -> LLM 提取提示词 -> memory_draft.json -> mnemon import <file>
+聊天导出 / Markdown -> LLM 提取提示词 -> memory_draft.json -> memory import <file>
 ```
 
 1. 将原始聊天记录或笔记导出为 Markdown 或纯文本。
 2. 将文本连同下方的参考提示词一起发送给 LLM，生成符合本文档格式的
    `memory_draft.json`。
-3. 运行 `mnemon import memory_draft.json`，Mnemon 自动完成去重、图谱边构建、
+3. 运行 `memory import memory_draft.json`，Memory 自动完成去重、图谱边构建、
    可用时的向量嵌入和生命周期评分。
 
 ---
@@ -66,7 +66,7 @@
 | `schema_version` | string | **是** | 必须为 `"1"` |
 | `source` | string | 否 | 整批导入的来源标签，如 `"chat-export"`、`"manual"`。单条 insight 可通过自身的 `source` 覆盖此值 |
 | `insights` | array | **是** | 记忆节点列表，至少包含一项 |
-| `edges` | array | 否 | 显式关系列表；Mnemon 的图引擎也会自动创建边，此处用于补充已知的强关联 |
+| `edges` | array | 否 | 显式关系列表；Memory 的图引擎也会自动创建边，此处用于补充已知的强关联 |
 
 ### insights 条目字段
 
@@ -76,7 +76,7 @@
 | `category` | string | 否 | 见下表，默认 `general` | 知识类型 |
 | `importance` | integer | 否 | 1-5，默认 3 | 重要程度；影响保留优先级和排序 |
 | `tags` | array | 否 | 最多 20 项，每项最多 100 字符 | 用于检索和过滤的自由标签 |
-| `entities` | array | 否 | 最多 50 项，每项最多 200 字符 | 记忆中涉及的命名主体，如人名、项目名、工具、库或组织；会与 Mnemon 自动提取结果合并 |
+| `entities` | array | 否 | 最多 50 项，每项最多 200 字符 | 记忆中涉及的命名主体，如人名、项目名、工具、库或组织；会与 Memory 自动提取结果合并 |
 | `source` | string | 否 | - | 覆盖顶层 `source`，表示该条记忆的具体来源 |
 | `created_at` | string | 否 | RFC 3339 格式 | 原始创建时间；省略时使用导入时间 |
 
@@ -127,16 +127,16 @@
 
 ```bash
 # 基本导入
-mnemon import memory_draft.json
+memory import memory_draft.json
 
 # 验证格式但不写入数据库
-mnemon import --dry-run memory_draft.json
+memory import --dry-run memory_draft.json
 
 # 跳过去重检测，将所有条目作为新记忆插入
-mnemon import --no-diff memory_draft.json
+memory import --no-diff memory_draft.json
 
 # 指定具体 store
-mnemon import --store project-alpha memory_draft.json
+memory import --store project-alpha memory_draft.json
 ```
 
 ### 输出示例
@@ -144,7 +144,7 @@ mnemon import --store project-alpha memory_draft.json
 导入与 `remember` 使用相同的精确内容去重规则：仅跳过与活跃记忆逐字节
 完全相同的内容。不同事实、近似重复、冲突和变化后的属性值都会新增。
 被跳过的草稿索引映射到已有 insight ID，显式边仍可引用该记忆。
-如需淘汰已被取代的事实，请验证新记忆后显式执行 `mnemon forget <old-id>`。
+如需淘汰已被取代的事实，请验证新记忆后显式执行 `memory forget <old-id>`。
 基于容量的自动清理仍独立生效。
 
 ```json
@@ -181,7 +181,7 @@ mnemon import --store project-alpha memory_draft.json
 
 ```text
 你是一个记忆提取助手。请从下方的聊天记录或文档中提取有价值的长期知识片段，
-生成一个符合 Mnemon memory draft 格式（schema_version: "1"）的 JSON 文件。
+生成一个符合 Memory memory draft 格式（schema_version: "1"）的 JSON 文件。
 
 ## 提取规则
 
@@ -239,16 +239,16 @@ mnemon import --store project-alpha memory_draft.json
 ## 常见问题
 
 **Q: `created_at` 必须填吗？**  
-不必须。省略时 Mnemon 使用导入时间。如果原始聊天记录有时间戳，建议填写以保留历史顺序。
+不必须。省略时 Memory 使用导入时间。如果原始聊天记录有时间戳，建议填写以保留历史顺序。
 
 **Q: 导入后如何验证结果？**  
-运行 `mnemon log`、`mnemon status` 或 `mnemon search <关键词>` 确认导入结果。
+运行 `memory log`、`memory status` 或 `memory search <关键词>` 确认导入结果。
 
 **Q: `edges` 数组必须填吗？**  
-不必须。Mnemon 会自动创建时序、语义和实体边。显式 `edges` 用于指定 LLM 能明确判断的强关联关系。
+不必须。Memory 会自动创建时序、语义和实体边。显式 `edges` 用于指定 LLM 能明确判断的强关联关系。
 
 **Q: 如何分批导入大型聊天记录？**  
-将聊天记录按时间段或主题切分为多个文件，依次执行 `mnemon import`。重复内容会被内置 diff 自动跳过，除非使用 `--no-diff`。
+将聊天记录按时间段或主题切分为多个文件，依次执行 `memory import`。重复内容会被内置 diff 自动跳过，除非使用 `--no-diff`。
 
 **Q: 可以导入非英文内容吗？**  
 可以，`content`、`tags`、`entities` 均支持 Unicode 文本。

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // StagedPeerDeliveries is a bounded projection for one supervised worker. It

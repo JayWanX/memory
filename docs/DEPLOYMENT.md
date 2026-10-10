@@ -22,9 +22,9 @@ make install
 Use a project-local data directory when testing manually:
 
 ```bash
-MNEMON_DATA_DIR=.mnemon-dev ./bin/mnemon store create default
-MNEMON_DATA_DIR=.mnemon-dev ./bin/mnemon remember --no-diff "Local development memory" --cat fact --imp 3
-MNEMON_DATA_DIR=.mnemon-dev ./bin/mnemon recall "development memory"
+MEMORY_DATA_DIR=.JayWanX ./bin/memory store create default
+MEMORY_DATA_DIR=.JayWanX ./bin/memory remember --no-diff "Local development memory" --cat fact --imp 3
+MEMORY_DATA_DIR=.JayWanX ./bin/memory recall "development memory"
 ```
 
 ## Container Development
@@ -56,13 +56,13 @@ Build the runtime image:
 make docker-build
 ```
 
-Run one command with persistent data mounted at `/mnemon`:
+Run one command with persistent data mounted at `/memory`:
 
 ```bash
 docker run --rm \
-  -v mnemon-data:/mnemon \
+  -v memory-data:/memory \
   --env-file .env \
-  mnemon-dev/mnemon:dev status
+  JayWanX/memory:dev status
 ```
 
 Or use Docker Compose:
@@ -70,35 +70,35 @@ Or use Docker Compose:
 ```bash
 cp .env.example .env
 make compose-up
-docker compose run --rm mnemon recall "query"
+docker compose run --rm memory recall "query"
 make compose-down
 ```
 
 ## Optional Embeddings
 
-Mnemon works without embeddings. The Compose embeddings profile provides the
+Memory works without embeddings. The Compose embeddings profile provides the
 default Ollama-backed vector search setup:
 
 ```bash
 docker compose --profile embeddings up -d ollama
 docker compose exec ollama ollama pull nomic-embed-text
-docker compose run --rm mnemon embed "hello"
+docker compose run --rm memory embed "hello"
 ```
 
 The relevant environment variables are:
 
-- `MNEMON_EMBED_ENDPOINT`
-- `MNEMON_EMBED_MODEL`
-- `MNEMON_EMBED_PROTOCOL`
-- `MNEMON_EMBED_API_KEY`
-- `MNEMON_EMBED_DIMENSIONS`
+- `MEMORY_EMBED_ENDPOINT`
+- `MEMORY_EMBED_MODEL`
+- `MEMORY_EMBED_PROTOCOL`
+- `MEMORY_EMBED_API_KEY`
+- `MEMORY_EMBED_DIMENSIONS`
 
-For host-based Ollama, set `MNEMON_EMBED_ENDPOINT=http://host.docker.internal:11434` on Docker Desktop, or use the host gateway address for Linux deployments.
+For host-based Ollama, set `MEMORY_EMBED_ENDPOINT=http://host.docker.internal:11434` on Docker Desktop, or use the host gateway address for Linux deployments.
 
 An external OpenAI-compatible server can be selected with an endpoint ending
-in `/v1`, for example `MNEMON_EMBED_ENDPOINT=http://host.docker.internal:18000/v1`.
-Set `MNEMON_EMBED_MODEL` to a model exposed by that server and
-`MNEMON_EMBED_API_KEY` when authentication is required. Use HTTPS whenever the
+in `/v1`, for example `MEMORY_EMBED_ENDPOINT=http://host.docker.internal:18000/v1`.
+Set `MEMORY_EMBED_MODEL` to a model exposed by that server and
+`MEMORY_EMBED_API_KEY` when authentication is required. Use HTTPS whenever the
 server is not on a trusted local network.
 
 ## Release Deployment
@@ -106,17 +106,17 @@ server is not on a trusted local network.
 Tagged releases are handled through `.github/workflows/release.yml`. GoReleaser
 publishes the native GitHub artifacts and Homebrew cask first. A dependent job
 then stages those exact binaries as npm artifacts, verifies the host launcher,
-and publishes the canonical `@mnemon-dev/mnemon` package.
+and publishes the canonical `@jaywanx/memory-cli` package.
 
 Long-lived repository secret:
 
 - `HOMEBREW_TAP_TOKEN`, only needed for publishing the Homebrew tap
 
-Before the first npm release, reserve the `@mnemon-dev` npm scope and add a
+Before the first npm release, reserve the `@jaywanx` npm scope and add a
 granular `NPM_TOKEN` repository secret that can bootstrap the public
-`@mnemon-dev/mnemon` package. After that first tagged release:
+`@jaywanx/memory-cli` package. After that first tagged release:
 
-1. Configure `mnemon-dev/mnemon` and `release.yml` as the package's GitHub
+1. Configure `JayWanX/memory` and `release.yml` as the package's GitHub
    Actions [trusted publisher](https://docs.npmjs.com/trusted-publishers/) on
    npm, allowing direct `npm publish`.
 2. Run the next tagged release and confirm that npm records GitHub Actions as

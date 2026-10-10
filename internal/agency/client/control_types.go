@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
@@ -70,7 +70,7 @@ const (
 	codeActionNotAllowed      controlErrorCode = "action_not_allowed"
 	codeOperationMismatch     controlErrorCode = "operation_mismatch"
 	codeOperationPending      controlErrorCode = "operation_pending"
-	codeMnemondUnavailable    controlErrorCode = "mnemond_unavailable"
+	codeMemorydUnavailable    controlErrorCode = "memoryd_unavailable"
 	codeInternal              controlErrorCode = "internal"
 )
 
@@ -80,7 +80,7 @@ func (code controlErrorCode) valid() bool {
 		codeArtifactInvalid, codeArtifactTooLarge, codeAuthenticationFailed,
 		codeContextRequired, codeContextStale, codeAssetRevisionMismatch,
 		codeActionNotAllowed, codeOperationMismatch, codeOperationPending,
-		codeMnemondUnavailable, codeInternal:
+		codeMemorydUnavailable, codeInternal:
 		return true
 	default:
 		return false
@@ -88,7 +88,7 @@ func (code controlErrorCode) valid() bool {
 }
 
 func (code controlErrorCode) retryable() bool {
-	return code == codeOperationPending || code == codeMnemondUnavailable
+	return code == codeOperationPending || code == codeMemorydUnavailable
 }
 
 func (code controlErrorCode) exitStatus() int {
@@ -101,7 +101,7 @@ func (code controlErrorCode) exitStatus() int {
 		return 3
 	case codeActionNotAllowed, codeOperationMismatch:
 		return 4
-	case codeOperationPending, codeMnemondUnavailable:
+	case codeOperationPending, codeMemorydUnavailable:
 		return 5
 	default:
 		return 1

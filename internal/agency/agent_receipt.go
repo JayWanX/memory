@@ -1,7 +1,7 @@
 package agency
 
 const (
-	AgentReceiptSchema            = "mnemon.agent.receipt"
+	AgentReceiptSchema            = "memory.agent.receipt"
 	AgentReceiptVersion           = 1
 	MaxAgentReceiptCanonicalBytes = 4 << 10
 )

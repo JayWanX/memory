@@ -1,6 +1,6 @@
 {
-  "id": "mnemon",
-  "name": "mnemon",
+  "id": "memory",
+  "name": "memory",
   "version": "",
   "description": "LLM-supervised persistent memory — recall before responding, remember after",
   "hooks": [

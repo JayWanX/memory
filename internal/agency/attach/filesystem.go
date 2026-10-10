@@ -14,7 +14,7 @@ import (
 const maxProjectedFileBytes = 8 << 10
 
 func journalDirectoryRelative() string {
-	return filepath.Join(".mnemon", "agency", "attach", "pi")
+	return filepath.Join(".memory", "agency", "attach", "pi")
 }
 
 func inspectFreshTargets(plan installPlan) error {

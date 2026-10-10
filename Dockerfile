@@ -19,19 +19,19 @@ RUN go mod download
 COPY . .
 ARG VERSION=dev
 RUN CGO_ENABLED=0 GOOS=linux go build \
-  -ldflags "-s -w -X github.com/mnemon-dev/mnemon/cmd.version=${VERSION}" \
-  -o /out/mnemon .
+  -ldflags "-s -w -X github.com/JayWanX/memory/cmd.version=${VERSION}" \
+  -o /out/memory .
 
 FROM alpine:3.22 AS runtime
 RUN apk add --no-cache ca-certificates tzdata \
-  && addgroup -S mnemon \
-  && adduser -S -G mnemon -h /home/mnemon mnemon \
-  && mkdir -p /mnemon \
-  && chown -R mnemon:mnemon /mnemon /home/mnemon
-COPY --from=build /out/mnemon /usr/local/bin/mnemon
-USER mnemon
-ENV MNEMON_DATA_DIR=/mnemon \
-    MNEMON_STORE=default
-VOLUME ["/mnemon"]
-ENTRYPOINT ["mnemon"]
+  && addgroup -S memory \
+  && adduser -S -G memory -h /home/memory memory \
+  && mkdir -p /memory \
+  && chown -R memory:memory /memory /home/memory
+COPY --from=build /out/memory /usr/local/bin/memory
+USER memory
+ENV MEMORY_DATA_DIR=/memory \
+    MEMORY_STORE=default
+VOLUME ["/memory"]
+ENTRYPOINT ["memory"]
 CMD ["status"]

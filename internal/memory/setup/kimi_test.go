@@ -17,7 +17,7 @@ func TestKimiRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 
 [[hooks]]
 event = "SessionStart"
-command = "/old/mnemon/prime.sh"
+command = "/old/memory/prime.sh"
 timeout = 1
 
 [[hooks]]
@@ -44,8 +44,8 @@ timeout = 3
 	if !strings.Contains(text, `command = "/keep/custom.sh"`) {
 		t.Fatalf("custom hook should be preserved: %s", text)
 	}
-	if strings.Contains(text, "/old/mnemon/prime.sh") {
-		t.Fatalf("old mnemon hook should be removed: %s", text)
+	if strings.Contains(text, "/old/memory/prime.sh") {
+		t.Fatalf("old memory hook should be removed: %s", text)
 	}
 	for _, event := range []string{`event = "SessionStart"`, `event = "UserPromptSubmit"`, `event = "Stop"`} {
 		if !strings.Contains(text, event) {
@@ -57,7 +57,7 @@ timeout = 3
 	}
 }
 
-func TestKimiEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
+func TestKimiEjectRemovesOnlyMemoryFilesAndHooks(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := KimiWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -91,22 +91,22 @@ timeout = 3
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkillDir); err != nil {
 		t.Fatalf("custom skill should be preserved: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "hooks", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon hooks should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "hooks", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory hooks should be removed, err=%v", err)
 	}
 	data, err := os.ReadFile(configPath)
 	if err != nil {
 		t.Fatalf("read config after eject: %v", err)
 	}
 	text := string(data)
-	if strings.Contains(text, "mnemon") {
-		t.Fatalf("mnemon hooks should be removed: %s", text)
+	if strings.Contains(text, "memory") {
+		t.Fatalf("memory hooks should be removed: %s", text)
 	}
 	if !strings.Contains(text, `command = "/keep/custom.sh"`) {
 		t.Fatalf("custom hook should be preserved: %s", text)

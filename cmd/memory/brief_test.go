@@ -42,14 +42,14 @@ func TestBriefResponseIsCompactAndPointsToFullResult(t *testing.T) {
 	if strings.Contains(out.String(), "\n  ") {
 		t.Fatalf("brief JSON was indented: %q", out.String())
 	}
-	if !strings.Contains(out.String(), "mnemon show <id>") {
+	if !strings.Contains(out.String(), "memory show <id>") {
 		t.Fatalf("brief JSON escaped its command hint: %q", out.String())
 	}
 	var decoded briefResponse
 	if err := json.Unmarshal(out.Bytes(), &decoded); err != nil {
 		t.Fatalf("decode brief response: %v", err)
 	}
-	if decoded.DetailCommand != "mnemon show <id>" {
+	if decoded.DetailCommand != "memory show <id>" {
 		t.Fatalf("detail command = %q", decoded.DetailCommand)
 	}
 }

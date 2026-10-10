@@ -1,0 +1,4 @@
+
+name        : @jaywanx/dsh-memory-bundle
+description : Install the full @jaywanx/dsh-memory integration from the Memory repository.
+

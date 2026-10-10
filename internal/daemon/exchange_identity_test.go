@@ -11,7 +11,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestDefaultAgentPrincipalUsesIndependentFullDigestDomain(t *testing.T) {
@@ -25,7 +25,7 @@ func TestDefaultAgentPrincipalUsesIndependentFullDigestDomain(t *testing.T) {
 		t.Fatal(err)
 	}
 	want := "principal:r7:" + agency.Sum(append(
-		[]byte("mnemon.r7.default-agent-principal.v1\x00"), publicKey...)).String()[len("sha256:"):]
+		[]byte("memory.r7.default-agent-principal.v1\x00"), publicKey...)).String()[len("sha256:"):]
 	if principal.String() != want || len(principal.String()) != len("principal:r7:")+64 {
 		t.Fatalf("Principal = %q, want %q", principal.String(), want)
 	}
@@ -99,7 +99,7 @@ func TestTransportIdentityRecoversCommittedPendingFile(t *testing.T) {
 func TestTransportIdentityDiscardsInterruptedPartialPending(t *testing.T) {
 	state := canonicalTempDir(t)
 	pending := filepath.Join(state, transportIdentityPending)
-	if err := os.WriteFile(pending, []byte(`{"schema":"mnemon.r7`), ownerFileMode); err != nil {
+	if err := os.WriteFile(pending, []byte(`{"schema":"memory.r7`), ownerFileMode); err != nil {
 		t.Fatal(err)
 	}
 	identity, err := ProvisionTransportIdentity(state)

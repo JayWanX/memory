@@ -16,7 +16,7 @@ from urllib.parse import quote, unquote, urlparse
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = "/docs"
 HIDDEN_TOP_LEVEL = {"server"}
-PORT = int(os.environ.get("MNEMON_DOCS_RENDERER_PORT", "4180"))
+PORT = int(os.environ.get("MEMORY_DOCS_RENDERER_PORT", "4180"))
 
 
 CSS = """
@@ -365,12 +365,12 @@ def page(title: str, body: str) -> bytes:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{html.escape(title)} - Mnemon Docs</title>
+  <title>{html.escape(title)} - Memory Docs</title>
   <style>{CSS}</style>
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/">Mnemon Docs</a>
+    <a class="brand" href="/">Memory Docs</a>
     <nav>
       <a href="{PREFIX}/">Docs Index</a>
     </nav>
@@ -404,7 +404,7 @@ def render_directory(path: Path) -> bytes:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "MnemonDocsRenderer/1.0"
+    server_version = "MemoryDocsRenderer/1.0"
 
     def do_HEAD(self) -> None:
         self.handle_request(send_body=False)

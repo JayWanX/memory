@@ -11,7 +11,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 	"golang.org/x/sys/unix"
 )
 

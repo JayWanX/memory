@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
-	"github.com/mnemon-dev/mnemon/internal/agency/artifact"
+	"github.com/JayWanX/memory/internal/agency"
+	"github.com/JayWanX/memory/internal/agency/artifact"
 )
 
 const (
@@ -20,16 +20,16 @@ const (
 	routeArtifactRead  = "/v1/agency/artifacts/read"
 	routeStatus        = "/v1/agency/status"
 
-	headerAttachment       = "Mnemon-Agency-Attachment"
-	headerCredential       = "Mnemon-Agency-Credential"
-	headerCurrentOperation = "Mnemon-Agency-Current-Operation"
-	headerOperation        = "Mnemon-Agency-Operation"
-	headerArtifactDigest   = "Mnemon-Artifact-Digest"
+	headerAttachment       = "Memory-Agency-Attachment"
+	headerCredential       = "Memory-Agency-Credential"
+	headerCurrentOperation = "Memory-Agency-Current-Operation"
+	headerOperation        = "Memory-Agency-Operation"
+	headerArtifactDigest   = "Memory-Artifact-Digest"
 
-	attachmentSchema    = "mnemon.agency.attachment"
-	attachmentEndSchema = "mnemon.agency.attachment-end"
-	artifactSchema      = "mnemon.agency.artifact"
-	statusSchema        = "mnemon.agency.status"
+	attachmentSchema    = "memory.agency.attachment"
+	attachmentEndSchema = "memory.agency.attachment-end"
+	artifactSchema      = "memory.agency.artifact"
+	statusSchema        = "memory.agency.status"
 	controlVersion      = 1
 	timeWireLayout      = "2006-01-02T15:04:05.000000000Z"
 
@@ -40,7 +40,7 @@ const (
 )
 
 var legacyHeaders = [...]string{
-	"Authorization", "Mnemon-Operation-Key", "Mnemon-Claim-Context", "Mnemon-Run-Attachment",
+	"Authorization", "Memory-Operation-Key", "Memory-Claim-Context", "Memory-Run-Attachment",
 }
 
 type controlServer struct {

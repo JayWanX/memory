@@ -5,7 +5,7 @@ import (
 	"crypto/subtle"
 	"errors"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 type hookStatus struct {
@@ -27,7 +27,7 @@ func (app *terminal) runAttach(ctx context.Context, store *journalStore, client 
 	if err != nil {
 		return app.writeCommandError(err)
 	}
-	return app.writeJSON(hookStatus{Schema: "mnemon.hook.attach", Version: 1, Status: "ready"})
+	return app.writeJSON(hookStatus{Schema: "memory.hook.attach", Version: 1, Status: "ready"})
 }
 
 func (app *terminal) reconcileAttachBoundary(ctx context.Context, directory *lockedJournalDirectory,
@@ -155,5 +155,5 @@ func (app *terminal) runEnd(ctx context.Context, store *journalStore, client age
 	if err != nil {
 		return app.writeCommandError(err)
 	}
-	return app.writeJSON(hookStatus{Schema: "mnemon.hook.end", Version: 1, Status: "ended"})
+	return app.writeJSON(hookStatus{Schema: "memory.hook.end", Version: 1, Status: "ended"})
 }

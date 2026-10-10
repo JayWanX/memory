@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func TestImportDeduplicationCannotSupersedeItself(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
-	t.Setenv("MNEMON_EMBED_PROTOCOL", "ollama")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_EMBED_PROTOCOL", "ollama")
 	oldDir, oldStore, oldReadOnly := dataDir, storeName, readOnly
 	oldNoDiff, oldDryRun := importNoDiff, importDryRun
 	t.Cleanup(func() {

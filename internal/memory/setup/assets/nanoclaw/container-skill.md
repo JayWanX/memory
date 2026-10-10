@@ -1,9 +1,9 @@
 ---
-name: mnemon
+name: memory
 description: Persistent graph-based memory. Recall context before responding, remember insights after. Each group has private memory; global memory is read-only.
 ---
 
-# mnemon — Persistent Memory
+# memory — Persistent Memory
 
 ## Memory Stores
 
@@ -19,9 +19,9 @@ description: Persistent graph-based memory. Recall context before responding, re
 
 To recall:
 ```bash
-mnemon recall "<query>" --limit 5
+memory recall "<query>" --limit 5
 # Also check shared knowledge:
-mnemon recall "<query>" --store global --readonly --limit 5
+memory recall "<query>" --store global --readonly --limit 5
 ```
 
 Craft a focused, keyword-rich query — do not pass the raw user prompt.
@@ -52,22 +52,22 @@ Run this decision tree after every substantive response:
 
 ## Workflow
 
-1. **Remember**: `mnemon remember "<fact>" --cat <cat> --imp <1-5> --entities "e1,e2" --source agent`
+1. **Remember**: `memory remember "<fact>" --cat <cat> --imp <1-5> --entities "e1,e2" --source agent`
    - Only exact content repeats are skipped; distinct content is stored and diff suggestions are advisory.
-   - To retire a superseded memory, store and verify the new fact, then explicitly run `mnemon forget <old-id>`.
+   - To retire a superseded memory, store and verify the new fact, then explicitly run `memory forget <old-id>`.
    - Output includes `action` (added/skipped), `semantic_candidates`, `causal_candidates`.
 2. **Link** (evaluate candidates from step 1 — use judgment, not mechanical rules):
    - Review `causal_candidates`: does a genuine cause-effect relationship exist? `causal_signal` is regex-based and prone to false positives — only link if the memories are truly causally related.
    - Review `semantic_candidates`: are these memories meaningfully related? High `similarity` alone is not sufficient — skip candidates that share keywords but discuss unrelated topics.
-   - Syntax: `mnemon link <id> <candidate> --type <causal|semantic> --weight <0-1> [--meta '<json>']`
-3. **Recall**: `mnemon recall "<query>" --limit 10`
+   - Syntax: `memory link <id> <candidate> --type <causal|semantic> --weight <0-1> [--meta '<json>']`
+3. **Recall**: `memory recall "<query>" --limit 10`
 
 ## Recall Intent
 
 Keep focused queries and memories in their original language. When the user's
 meaning is clear, choose `--intent WHY` (reasons), `--intent WHEN` (timing),
 `--intent ENTITY` (what/who), or `--intent GENERAL` (neutral retrieval).
-For example: `mnemon recall "<query>" --intent WHY`. The override works in any
+For example: `memory recall "<query>" --intent WHY`. The override works in any
 language; `--verbose` reports
 `meta.intent` and `meta.intent_source` (`auto` or `override`).
 
@@ -77,22 +77,22 @@ Bengali (Bengali script), Portuguese, Indonesian (Latin script), Russian
 (Cyrillic), and German. Unrecognized forms use GENERAL; conflicting cues involving
 additional languages also use GENERAL. English/Chinese-only scoring is preserved.
 This is a lexical heuristic, not full language understanding. See
-[the supported forms, script variants, and limits](https://github.com/mnemon-dev/mnemon/blob/master/docs/USAGE.md#recall-intent-detection).
+[the supported forms, script variants, and limits](https://github.com/JayWanX/memory/blob/master/docs/USAGE.md#recall-intent-detection).
 
 ## Commands
 
 ```bash
-mnemon remember "<fact>" --cat <cat> --imp <1-5> --entities "e1,e2" --source agent
-mnemon link <id1> <id2> --type <type> --weight <0-1> [--meta '<json>']
-mnemon recall "<query>" --limit 10
-mnemon recall "<query>" --store global --readonly --limit 10
-mnemon search "<query>" --limit 10
-mnemon forget <id>
-mnemon related <id> --edge causal
-mnemon gc --threshold 0.4
-mnemon gc --keep <id>
-mnemon status
-mnemon log
+memory remember "<fact>" --cat <cat> --imp <1-5> --entities "e1,e2" --source agent
+memory link <id1> <id2> --type <type> --weight <0-1> [--meta '<json>']
+memory recall "<query>" --limit 10
+memory recall "<query>" --store global --readonly --limit 10
+memory search "<query>" --limit 10
+memory forget <id>
+memory related <id> --edge causal
+memory gc --threshold 0.4
+memory gc --keep <id>
+memory status
+memory log
 ```
 
 ## Guardrails

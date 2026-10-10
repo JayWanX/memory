@@ -11,7 +11,7 @@ import (
 	"syscall"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestLoadHasOneFixedCueOneBoundedReceiptAndNoAuthorityOrSecretSurface(t *testing.T) {
@@ -25,13 +25,13 @@ func TestLoadHasOneFixedCueOneBoundedReceiptAndNoAuthorityOrSecretSurface(t *tes
 		t.Fatalf("asset sizes = guide %d, cue %d, extension %d",
 			len(guide), len(cue), len(extension))
 	}
-	if !strings.Contains(cue, ".pi/skills/mnemond/SKILL.md") {
+	if !strings.Contains(cue, ".pi/skills/memoryd/SKILL.md") {
 		t.Fatal("fixed cue does not name the installed, bounded guide projection")
 	}
 	assertGuideTerminalSurface(t, string(guide))
 	source := string(extension)
 	for _, required := range []string{
-		`pi.on("before_agent_start"`, `execFileSync("mnemon", ["agency", ...args]`,
+		`pi.on("before_agent_start"`, `execFileSync("memory", ["agency", ...args]`,
 		`["hook", "attach", "--json"]`, `["hook", "end", "--json"]`,
 		`pi.on("session_shutdown"`, `randomBytes(32).toString("base64url")`,
 		`stdio: ["pipe", "ignore", "ignore"]`, `input: boundaryEnvelope(boundary)`,
@@ -76,11 +76,11 @@ func assertGuideTerminalSurface(t *testing.T, guide string) {
 	t.Helper()
 	normalized := strings.Join(strings.Fields(guide), " ")
 	for _, required := range []string{
-		"mnemond_current {}",
+		"memoryd_current {}",
 		"`View -> Intent -> Receipt -> View`",
 		"Only `allowed_intents` states which structural consequences are available now",
-		"mnemon agency artifact capture --json < PATH",
-		"mnemon agency artifact read \"$HANDLE\"",
+		"memory agency artifact capture --json < PATH",
+		"memory agency artifact read \"$HANDLE\"",
 		"exactly one nonempty",
 		"no Markdown",
 		"Each `successors` element is only",
@@ -98,7 +98,7 @@ func assertGuideTerminalSurface(t *testing.T, guide string) {
 		"References affect later Views and create no responsibility",
 		"A Reference action does not implicitly advance or close `current`",
 		"If no offered consequence expresses the intended effect, submit no Intent",
-		"mnemond fails closed",
+		"memoryd fails closed",
 		"ends this governed Host opportunity: stop",
 		"`input_invalid` is a control diagnostic, not a Receipt",
 		"A `rejected` Receipt records an admission rejection",
@@ -247,7 +247,7 @@ func TestPiHookDoesNotOrchestrateRuntimeToolsOrTurns(t *testing.T) {
 
 func TestInstallPiIsProjectLocalExactAndPreservesAdjacentFiles(t *testing.T) {
 	workspace := testWorkspace(t)
-	legacy := filepath.Join(workspace, ".pi", "skills", "mnemon", "SKILL.md")
+	legacy := filepath.Join(workspace, ".pi", "skills", "memory", "SKILL.md")
 	custom := filepath.Join(workspace, ".pi", "extensions", "custom.ts")
 	writeTestFile(t, legacy, []byte("legacy memory\n"), 0o644)
 	writeTestFile(t, custom, []byte("custom extension\n"), 0o644)
@@ -306,9 +306,9 @@ func TestInstallPiExactReplayDoesNotRewriteOwnedFiles(t *testing.T) {
 func TestInstallPiRecoversEveryDurableInterruption(t *testing.T) {
 	stages := []string{
 		"after_journal",
-		"after_file:.pi/extensions/mnemond-current.ts",
-		"after_file:.pi/extensions/mnemond.ts",
-		"after_file:.pi/skills/mnemond/SKILL.md",
+		"after_file:.pi/extensions/memoryd-current.ts",
+		"after_file:.pi/extensions/memoryd.ts",
+		"after_file:.pi/skills/memoryd/SKILL.md",
 	}
 	interrupted := errors.New("test interruption")
 	for _, stage := range stages {
@@ -409,7 +409,7 @@ func TestInstallPiRecoversBoundedCrashStages(t *testing.T) {
 func TestInstallPiRejectsUnownedTargetAndOwnedDrift(t *testing.T) {
 	t.Run("unowned target", func(t *testing.T) {
 		workspace := testWorkspace(t)
-		target := filepath.Join(workspace, ".pi", "extensions", "mnemond.ts")
+		target := filepath.Join(workspace, ".pi", "extensions", "memoryd.ts")
 		writeTestFile(t, target, []byte("user file\n"), projectedMode)
 		if _, err := InstallPi(workspace); !errors.Is(err, ErrDrift) {
 			t.Fatalf("InstallPi(unowned) = %v", err)
@@ -513,10 +513,10 @@ func (info foreignOwnerInfo) Sys() any {
 
 func assertInstallPaths(t *testing.T, workspace string, receipt InstallReceipt) {
 	t.Helper()
-	if receipt.GuidePath != filepath.Join(workspace, ".pi", "skills", "mnemond", "SKILL.md") ||
-		receipt.CurrentExtensionPath != filepath.Join(workspace, ".pi", "extensions", "mnemond-current.ts") ||
-		receipt.ExtensionPath != filepath.Join(workspace, ".pi", "extensions", "mnemond.ts") ||
-		receipt.JournalPath != filepath.Join(workspace, ".mnemon", "agency", "attach", "pi",
+	if receipt.GuidePath != filepath.Join(workspace, ".pi", "skills", "memoryd", "SKILL.md") ||
+		receipt.CurrentExtensionPath != filepath.Join(workspace, ".pi", "extensions", "memoryd-current.ts") ||
+		receipt.ExtensionPath != filepath.Join(workspace, ".pi", "extensions", "memoryd.ts") ||
+		receipt.JournalPath != filepath.Join(workspace, ".memory", "agency", "attach", "pi",
 			"ownership.json") {
 		t.Fatalf("InstallPi paths = %#v", receipt)
 	}

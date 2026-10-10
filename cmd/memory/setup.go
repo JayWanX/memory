@@ -5,9 +5,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup"
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/setup"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -20,8 +20,8 @@ var (
 
 var setupCmd = &cobra.Command{
 	Use:   "setup",
-	Short: "Deploy mnemon into LLM CLI environments",
-	Long: `Detect installed LLM CLIs and deploy mnemon integration.
+	Short: "Deploy memory into LLM CLI environments",
+	Long: `Detect installed LLM CLIs and deploy memory integration.
 
 By default, installs to project-local config (.claude/, .codex/, .cursor/, .zcode/, .minimax/, .trae/, .qoder/, .codebuddy/, .workbuddy/, .opencode/, .openclaw/, .nanobot/, .pi/).
 Use --global to install to user-wide config (~/.claude/, ~/.codex/, ~/.cursor/, ~/.zcode/, ~/.minimax/, ~/.trae/, ~/.qoder/, ~/.codebuddy/, ~/.workbuddy/, ~/.config/opencode/, ~/.openclaw/, ~/.nanobot/workspace/, ~/.pi/agent/).
@@ -30,29 +30,29 @@ Hermes Agent, QoderWork, and Kimi Code use native user config at ~/.hermes/, ~/.
 Supported environments: Claude Code, Codex, Cursor, ZCode, MiniMax Code, Trae, Qoder, QoderWork, CodeBuddy, WorkBuddy, Kimi Code, OpenCode, OpenClaw, Nanobot, Pi, Hermes Agent.
 
 Examples:
-  mnemon setup                              # Interactive: project-local install
-  mnemon setup --global                     # Interactive: user-wide install
-  mnemon setup --target claude-code         # Non-interactive: Claude Code only
-  mnemon setup --target cursor              # Non-interactive: Cursor skill only
-  mnemon setup --target zcode --global      # Non-interactive: ZCode skill and user hooks
-  mnemon setup --target minimax-code        # Non-interactive: MiniMax Code skill
-  mnemon setup --target trae                # Non-interactive: Trae skill and hooks
-  mnemon setup --target qoder               # Non-interactive: Qoder skill and hooks
-  mnemon setup --target qoderwork           # Non-interactive: QoderWork skill and hooks
-  mnemon setup --target codebuddy           # Non-interactive: CodeBuddy skill and hooks
-  mnemon setup --target workbuddy           # Non-interactive: WorkBuddy skill and hooks
-  mnemon setup --target kimi                # Non-interactive: Kimi Code skill and hooks
-  mnemon setup --target opencode            # Non-interactive: OpenCode skill and plugin
-  mnemon setup --target hermes              # Non-interactive: Hermes Agent only
-  mnemon setup --eject                      # Interactive: remove integrations
-  mnemon setup --eject --target claude-code # Non-interactive: remove Claude Code only
-  mnemon setup --yes                        # Auto-confirm all prompts`,
+  memory setup                              # Interactive: project-local install
+  memory setup --global                     # Interactive: user-wide install
+  memory setup --target claude-code         # Non-interactive: Claude Code only
+  memory setup --target cursor              # Non-interactive: Cursor skill only
+  memory setup --target zcode --global      # Non-interactive: ZCode skill and user hooks
+  memory setup --target minimax-code        # Non-interactive: MiniMax Code skill
+  memory setup --target trae                # Non-interactive: Trae skill and hooks
+  memory setup --target qoder               # Non-interactive: Qoder skill and hooks
+  memory setup --target qoderwork           # Non-interactive: QoderWork skill and hooks
+  memory setup --target codebuddy           # Non-interactive: CodeBuddy skill and hooks
+  memory setup --target workbuddy           # Non-interactive: WorkBuddy skill and hooks
+  memory setup --target kimi                # Non-interactive: Kimi Code skill and hooks
+  memory setup --target opencode            # Non-interactive: OpenCode skill and plugin
+  memory setup --target hermes              # Non-interactive: Hermes Agent only
+  memory setup --eject                      # Interactive: remove integrations
+  memory setup --eject --target claude-code # Non-interactive: remove Claude Code only
+  memory setup --yes                        # Auto-confirm all prompts`,
 	RunE: runSetup,
 }
 
 func init() {
 	setupCmd.Flags().StringVar(&setupTarget, "target", "", "target environment (claude-code, codex, cursor, zcode, minimax-code, trae, qoder, qoderwork, codebuddy, workbuddy, kimi, opencode, openclaw, nanobot, pi, hermes)")
-	setupCmd.Flags().BoolVar(&setupEject, "eject", false, "remove mnemon integrations")
+	setupCmd.Flags().BoolVar(&setupEject, "eject", false, "remove memory integrations")
 	setupCmd.Flags().BoolVar(&setupYes, "yes", false, "auto-confirm all prompts (CI-friendly)")
 	setupCmd.Flags().BoolVar(&setupGlobal, "global", false, "install to user-wide config instead of project-local config")
 	rootCmd.AddCommand(setupCmd)
@@ -96,7 +96,7 @@ func runInstallFlow(envs []setup.Environment) error {
 
 	if len(detected) == 0 {
 		fmt.Println("\nNo supported LLM CLI environments detected.")
-		fmt.Println("Install Claude Code, Codex, Cursor, ZCode, MiniMax Code, Trae, Qoder, QoderWork, CodeBuddy, WorkBuddy, Kimi Code, OpenCode, OpenClaw, Nanobot, Pi, or Hermes Agent, then run 'mnemon setup' again.")
+		fmt.Println("Install Claude Code, Codex, Cursor, ZCode, MiniMax Code, Trae, Qoder, QoderWork, CodeBuddy, WorkBuddy, Kimi Code, OpenCode, OpenClaw, Nanobot, Pi, or Hermes Agent, then run 'memory setup' again.")
 		return nil
 	}
 
@@ -296,7 +296,7 @@ func installClaudeCode(env *setup.Environment) error {
 	fmt.Println()
 	fmt.Println("Start a new Claude Code session to activate.")
 	fmt.Printf("Edit %s/guide.md to customize behavior.\n", promptPath)
-	fmt.Println("Run 'mnemon setup --eject' to remove.")
+	fmt.Println("Run 'memory setup --eject' to remove.")
 
 	return nil
 }
@@ -394,12 +394,12 @@ func installCodex(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks   %s/hooks.json (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
 	fmt.Println("Start a new Codex session to activate.")
-	fmt.Println("Run 'mnemon setup --eject --target codex' to remove.")
+	fmt.Println("Run 'memory setup --eject --target codex' to remove.")
 
 	return nil
 }
@@ -488,12 +488,12 @@ func installCursor(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks   %s/hooks.json (%s)\n", configDir, strings.Join(hookNames, ", "))
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Start a new Cursor agent session to activate the mnemon skill.")
-	fmt.Println("Run 'mnemon setup --eject --target cursor' to remove.")
+	fmt.Println("Start a new Cursor agent session to activate the memory skill.")
+	fmt.Println("Run 'memory setup --eject --target cursor' to remove.")
 
 	return nil
 }
@@ -567,12 +567,12 @@ func installZCode(env *setup.Environment) error {
 	if !globalInstall {
 		fmt.Println()
 		fmt.Println("Setup complete!")
-		fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+		fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 		fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 		fmt.Println()
 		fmt.Println("ZCode currently ignores project-level hooks; use '--global' to install lifecycle hooks.")
 		fmt.Println("Refresh Settings → Skills or start a new ZCode session to activate.")
-		fmt.Println("Run 'mnemon setup --eject --target zcode' to remove.")
+		fmt.Println("Run 'memory setup --eject --target zcode' to remove.")
 		return nil
 	}
 
@@ -614,12 +614,12 @@ func installZCode(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks   %s/cli/config.json (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Start a new ZCode session to activate the mnemon skill and hooks.")
-	fmt.Println("Run 'mnemon setup --eject --target zcode --global' to remove.")
+	fmt.Println("Start a new ZCode session to activate the memory skill and hooks.")
+	fmt.Println("Run 'memory setup --eject --target zcode --global' to remove.")
 
 	return nil
 }
@@ -669,14 +669,14 @@ func installMiniMaxCode(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Start a new MiniMax Code conversation to activate the mnemon skill.")
+	fmt.Println("Start a new MiniMax Code conversation to activate the memory skill.")
 	if globalInstall {
-		fmt.Println("Run 'mnemon setup --eject --target minimax-code --global' to remove.")
+		fmt.Println("Run 'memory setup --eject --target minimax-code --global' to remove.")
 	} else {
-		fmt.Println("Run 'mnemon setup --eject --target minimax-code' to remove.")
+		fmt.Println("Run 'memory setup --eject --target minimax-code' to remove.")
 	}
 
 	return nil
@@ -749,12 +749,12 @@ func installTrae(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks   %s/hooks.json (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Restart Trae to activate the mnemon skill and hooks.")
-	fmt.Println("Run 'mnemon setup --eject --target trae' to remove.")
+	fmt.Println("Restart Trae to activate the memory skill and hooks.")
+	fmt.Println("Run 'memory setup --eject --target trae' to remove.")
 
 	return nil
 }
@@ -786,8 +786,8 @@ func installQoder(env *setup.Environment) error {
 		configDir,
 		setup.QoderWriteSkill,
 		setup.QoderRegisterHooks,
-		"Restart Qoder IDE/CLI to activate the mnemon skill and hooks.",
-		"Run 'mnemon setup --eject --target qoder' to remove.",
+		"Restart Qoder IDE/CLI to activate the memory skill and hooks.",
+		"Run 'memory setup --eject --target qoder' to remove.",
 	)
 }
 
@@ -802,8 +802,8 @@ func installQoderWork(env *setup.Environment) error {
 		configDir,
 		setup.QoderWorkWriteSkill,
 		setup.QoderWorkRegisterHooks,
-		"Restart QoderWork to activate the mnemon skill and hooks.",
-		"Run 'mnemon setup --eject --target qoderwork' to remove.",
+		"Restart QoderWork to activate the memory skill and hooks.",
+		"Run 'memory setup --eject --target qoderwork' to remove.",
 	)
 }
 
@@ -852,7 +852,7 @@ func installQoderLike(configDir string, writeSkill func(string) (string, error),
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill    %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill    %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks    %s/settings.json (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts  %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
@@ -929,12 +929,12 @@ func installCodeBuddy(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill    %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill    %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks    %s/settings.json (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts  %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Restart CodeBuddy Code to activate the mnemon skill and hooks.")
-	fmt.Println("Run 'mnemon setup --eject --target codebuddy' to remove.")
+	fmt.Println("Restart CodeBuddy Code to activate the memory skill and hooks.")
+	fmt.Println("Run 'memory setup --eject --target codebuddy' to remove.")
 
 	return nil
 }
@@ -1006,12 +1006,12 @@ func installWorkBuddy(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill    %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill    %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks    %s/settings.json (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts  %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Restart WorkBuddy to activate the mnemon skill and hooks.")
-	fmt.Println("Run 'mnemon setup --eject --target workbuddy' to remove.")
+	fmt.Println("Restart WorkBuddy to activate the memory skill and hooks.")
+	fmt.Println("Run 'memory setup --eject --target workbuddy' to remove.")
 
 	return nil
 }
@@ -1067,12 +1067,12 @@ func installKimi(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill    %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill    %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks    %s/config.toml (SessionStart, UserPromptSubmit, Stop)\n", configDir)
 	fmt.Printf("  Prompts  %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Restart Kimi Code to activate the mnemon skill and hooks.")
-	fmt.Println("Run 'mnemon setup --eject --target kimi' to remove.")
+	fmt.Println("Restart Kimi Code to activate the memory skill and hooks.")
+	fmt.Println("Run 'memory setup --eject --target kimi' to remove.")
 
 	return nil
 }
@@ -1134,13 +1134,13 @@ func installOpenCode(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill        %s/skills/mnemon/SKILL.md\n", configDir)
-	fmt.Printf("  Plugin       %s/plugins/mnemon.js\n", configDir)
+	fmt.Printf("  Skill        %s/skills/memory/SKILL.md\n", configDir)
+	fmt.Printf("  Plugin       %s/plugins/memory.js\n", configDir)
 	fmt.Printf("  Instructions %s\n", setup.OpenCodeConfigPath(configDir))
 	fmt.Printf("  Prompts      %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Restart OpenCode to activate the mnemon skill, instructions, and plugin.")
-	fmt.Println("Run 'mnemon setup --eject --target opencode' to remove.")
+	fmt.Println("Restart OpenCode to activate the memory skill, instructions, and plugin.")
+	fmt.Println("Run 'memory setup --eject --target opencode' to remove.")
 
 	return nil
 }
@@ -1229,14 +1229,14 @@ func installOpenClaw(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
-	fmt.Printf("  Hook    %s/hooks/mnemon-prime/ (agent:bootstrap)\n", configDir)
-	fmt.Printf("  Plugin  %s/extensions/mnemon/ (hooks: %s)\n", configDir, strings.Join(hookNames, ", "))
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
+	fmt.Printf("  Hook    %s/hooks/memory-prime/ (agent:bootstrap)\n", configDir)
+	fmt.Printf("  Plugin  %s/extensions/memory/ (hooks: %s)\n", configDir, strings.Join(hookNames, ", "))
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
 	fmt.Println("Restart the OpenClaw gateway to activate.")
 	fmt.Printf("Edit %s/guide.md to customize behavior.\n", promptPath)
-	fmt.Println("Run 'mnemon setup --eject' to remove.")
+	fmt.Println("Run 'memory setup --eject' to remove.")
 
 	return nil
 }
@@ -1311,12 +1311,12 @@ func installNanobot(env *setup.Environment) error {
 	// Summary
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
-	fmt.Println("Restart Nanobot to activate the mnemon skill.")
+	fmt.Println("Restart Nanobot to activate the memory skill.")
 	fmt.Printf("Edit %s/guide.md to customize behavior.\n", promptPath)
-	fmt.Println("Run 'mnemon setup --eject' to remove.")
+	fmt.Println("Run 'memory setup --eject' to remove.")
 
 	return nil
 }
@@ -1372,12 +1372,12 @@ func installPi(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill     %s/skills/mnemon/SKILL.md\n", configDir)
-	fmt.Printf("  Extension %s/extensions/mnemon.ts (resources_discover, before_agent_start, agent_end, session_before_compact)\n", configDir)
+	fmt.Printf("  Skill     %s/skills/memory/SKILL.md\n", configDir)
+	fmt.Printf("  Extension %s/extensions/memory.ts (resources_discover, before_agent_start, agent_end, session_before_compact)\n", configDir)
 	fmt.Printf("  Prompts   %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
 	fmt.Println("Start a new Pi session or run /reload to activate.")
-	fmt.Println("Run 'mnemon setup --eject --target pi' to remove.")
+	fmt.Println("Run 'memory setup --eject --target pi' to remove.")
 
 	return nil
 }
@@ -1462,13 +1462,13 @@ func installHermes(env *setup.Environment) error {
 
 	fmt.Println()
 	fmt.Println("Setup complete!")
-	fmt.Printf("  Skill   %s/skills/mnemon/SKILL.md\n", configDir)
+	fmt.Printf("  Skill   %s/skills/memory/SKILL.md\n", configDir)
 	fmt.Printf("  Hooks   %s/config.yaml (%s)\n", configDir, strings.Join(hookNames, ", "))
 	fmt.Printf("  Prompts %s/ (guide.md, skill.md)\n", promptPath)
 	fmt.Println()
 	fmt.Println("Start a new Hermes session to activate.")
 	fmt.Println("Hermes may prompt once to approve the installed shell hooks.")
-	fmt.Println("Run 'mnemon setup --eject --target hermes' to remove.")
+	fmt.Println("Run 'memory setup --eject --target hermes' to remove.")
 
 	return nil
 }

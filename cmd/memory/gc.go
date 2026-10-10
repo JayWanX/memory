@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/store"
 	"github.com/spf13/cobra"
 )
 
@@ -22,16 +22,16 @@ var gcCmd = &cobra.Command{
 	Long: `Garbage collection for memory insights. Two modes:
 
 Suggest mode (default):
-  mnemon gc [--threshold 0.5] [--limit 20]
+  memory gc [--threshold 0.5] [--limit 20]
   Lists non-immune insights with effective_importance below threshold.
   Immune insights (importance >= 4 or access_count >= 3) are never listed.
 
 Keep mode:
-	mnemon gc --keep <id>
+	memory gc --keep <id>
   Boosts an insight's retention (access_count +3, refreshes timestamp).
 
 Compact mode:
-  mnemon gc --compact
+  memory gc --compact
   Rewrites the database with VACUUM. Recall bumps access counters on every
   hit, which scatters table pages across the file and makes cold recalls
   slow; compacting restores sequential layout. Run it weekly or so.`,
@@ -104,7 +104,7 @@ Compact mode:
 		db.LogOp("gc", "", fmt.Sprintf("threshold=%.2f found=%d total=%d", gcThreshold, len(candidates), total))
 
 		// Report the ceiling the way it is configured rather than the sentinel
-		// AutoPrune consumes: 0 is how MNEMON_MAX_INSIGHTS spells "no cap".
+		// AutoPrune consumes: 0 is how MEMORY_MAX_INSIGHTS spells "no cap".
 		maxInsights := store.MaxInsightsLimit()
 		if maxInsights == store.MaxInsightsUnlimited {
 			maxInsights = 0
@@ -117,8 +117,8 @@ Compact mode:
 			"candidates":       candidates,
 			"max_insights":     maxInsights,
 			"actions": map[string]string{
-				"purge": "mnemon forget <id>",
-				"keep":  "mnemon gc --keep <id>",
+				"purge": "memory forget <id>",
+				"keep":  "memory gc --keep <id>",
 			},
 		}
 		enc := json.NewEncoder(os.Stdout)

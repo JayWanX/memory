@@ -8,7 +8,7 @@
 
 ## 3.1 Insight (Memory Node)
 
-An Insight is the fundamental memory unit in Mnemon. Each insight represents an independent piece of knowledge:
+An Insight is the fundamental memory unit in Memory. Each insight represents an independent piece of knowledge:
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -66,7 +66,7 @@ The four edge types form the foundation of the MAGMA four-graph model, detailed 
 
 ## 3.3 Database Schema
 
-Each named store has its own SQLite file under `~/.mnemon/data/<store>/mnemon.db`, using WAL mode to support concurrent reads. The default store is `default`; additional stores can be created for data isolation (see [Store Management](../USAGE.md#store-management)).
+Each named store has its own SQLite file under `~/.memory/data/<store>/memory.db`, using WAL mode to support concurrent reads. The default store is `default`; additional stores can be created for data isolation (see [Store Management](../USAGE.md#store-management)).
 
 ```sql
 -- Memory nodes
@@ -95,38 +95,38 @@ oplog (
 
 ## 3.4 System Architecture
 
-Mnemon ships one executable that composes two deliberately separate product
+Memory ships one executable that composes two deliberately separate product
 paths. Memory remains available through root commands; Agency is available only
-under `mnemon agency ...`. Sharing the executable does not merge their state or
+under `memory agency ...`. Sharing the executable does not merge their state or
 authority.
 
 ```
-                         mnemon
+                         memory
                             |
               +-------------+-------------+
               |                           |
-       root Memory commands        mnemon agency ...
+       root Memory commands        memory agency ...
               |                           |
   model / graph / search / store    View / Intent / admission
   embed / import / setup assets     Artifact / peer / attachment
               |                           |
-       named Memory stores          project .mnemon/agency
+       named Memory stores          project .memory/agency
 ```
 
 The Memory path owns knowledge storage and retrieval. The Agency path owns
 durable responsibility and admitted effects for an existing Agent Runtime. Its
 normative object and package boundaries are documented in the
-[mnemond protocol](../mnemond/protocol.md).
+[memoryd protocol](../memoryd/protocol.md).
 
 **Project code structure:**
 
 ```
-mnemon/
+memory/
 ├── main.go                    # Process entry point
 ├── cmd/
 │   ├── root.go                # Compose the single product command
 │   ├── memory/                # Root Memory commands and Memory flags
-│   └── agency/                # `mnemon agency` user commands
+│   └── agency/                # `memory agency` user commands
 ├── internal/
 │   ├── model/                 # Memory Insight and Edge values
 │   ├── graph/                 # Four-graph edge construction and traversal
@@ -142,45 +142,45 @@ mnemon/
 │   ├── daemon/                # Local authority process composition and lifecycle
 │   ├── agencyclient/          # Runtime-facing terminal and replay journal
 │   └── attach/                # Agency Hook, guide, and tool projection
-├── test/mnemond/              # Agency boundary and scenario suites
-├── testdata/mnemond/          # Data-only Agency fixtures
+├── test/memoryd/              # Agency boundary and scenario suites
+├── testdata/memoryd/          # Data-only Agency fixtures
 └── scripts/e2e_test.sh        # Memory CLI end-to-end suite
 ```
 
 ## 3.5 Memory Data Directory Layout
 
 The following user-wide layout belongs only to Memory. Agency keeps its
-independent project-local state under `<project>/.mnemon/agency/`.
+independent project-local state under `<project>/.memory/agency/`.
 
 ```
-~/.mnemon/
+~/.memory/
 ├── active                        # Current default store name (plain text)
 ├── prompt/                       # Shared across all stores
 │   ├── guide.md                  # Behavioral guide (recall/remember rules)
 │   └── skill.md                  # Skill definition (command reference)
 └── data/                         # Each store has its own isolated directory
     ├── default/
-    │   └── mnemon.db             # SQLite database (WAL mode)
+    │   └── memory.db             # SQLite database (WAL mode)
     ├── work/
-    │   └── mnemon.db
+    │   └── memory.db
     └── <name>/
-        └── mnemon.db
+        └── memory.db
 ```
 
-**Isolation boundary**: Each store contains an independent `mnemon.db` — insights, edges, and oplog are fully isolated. Prompt files (`guide.md`, `skill.md`) are shared — behavioral rules are universal, memory data is private.
+**Isolation boundary**: Each store contains an independent `memory.db` — insights, edges, and oplog are fully isolated. Prompt files (`guide.md`, `skill.md`) are shared — behavioral rules are universal, memory data is private.
 
 ## 3.6 Memory Store Isolation
 
-Mnemon supports named stores for lightweight data isolation between different agents, projects, or scenarios.
+Memory supports named stores for lightweight data isolation between different agents, projects, or scenarios.
 
 **Why named stores instead of just `--data-dir`?**
 
-`--data-dir` overrides the entire base directory — a blunt instrument that requires the caller to manage full paths. Named stores provide semantic clarity (`MNEMON_STORE=work` vs `--data-dir ~/.mnemon-work`) and work naturally with environment variables, which are the standard isolation mechanism for concurrent processes.
+`--data-dir` overrides the entire base directory — a blunt instrument that requires the caller to manage full paths. Named stores provide semantic clarity (`MEMORY_STORE=work` vs `--data-dir ~/.memory-work`) and work naturally with environment variables, which are the standard isolation mechanism for concurrent processes.
 
 **Resolution priority** (highest to lowest):
 
 ```
---store flag  >  MNEMON_STORE env  >  ~/.mnemon/active file  >  "default"
+--store flag  >  MEMORY_STORE env  >  ~/.memory/active file  >  "default"
 ```
 
 This layered design serves different scenarios:
@@ -188,10 +188,10 @@ This layered design serves different scenarios:
 | Mechanism | Scenario |
 |-----------|----------|
 | `--store` flag | One-off CLI override, scripting |
-| `MNEMON_STORE` env | Per-process isolation — different agents use different stores |
-| `active` file | Persistent user preference — `mnemon store set work` |
+| `MEMORY_STORE` env | Per-process isolation — different agents use different stores |
+| `active` file | Persistent user preference — `memory store set work` |
 | `"default"` | Zero-config — works out of the box |
 
-**Automatic migration**: When the new `data/` directory doesn't exist but a legacy `~/.mnemon/mnemon.db` does, mnemon automatically moves it to `data/default/mnemon.db`. Users upgrading from older versions experience a seamless transition.
+**Automatic migration**: When the new `data/` directory doesn't exist but a legacy `~/.memory/memory.db` does, memory automatically moves it to `data/default/memory.db`. Users upgrading from older versions experience a seamless transition.
 
-**Design principle — lightweight and bounded**: Store isolation addresses a necessary data separation concern without growing into a multi-tenant system. There are no access controls, no cross-store queries, no store metadata beyond the name. This keeps the feature bounded — Mnemon is a memory daemon, not a knowledge base platform.
+**Design principle — lightweight and bounded**: Store isolation addresses a necessary data separation concern without growing into a multi-tenant system. There are no access controls, no cross-store queries, no store metadata beyond the name. This keeps the feature bounded — Memory is a memory daemon, not a knowledge base platform.

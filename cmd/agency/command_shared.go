@@ -32,12 +32,12 @@ func newCommand(version string) *cobra.Command {
 	command := &cobra.Command{
 		Use:     "agency",
 		Short:   "Manage durable Agent work and peer collaboration",
-		Long:    "Mnemon Agency adds durable project-local responsibility and admitted effects to an existing Agent Runtime." + platformAgencyNotice,
+		Long:    "Memory Agency adds durable project-local responsibility and admitted effects to an existing Agent Runtime." + platformAgencyNotice,
 		Version: version,
 		Args:    cobra.NoArgs,
 		RunE:    showCommandHelp,
 	}
-	command.SetVersionTemplate("mnemon agency version {{.Version}}\n")
+	command.SetVersionTemplate("memory agency version {{.Version}}\n")
 	return command
 }
 

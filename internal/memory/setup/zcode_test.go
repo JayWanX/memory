@@ -8,7 +8,7 @@ import (
 	"testing"
 	"unicode/utf8"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 func TestZCodePowerShellHookEncoding(t *testing.T) {
@@ -60,7 +60,7 @@ func TestZCodeRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
     "timeoutMs": 15000,
     "events": {
       "SessionStart": [
-        {"hooks": [{"type": "process", "command": "bash", "args": ["/old/mnemon/prime.sh"]}]},
+        {"hooks": [{"type": "process", "command": "bash", "args": ["/old/memory/prime.sh"]}]},
         {"hooks": [{"type": "process", "command": "node", "args": ["/keep/custom.mjs"]}]}
       ],
       "PreToolUse": [
@@ -97,7 +97,7 @@ func TestZCodeRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	}
 	newHook := sessionStart[1].(map[string]interface{})["hooks"].([]interface{})[0].(map[string]interface{})
 	args := newHook["args"].([]interface{})
-	if newHook["type"] != "process" || newHook["command"] != "bash" || len(args) != 1 || !strings.Contains(args[0].(string), "hooks/mnemon/prime.sh") {
+	if newHook["type"] != "process" || newHook["command"] != "bash" || len(args) != 1 || !strings.Contains(args[0].(string), "hooks/memory/prime.sh") {
 		t.Fatalf("unexpected ZCode process hook: %#v", newHook)
 	}
 	for _, event := range []string{"UserPromptSubmit", "Stop"} {
@@ -107,7 +107,7 @@ func TestZCodeRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	}
 }
 
-func TestZCodeEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
+func TestZCodeEjectRemovesOnlyMemoryFilesAndHooks(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := ZCodeWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -142,14 +142,14 @@ func TestZCodeEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	if errs := ZCodeEject(dir); len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkillDir); err != nil {
 		t.Fatalf("custom skill should be preserved: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "hooks", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon hooks should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "hooks", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory hooks should be removed, err=%v", err)
 	}
 
 	data, err = ReadJSONFile(configPath)
@@ -159,8 +159,8 @@ func TestZCodeEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	hooks = data["hooks"].(map[string]interface{})
 	events = hooks["events"].(map[string]interface{})
 	sessionStart := events["SessionStart"].([]interface{})
-	if len(sessionStart) != 1 || containsMnemon(sessionStart[0]) {
-		t.Fatalf("custom hook should be preserved and mnemon removed: %#v", sessionStart)
+	if len(sessionStart) != 1 || containsMemory(sessionStart[0]) {
+		t.Fatalf("custom hook should be preserved and memory removed: %#v", sessionStart)
 	}
 	if _, ok := events["UserPromptSubmit"]; ok {
 		t.Fatalf("user prompt hook should be removed: %#v", events)
@@ -196,7 +196,7 @@ func TestZCodeRegisterHooksUsesNativeWindowsPowerShell(t *testing.T) {
 		if args[0] != "-NoProfile" || args[1] != "-NonInteractive" || args[2] != "-ExecutionPolicy" || args[3] != "Bypass" || args[4] != "-File" {
 			t.Fatalf("unexpected %s PowerShell arguments: %#v", event, args)
 		}
-		if path, ok := args[5].(string); !ok || !strings.HasSuffix(path, filepath.Join("hooks", "mnemon", filename)) {
+		if path, ok := args[5].(string); !ok || !strings.HasSuffix(path, filepath.Join("hooks", "memory", filename)) {
 			t.Fatalf("unexpected %s PowerShell script path: %#v", event, args[5])
 		}
 	}

@@ -8,7 +8,7 @@
 
 ### Why LLM-Supervised Instead of an Embedded LLM?
 
-| Dimension | LLM-Embedded (Mem0, etc.) | LLM-Supervised (Mnemon) |
+| Dimension | LLM-Embedded (Mem0, etc.) | LLM-Supervised (Memory) |
 |-----------|--------------------------|--------------------------|
 | LLM Capability | gpt-4o-mini (constrained) | Host LLM (Opus-class) |
 | API Cost | Every operation incurs a call | Zero |
@@ -21,7 +21,7 @@
 - **ACID transactions**: Atomicity guarantee for the remember pipeline
 - **WAL concurrency**: Supports simultaneous hook reads and CLI writes
 - **Zero external dependencies**: No Redis/Neo4j/Qdrant required
-- **Store isolation**: Named stores (`~/.mnemon/data/<name>/mnemon.db`) provide lightweight data isolation via `MNEMON_STORE` env var
+- **Store isolation**: Named stores (`~/.memory/data/<name>/memory.db`) provide lightweight data isolation via `MEMORY_STORE` env var
 
 ### Why Beam Search Instead of Full BFS?
 
@@ -38,7 +38,7 @@
 
 ### Key Deviations from the MAGMA Paper
 
-| Aspect | MAGMA Paper | Mnemon Implementation |
+| Aspect | MAGMA Paper | Memory Implementation |
 |--------|------------|----------------------|
 | Entity Extraction | LLM-driven full pipeline | Regex + dictionary + LLM supplementation |
 | Causal Reasoning | Embedded prompt chain | Auto candidates + LLM review |
@@ -47,13 +47,13 @@
 | Embeddings | FAISS + OpenAI | Ollama (local, optional) |
 | Deployment | Python library | Single Go binary |
 
-Mnemon retains MAGMA's **architectural skeleton** (four-graph separation, intent-adaptive retrieval, multi-signal fusion) while replacing academic implementation details with production-ready simplifications. This two-tier approach — deterministic automation for the majority of cases, LLM judgment for the complex minority — is precisely the pattern validated by the [RLM paper](02-philosophy.md#25-theoretical-foundations): regex-based filtering plus LLM-driven semantic verification consistently outperforms either approach alone. The core trade-off is: **use regex/heuristics to handle 80% of automation scenarios, and delegate the 20% requiring deep understanding to the host LLM.**
+Memory retains MAGMA's **architectural skeleton** (four-graph separation, intent-adaptive retrieval, multi-signal fusion) while replacing academic implementation details with production-ready simplifications. This two-tier approach — deterministic automation for the majority of cases, LLM judgment for the complex minority — is precisely the pattern validated by the [RLM paper](02-philosophy.md#25-theoretical-foundations): regex-based filtering plus LLM-driven semantic verification consistently outperforms either approach alone. The core trade-off is: **use regex/heuristics to handle 80% of automation scenarios, and delegate the 20% requiring deep understanding to the host LLM.**
 
 ---
 
 ## 8.2 Future Direction
 
-The [two-layer architecture](02-philosophy.md#23-memory-gateway-protocol-not-database) has achieved agent-side pluggability — any LLM CLI can interact with Mnemon through the protocol surface today. The remaining work is on the other side.
+The [two-layer architecture](02-philosophy.md#23-memory-gateway-protocol-not-database) has achieved agent-side pluggability — any LLM CLI can interact with Memory through the protocol surface today. The remaining work is on the other side.
 
 ### Storage-Side Pluggability
 
@@ -78,7 +78,7 @@ The key challenge is defining the right abstraction boundary: too high and you l
 
 ### Toward a Memory Gateway
 
-When both boundaries are decoupled, Mnemon becomes a true memory gateway — any LLM on top, any storage backend underneath, with the protocol layer as the stable contract between them:
+When both boundaries are decoupled, Memory becomes a true memory gateway — any LLM on top, any storage backend underneath, with the protocol layer as the stable contract between them:
 
 ```
          Monolithic systems              Protocol gateway
@@ -91,12 +91,12 @@ MemGPT──┘                         │── SQLite adapter (current)
                                    └── PostgreSQL adapter
 
                                    ↑
-                              mnemon's position:
+                              memory's position:
                               not another database,
                               but the LLM ↔ DB protocol gateway
 ```
 
-This reframes Mnemon's competitive position:
+This reframes Memory's competitive position:
 
 - **Not competing with Neo4j** on storage engines — DB problems belong to DB
 - **Not competing with Mem0** on product features — Mem0 is a product bound to its own storage implementation

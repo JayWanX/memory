@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
@@ -23,15 +23,15 @@ const (
 	routeArtifacts     = "/v1/agency/artifacts"
 	routeArtifactRead  = "/v1/agency/artifacts/read"
 
-	headerAttachment       = "Mnemon-Agency-Attachment"
-	headerCredential       = "Mnemon-Agency-Credential"
-	headerCurrentOperation = "Mnemon-Agency-Current-Operation"
-	headerOperation        = "Mnemon-Agency-Operation"
-	headerArtifactDigest   = "Mnemon-Artifact-Digest"
+	headerAttachment       = "Memory-Agency-Attachment"
+	headerCredential       = "Memory-Agency-Credential"
+	headerCurrentOperation = "Memory-Agency-Current-Operation"
+	headerOperation        = "Memory-Agency-Operation"
+	headerArtifactDigest   = "Memory-Artifact-Digest"
 
-	attachmentSchema    = "mnemon.agency.attachment"
-	attachmentEndSchema = "mnemon.agency.attachment-end"
-	artifactSchema      = "mnemon.agency.artifact"
+	attachmentSchema    = "memory.agency.attachment"
+	attachmentEndSchema = "memory.agency.attachment-end"
+	artifactSchema      = "memory.agency.artifact"
 	controlVersion      = 1
 	timeWireLayout      = "2006-01-02T15:04:05.000000000Z"
 	ownerSocketMode     = os.FileMode(0o600)

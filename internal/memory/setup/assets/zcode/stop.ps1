@@ -1,4 +1,4 @@
-﻿# mnemon ZCode Stop hook for Windows PowerShell.
+﻿# memory ZCode Stop hook for Windows PowerShell.
 
 # ZCode sends UTF-8 JSON regardless of the Windows console code page.
 [Console]::InputEncoding = [Text.Encoding]::UTF8
@@ -17,12 +17,12 @@ $lastMessage = ""
 if ($null -ne $payload -and $null -ne $payload.last_assistant_message) {
     $lastMessage = ([string]$payload.last_assistant_message).ToLowerInvariant()
 }
-if ($lastMessage.Contains("mnemon") -or $lastMessage.Contains("durable memory") -or
+if ($lastMessage.Contains("memory") -or $lastMessage.Contains("durable memory") -or
     $lastMessage.Contains("持久记忆") -or $lastMessage.Contains("写入记忆")) {
     exit 0
 }
 
 [ordered]@{
     decision = "block"
-    reason = "[mnemon] Briefly evaluate whether this exchange warrants durable memory. If yes, use the mnemon skill/CLI to remember only durable, non-secret facts; otherwise say no durable memory is needed. Include [mnemon] in your evaluation, in any language."
+    reason = "[memory] Briefly evaluate whether this exchange warrants durable memory. If yes, use the memory skill/CLI to remember only durable, non-secret facts; otherwise say no durable memory is needed. Include [memory] in your evaluation, in any language."
 } | ConvertTo-Json -Compress

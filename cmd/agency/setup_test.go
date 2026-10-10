@@ -27,7 +27,7 @@ func TestSetupRejectsInvalidOptionsBeforeCreatingState(t *testing.T) {
 				args, exit, stdout, stderr)
 		}
 	}
-	if _, err := os.Lstat(filepath.Join(project, ".mnemon")); !errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Lstat(filepath.Join(project, ".memory")); !errors.Is(err, os.ErrNotExist) {
 		t.Fatalf("invalid setup created project state: %v", err)
 	}
 }
@@ -40,7 +40,7 @@ func TestSetupProjectHonorsCancellationBeforeProvision(t *testing.T) {
 	if !errors.Is(err, context.Canceled) {
 		t.Fatalf("cancelled setup = %v", err)
 	}
-	if _, statErr := os.Lstat(filepath.Join(project, ".mnemon")); !errors.Is(statErr, os.ErrNotExist) {
+	if _, statErr := os.Lstat(filepath.Join(project, ".memory")); !errors.Is(statErr, os.ErrNotExist) {
 		t.Fatalf("cancelled setup created project state: %v", statErr)
 	}
 }

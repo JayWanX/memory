@@ -12,7 +12,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/embed"
 	"modernc.org/sqlite"
 	sqlite3 "modernc.org/sqlite/lib"
 )
@@ -99,7 +99,7 @@ func (db *DB) InTransaction(fn func() error) error {
 	return tx.Commit()
 }
 
-// DefaultDataDir returns ~/.mnemon.
+// DefaultDataDir returns ~/.memory.
 func DefaultDataDir() string {
 	home, err := os.UserHomeDir()
 	if err != nil || home == "" {
@@ -108,7 +108,7 @@ func DefaultDataDir() string {
 	if home == "" {
 		home = "/tmp"
 	}
-	return filepath.Join(home, ".mnemon")
+	return filepath.Join(home, ".memory")
 }
 
 // ValidStoreName returns true if name matches [a-zA-Z0-9][a-zA-Z0-9_-]*.
@@ -183,12 +183,12 @@ func StoreExists(baseDir, name string) bool {
 	return err == nil && fi.IsDir()
 }
 
-// MigrateIfNeeded moves a legacy ~/.mnemon/mnemon.db into the new
+// MigrateIfNeeded moves a legacy ~/.memory/memory.db into the new
 // data/default/ layout. It is safe to call multiple times.
 func MigrateIfNeeded(baseDir string) error {
-	oldDB := filepath.Join(baseDir, "mnemon.db")
+	oldDB := filepath.Join(baseDir, "memory.db")
 	newDir := StoreDir(baseDir, DefaultStoreName)
-	newDB := filepath.Join(newDir, "mnemon.db")
+	newDB := filepath.Join(newDir, "memory.db")
 
 	// Also check for WAL/SHM files
 	oldWAL := oldDB + "-wal"
@@ -218,7 +218,7 @@ func MigrateIfNeeded(baseDir string) error {
 		return fmt.Errorf("migrate SHM: %w", err)
 	}
 
-	fmt.Fprintf(os.Stderr, "mnemon: migrated database to %s\n", newDB)
+	fmt.Fprintf(os.Stderr, "memory: migrated database to %s\n", newDB)
 	return nil
 }
 
@@ -237,7 +237,7 @@ func renameIfExists(oldPath, newPath string) error {
 // database copied onto a read-only filesystem. Callers must not use this mode
 // to observe a database that another process is actively changing.
 func OpenReadOnly(dataDir string) (*DB, error) {
-	dbPath := filepath.Join(dataDir, "mnemon.db")
+	dbPath := filepath.Join(dataDir, "memory.db")
 	if _, err := os.Stat(dbPath); err != nil {
 		return nil, fmt.Errorf("database not found: %s", dbPath)
 	}
@@ -278,7 +278,7 @@ func Open(dataDir string) (*DB, error) {
 		return nil, fmt.Errorf("create data dir: %w", err)
 	}
 
-	dbPath := filepath.Join(dataDir, "mnemon.db")
+	dbPath := filepath.Join(dataDir, "memory.db")
 	// mmap lets cold reads skip a syscall and a copy per page; recall's random
 	// edge and insight reads are where a cold open spends its time.
 	conn, err := sql.Open("sqlite", dbPath+"?_pragma=journal_mode(WAL)&_pragma=foreign_keys(1)&_pragma=mmap_size(268435456)")
@@ -527,7 +527,7 @@ func (db *DB) migrateEmbeddingsToFloat32() error {
 			// whole migration over one bad row would permanently block the
 			// database from opening, and re-encoding non-legacy data here
 			// would silently corrupt it.
-			fmt.Fprintf(os.Stderr, "mnemon: skipping float32 migration for insight %s: embedding is not a legacy float64 vector (%d bytes)\n", id, len(blob))
+			fmt.Fprintf(os.Stderr, "memory: skipping float32 migration for insight %s: embedding is not a legacy float64 vector (%d bytes)\n", id, len(blob))
 			continue
 		}
 		migrated = append(migrated, migratedEmbedding{id: id, blob: embed.SerializeVector(vec)})

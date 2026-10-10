@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // OpenProvisioned derives the local Principal from an existing transport

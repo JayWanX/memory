@@ -11,11 +11,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
-	protocolALPN      = "mnemon-peerlink/1"
+	protocolALPN      = "memory-peerlink/1"
 	certificatePeriod = 10 * 365 * 24 * time.Hour
 	maxAddressBytes   = 512
 )

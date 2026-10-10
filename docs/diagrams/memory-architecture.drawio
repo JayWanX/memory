@@ -1,0 +1,1379 @@
+<mxfile host="app.diagrams.net" modified="2026-02-18T15:30:00.000Z" agent="Claude" version="24.0.0" type="device">
+
+  <!-- ================================================================ -->
+  <!-- Page 1: System Architecture                                      -->
+  <!-- ================================================================ -->
+  <diagram id="arch" name="System Architecture">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="a_title" value="&lt;b&gt;Memory System Architecture&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=18;" vertex="1" parent="1">
+          <mxGeometry x="500" y="10" width="300" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Layer 1: Integration (Purple) ========== -->
+        <mxCell id="a_l1" value="&lt;b&gt;Integration Layer&lt;/b&gt;  (LLM ↔ CLI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1120" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_claude" value="&lt;b&gt;Claude Code&lt;/b&gt;&lt;br&gt;LLM Agent" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="90" width="120" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_hooks" value="&lt;b&gt;Hooks&lt;/b&gt;&lt;br&gt;Prime / Remind&lt;br&gt;Nudge / Compact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="90" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_claudemd" value="&lt;b&gt;Guide&lt;/b&gt;&lt;br&gt;~/.memory/prompt/&lt;br&gt;recall/remember rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="390" y="90" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_skill" value="&lt;b&gt;Skill&lt;/b&gt;&lt;br&gt;SKILL.md&lt;br&gt;command reference" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="560" y="90" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_inject" value="&lt;b&gt;memory setup&lt;/b&gt;&lt;br&gt;auto deploy / eject" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="730" y="90" width="150" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Layer 2: CLI Commands (Blue) ========== -->
+        <mxCell id="a_l2" value="&lt;b&gt;CLI Layer&lt;/b&gt;  cmd/ (cobra commands)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="200" width="1120" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_rem" value="&lt;b&gt;remember&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="235" width="90" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_rec" value="&lt;b&gt;recall&lt;/b&gt;&lt;br&gt;(smart default)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="165" y="235" width="90" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_sea" value="&lt;b&gt;search&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="270" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_dif" value="&lt;b&gt;diff&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="360" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_lnk" value="&lt;b&gt;link&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_gc" value="&lt;b&gt;gc&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="540" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_for" value="&lt;b&gt;forget&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="630" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_rel" value="&lt;b&gt;related&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="720" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_emb" value="&lt;b&gt;embed&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="810" y="235" width="75" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_sta" value="&lt;b&gt;status&lt;/b&gt; / &lt;b&gt;log&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="900" y="235" width="100" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_setup" value="&lt;b&gt;setup&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1015" y="235" width="60" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cmd_viz" value="&lt;b&gt;viz&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1085" y="235" width="55" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Layer 3: Core Engine (Green) ========== -->
+        <mxCell id="a_l3" value="&lt;b&gt;Core Engine Layer&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="1120" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- search/ module -->
+        <mxCell id="a_search" value="&lt;b&gt;search/&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="310" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_recall" value="&lt;b&gt;recall.go&lt;/b&gt;&lt;br&gt;IntentAwareRecall&lt;br&gt;beamSearch&lt;br&gt;vectorSearch&lt;br&gt;causalTopoSort" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="70" y="395" width="140" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_kw" value="&lt;b&gt;keyword.go&lt;/b&gt;&lt;br&gt;KeywordSearch&lt;br&gt;ContentSimilarity&lt;br&gt;Tokenize (stopwords)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="220" y="395" width="140" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_intent" value="&lt;b&gt;intent.go&lt;/b&gt;&lt;br&gt;DetectIntent&lt;br&gt;WHY|WHEN|ENTITY|GENERAL" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="220" y="470" width="140" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- graph/ module -->
+        <mxCell id="a_graph" value="&lt;b&gt;graph/&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="390" y="370" width="460" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_engine" value="&lt;b&gt;engine.go&lt;/b&gt;&lt;br&gt;OnInsightCreated&lt;br&gt;(orchestrator)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="400" y="395" width="100" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_temp" value="&lt;b&gt;temporal.go&lt;/b&gt;&lt;br&gt;backbone +&lt;br&gt;proximity(24h)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E6F3FF;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="510" y="395" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_ent" value="&lt;b&gt;entity.go&lt;/b&gt;&lt;br&gt;regex + dict&lt;br&gt;co-occurrence" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E6F3FF;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="620" y="395" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_sem" value="&lt;b&gt;semantic.go&lt;/b&gt;&lt;br&gt;auto: cos≥0.80&lt;br&gt;review: 0.40-0.80" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E6FFE6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="510" y="455" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cau" value="&lt;b&gt;causal.go&lt;/b&gt;&lt;br&gt;keyword signal&lt;br&gt;BFS candidates" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#FFE6E6;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="620" y="455" width="100" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_lbl_auto" value="auto" style="text;html=1;fontSize=8;fillColor=none;strokeColor=none;fontColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="735" y="395" width="30" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_lbl_llm" value="LLM&#xa;review" style="text;html=1;fontSize=8;fillColor=none;strokeColor=none;fontColor=#b85450;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="735" y="460" width="40" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- embed/ module -->
+        <mxCell id="a_embed" value="&lt;b&gt;embed/&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="870" y="370" width="270" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_ollama_c" value="&lt;b&gt;ollama.go&lt;/b&gt;&lt;br&gt;HTTP client&lt;br&gt;nomic-embed-text&lt;br&gt;graceful fallback" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="880" y="395" width="120" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_vec" value="&lt;b&gt;vector.go&lt;/b&gt;&lt;br&gt;CosineSimilarity&lt;br&gt;Serialize/Deserialize" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#666666;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="395" width="120" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Layer 4: Storage (Orange) ========== -->
+        <mxCell id="a_l4" value="&lt;b&gt;Storage Layer&lt;/b&gt;  store/" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="550" width="1120" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_db" value="&lt;b&gt;db.go&lt;/b&gt;&lt;br&gt;SQLite via modernc.org&lt;br&gt;InTransaction()&lt;br&gt;schema migration" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fce5cd;strokeColor=#d6b656;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="60" y="580" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_node" value="&lt;b&gt;node.go&lt;/b&gt;&lt;br&gt;InsertInsight / GetAllActive&lt;br&gt;GetAllEmbeddings / ScanEmbed&lt;br&gt;AutoPrune / RefreshEI&lt;br&gt;BoostRetention / GC" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fce5cd;strokeColor=#d6b656;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="250" y="580" width="200" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_edge" value="&lt;b&gt;edge.go&lt;/b&gt;&lt;br&gt;InsertEdge&lt;br&gt;GetEdgesFrom&lt;br&gt;GetRecentInWindow" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#fce5cd;strokeColor=#d6b656;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="470" y="580" width="150" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_tables" value="&lt;b&gt;SQLite Tables&lt;/b&gt;&lt;br&gt;insights (id, content, category,&lt;br&gt;  importance, entities, embedding,&lt;br&gt;  access_count, effective_importance)&lt;br&gt;edges (source_id, target_id, type, weight)&lt;br&gt;oplog (timestamp, op, detail)" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f5f5f5;strokeColor=#999999;align=left;spacingLeft=5;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="575" width="280" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_cap" value="&lt;b&gt;MaxInsights = 1000&lt;/b&gt;&lt;br&gt;~7MB memory / ~1.4MB disk" style="rounded=1;whiteSpace=wrap;html=1;fontSize=9;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="580" width="150" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Layer 5: External (Gray) ========== -->
+        <mxCell id="a_l5" value="&lt;b&gt;External Services&lt;/b&gt;  (optional)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="700" width="1120" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_ollama_s" value="&lt;b&gt;Ollama&lt;/b&gt;&lt;br&gt;localhost:11434 | nomic-embed-text (768d)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="725" width="300" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_fs" value="&lt;b&gt;File System&lt;/b&gt;&lt;br&gt;~/.memory/memory.db (single file)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="725" width="280" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Arrows between layers ========== -->
+        <mxCell id="a_e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="a_claude" target="a_cmd_rem">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="a_e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999999;" edge="1" parent="1" source="a_hooks" target="a_cmd_rec">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 2: Remember Pipeline                                        -->
+  <!-- ================================================================ -->
+  <diagram id="remember" name="Remember Pipeline">
+    <mxGraphModel dx="1422" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1700" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="r_title" value="&lt;b&gt;memory remember Pipeline&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="300" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="r_start" value="memory remember &amp;lt;content&amp;gt;&lt;br&gt;--cat --imp --tags --entities --source" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="50" width="340" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- Parse & Validate -->
+        <mxCell id="r_parse" value="Parse &amp; Validate Args&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;category ∈ {preference,decision,fact,insight,context,general}&lt;br&gt;importance ∈ [1,5] | content ≤ 8000 chars&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="130" width="340" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_start" target="r_parse">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Embed -->
+        <mxCell id="r_embed_q" value="Ollama&lt;br&gt;available?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="380" y="220" width="120" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_parse" target="r_embed_q">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="r_embed_yes" value="HTTP POST → Ollama&lt;br&gt;nomic-embed-text&lt;br&gt;→ 768d float64 vector&lt;br&gt;→ SerializeVector()" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="560" y="225" width="160" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e_yes" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="r_embed_q" target="r_embed_yes">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="r_embed_no" value="embeddingBlob = nil&lt;br&gt;(fallback to token overlap)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="170" y="230" width="170" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e_no" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="r_embed_q" target="r_embed_no">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Built-in Diff (before transaction) -->
+        <mxCell id="r_diff_box" value="&lt;b&gt;Built-in Diff&lt;/b&gt; (pre-transaction, read-only)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="310" width="500" height="110" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_diff_check" value="&lt;b&gt;Dedup Check&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Compute similarity vs all active insights&lt;br&gt;(embedding cosine or token overlap)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="340" width="200" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_diff_result" value="&lt;b&gt;Decision&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;DUPLICATE (&gt;0.90) → skip, return early&lt;br&gt;CONFLICT (0.50-0.90) → replace old&lt;br&gt;ADD (&lt;0.50) → continue to insert&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="450" y="335" width="230" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_diff_e" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_diff_check" target="r_diff_result">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Transaction box -->
+        <mxCell id="r_tx" value="&lt;b&gt;SQLite Transaction&lt;/b&gt;  (atomic)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="150" y="450" width="600" height="420" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 0: Soft-delete if replacing -->
+        <mxCell id="r_softdel" value="⓪ Soft-delete replaced insight (if CONFLICT/UPDATE)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;SET deleted_at = now() on old insight&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="475" width="340" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 1: Insert -->
+        <mxCell id="r_ins" value="① InsertInsight&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;id=uuid, content, category, importance, tags, entities, source&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="530" width="340" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e_softdel" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_softdel" target="r_ins">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 2: Store embedding -->
+        <mxCell id="r_store_emb" value="② UpdateEmbedding (if blob ≠ nil)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;insights.embedding = blob (6144 bytes)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="590" width="340" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_ins" target="r_store_emb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 3: Graph Engine -->
+        <mxCell id="r_engine" value="③ Graph Engine: OnInsightCreated" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="650" width="340" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_store_emb" target="r_engine">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- 4 edge types -->
+        <mxCell id="r_temp" value="&lt;b&gt;Temporal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;backbone (prev)&lt;br&gt;proximity (24h window)&lt;br&gt;max 10 edges&lt;br&gt;w=1/(1+hours_diff)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E6F3FF;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="170" y="700" width="130" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_ent" value="&lt;b&gt;Entity&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;regex + 200-word dict&lt;br&gt;merge with --entities&lt;br&gt;bidirectional edges&lt;br&gt;on shared entities&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E6F3FF;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="310" y="700" width="130" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_caus" value="&lt;b&gt;Causal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;keyword regex&lt;br&gt;(because/decided/due to)&lt;br&gt;auto edge if signal&lt;br&gt;found in content&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#FFE6E6;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="450" y="700" width="130" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_sema" value="&lt;b&gt;Semantic&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;cosine similarity&lt;br&gt;AUTO: ≥ 0.80 (max 3)&lt;br&gt;bidirectional edges&lt;br&gt;needs embedding&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=9;fillColor=#E6FFE6;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="590" y="700" width="130" height="75" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="r_e5a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="r_engine" target="r_temp">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e5b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;" edge="1" parent="1" source="r_engine" target="r_ent">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e5c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#b85450;" edge="1" parent="1" source="r_engine" target="r_caus">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e5d" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;" edge="1" parent="1" source="r_engine" target="r_sema">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 4: EI + Prune -->
+        <mxCell id="r_ei" value="④ RefreshEffectiveImportance&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;EI = base_importance × decay × (1 + edge_bonus)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="800" width="340" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_prune" value="⑤ AutoPrune (if total &gt; 1000)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;soft-delete lowest EI, skip immune (imp≥4 or access≥3)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="855" width="340" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_ei" target="r_prune">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Post-transaction: candidates -->
+        <mxCell id="r_post" value="&lt;b&gt;Post-Transaction (read-only)&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="170" y="950" width="250" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="r_sem_cand" value="FindSemanticCandidates&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;cosine ∈ [0.40, 0.80) → REVIEW (LLM judges)&lt;br&gt;cosine ≥ 0.80 → AUTO (already linked)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="170" y="980" width="260" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_cau_cand" value="FindCausalCandidates&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;BFS 2-hop neighborhood&lt;br&gt;causal_signal + suggested_sub_type&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="980" width="260" height="55" as="geometry"/>
+        </mxCell>
+
+        <!-- Output -->
+        <mxCell id="r_out" value="&lt;b&gt;JSON Output&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;{id, action, diff_suggestion, replaced_id,&lt;br&gt;edges_created: {temporal, entity, causal, semantic},&lt;br&gt;semantic_candidates: [{id, content, auto_linked, ...}],&lt;br&gt;causal_candidates: [{id, content, hop, via_edge, ...}],&lt;br&gt;embedded, effective_importance, auto_pruned}&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="1070" width="450" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e7a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_sem_cand" target="r_out">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e7b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="r_cau_cand" target="r_out">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- LLM feedback loop -->
+        <mxCell id="r_llm" value="&lt;b&gt;LLM evaluates candidates&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;decides which to link via:&lt;br&gt;memory link &amp;lt;src&amp;gt; &amp;lt;tgt&amp;gt; --type semantic|causal&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="1190" width="340" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="r_e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;strokeColor=#82b366;" edge="1" parent="1" source="r_out" target="r_llm">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 3: Smart Recall Pipeline                                     -->
+  <!-- ================================================================ -->
+  <diagram id="recall" name="Recall Pipeline (Default)">
+    <mxGraphModel dx="1422" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="s_title" value="&lt;b&gt;memory recall Pipeline (Default)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="350" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Start -->
+        <mxCell id="s_start" value="memory recall &amp;lt;query&amp;gt;&lt;br&gt;[--intent WHY|WHEN|ENTITY|GENERAL] [--limit N] [--basic]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="250" y="50" width="400" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- Embed query -->
+        <mxCell id="s_emb" value="Embed query → 768d vector&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;(Ollama nomic-embed-text, nil if unavailable)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="300" y="120" width="300" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_start" target="s_emb">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Intent Detection -->
+        <mxCell id="s_intent" value="Intent Detection&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;regex: why/because→WHY | when/time→WHEN | what is→ENTITY | else→GENERAL&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="185" width="400" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_emb" target="s_intent">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Adaptive params -->
+        <mxCell id="s_params" value="Adaptive Traversal Params" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="700" y="185" width="180" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_ptable" value="&lt;table style=&quot;font-size:9px;&quot;&gt;&lt;tr&gt;&lt;th&gt;Intent&lt;/th&gt;&lt;th&gt;Beam&lt;/th&gt;&lt;th&gt;Depth&lt;/th&gt;&lt;th&gt;Budget&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;WHY&lt;/td&gt;&lt;td&gt;15&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;500&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;WHEN&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;400&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ENTITY&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;400&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;GENERAL&lt;/td&gt;&lt;td&gt;10&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;500&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="700" y="220" width="180" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_ep" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="s_intent" target="s_params">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- GetAllActiveInsights -->
+        <mxCell id="s_getall" value="GetAllActiveInsights()&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;O(n) full table scan — current bottleneck&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="300" y="260" width="300" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_intent" target="s_getall">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Multi-signal anchor box -->
+        <mxCell id="s_anchor_box" value="&lt;b&gt;Multi-Signal Anchor Selection&lt;/b&gt;  (top-20 per signal)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="330" width="750" height="130" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="s_sig1" value="&lt;b&gt;Signal 1: Keyword&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;KeywordSearch(all, query, 20)&lt;br&gt;tokenized matching&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="100" y="365" width="170" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_sig2" value="&lt;b&gt;Signal 2: Vector&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;ScanEmbeddings → cosine&lt;br&gt;streaming O(n) brute force&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="290" y="365" width="170" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_sig3" value="&lt;b&gt;Signal 3: Recency&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;sort by created_at DESC&lt;br&gt;top-20 most recent&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="365" width="160" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_sig4" value="&lt;b&gt;Signal 4: Entity&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;shared entities&lt;br&gt;with query&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="365" width="140" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- RRF Fusion -->
+        <mxCell id="s_rrf" value="&lt;b&gt;RRF Fusion&lt;/b&gt; (k=60)&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;score = Σ 1/(k + rank_i + 1)  for each signal&lt;br&gt;merge into anchorMap, tag via: keyword|vector|hybrid|temporal|entity&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="490" width="400" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_anchor_box" target="s_rrf">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Sort & select top anchors -->
+        <mxCell id="s_topk" value="Sort anchors by RRF score → select top-K" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="300" y="575" width="300" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_rrf" target="s_topk">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Beam Search box -->
+        <mxCell id="s_beam_box" value="&lt;b&gt;Beam Search&lt;/b&gt;  (per anchor, MAGMA §4.2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;align=left;spacingLeft=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="630" width="640" height="200" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="s_pq" value="&lt;b&gt;Priority Queue&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;container/heap&lt;br&gt;seed: anchor node&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="150" y="665" width="130" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_expand" value="&lt;b&gt;Expand Node&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;GetEdgesFrom(nodeID)&lt;br&gt;for each neighbor:&lt;br&gt;score = score_u + λ₁·structural + λ₂·semantic&lt;br&gt;(λ₁=1.0, λ₂=0.4)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=5;" vertex="1" parent="1">
+          <mxGeometry x="300" y="660" width="260" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_budget" value="&lt;b&gt;Budget Check&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;visited &lt; MaxVisited?&lt;br&gt;depth &lt; MaxDepth?&lt;br&gt;beam &lt; BeamWidth?&lt;/font&gt;" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="580" y="660" width="160" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_collect" value="Collect traversed nodes&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;with scores, depth, via_edge_type&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="250" y="770" width="250" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="s_eb1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_pq" target="s_expand">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_eb2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_expand" target="s_budget">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_eb3" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="s_budget" target="s_pq">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="750"/>
+              <mxPoint x="150" y="750"/>
+              <mxPoint x="150" y="692"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="s_e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_topk" target="s_beam_box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Post-processing -->
+        <mxCell id="s_dedup" value="Deduplicate &amp; Merge results across anchors" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="275" y="860" width="350" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- Intent weights -->
+        <mxCell id="s_weights" value="Apply Intent Weights&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;final_score = w_keyword·kw + w_entity·ent + w_similarity·sim + w_graph·graph&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="225" y="915" width="450" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_dedup" target="s_weights">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Weight table -->
+        <mxCell id="s_wtable" value="&lt;table style=&quot;font-size:9px;&quot;&gt;&lt;tr&gt;&lt;th&gt;Intent&lt;/th&gt;&lt;th&gt;KW&lt;/th&gt;&lt;th&gt;Entity&lt;/th&gt;&lt;th&gt;Sim&lt;/th&gt;&lt;th&gt;Graph&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;WHY&lt;/td&gt;&lt;td&gt;0.10&lt;/td&gt;&lt;td&gt;0.10&lt;/td&gt;&lt;td&gt;0.30&lt;/td&gt;&lt;td&gt;0.50&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;WHEN&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.15&lt;/td&gt;&lt;td&gt;0.30&lt;/td&gt;&lt;td&gt;0.40&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;ENTITY&lt;/td&gt;&lt;td&gt;0.20&lt;/td&gt;&lt;td&gt;0.40&lt;/td&gt;&lt;td&gt;0.20&lt;/td&gt;&lt;td&gt;0.20&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;GENERAL&lt;/td&gt;&lt;td&gt;0.25&lt;/td&gt;&lt;td&gt;0.25&lt;/td&gt;&lt;td&gt;0.25&lt;/td&gt;&lt;td&gt;0.25&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;overflow=fill;" vertex="1" parent="1">
+          <mxGeometry x="700" y="895" width="200" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_ew" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="s_weights" target="s_wtable">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Topo sort -->
+        <mxCell id="s_topo_q" value="Intent == WHY?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="375" y="980" width="150" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_weights" target="s_topo_q">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="s_topo" value="Causal Topological Sort&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Kahn's algorithm on causal edges&lt;br&gt;causes before effects&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="570" y="985" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e_topo" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="s_topo_q" target="s_topo">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="s_skip" value="Sort by score DESC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="180" y="990" width="150" height="35" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e_skip" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="s_topo_q" target="s_skip">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Output -->
+        <mxCell id="s_out" value="&lt;b&gt;JSON Output&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;{results: [{insight: {...}, score, intent, via, signals: {keyword, entity, similarity, graph}}],&lt;br&gt; meta: {intent, intent_source, anchor_count, traversed, hint}}&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1080" width="500" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e9a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_topo" target="s_out">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="s_e9b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="s_skip" target="s_out">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 4: MAGMA Four-Graph Model                                    -->
+  <!-- ================================================================ -->
+  <diagram id="fourgraph" name="MAGMA Four-Graph Model">
+    <mxGraphModel dx="1422" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="fg_title" value="&lt;b&gt;MAGMA Four-Graph Model&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Four edge types capture multi-dimensional relationships between insights&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="500" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Central Insight Nodes ========== -->
+        <mxCell id="fg_n1" value="&lt;b&gt;A&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;Chose SQLite&lt;br&gt;for storage&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="200" y="200" width="100" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_n2" value="&lt;b&gt;B&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;Team lacks&lt;br&gt;Redis experience&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="120" width="100" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_n3" value="&lt;b&gt;C&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;SQLite WAL&lt;br&gt;concurrency test&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="480" y="310" width="100" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_n4" value="&lt;b&gt;D&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;DB selection&lt;br&gt;comparison&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="780" y="200" width="100" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_n5" value="&lt;b&gt;E&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;Deployment&lt;br&gt;confirmed&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="200" y="400" width="100" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Graph 1: Temporal (Blue) ========== -->
+        <mxCell id="fg_t_label" value="&lt;b&gt;① Temporal Graph&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;time-ordered backbone + 24h proximity&lt;br&gt;backbone + proximity&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="40" y="550" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <!-- A → B backbone -->
+        <mxCell id="fg_t1" value="backbone" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=9;fontColor=#6c8ebf;" edge="1" parent="1" source="fg_n1" target="fg_n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <!-- B → C backbone -->
+        <mxCell id="fg_t2" value="backbone" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=9;fontColor=#6c8ebf;" edge="1" parent="1" source="fg_n2" target="fg_n3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <!-- A ↔ E proximity -->
+        <mxCell id="fg_t3" value="proximity w=0.5" style="rounded=1;strokeColor=#6c8ebf;strokeWidth=1;dashed=1;fontSize=8;fontColor=#6c8ebf;" edge="1" parent="1" source="fg_n1" target="fg_n5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Graph 2: Entity (Teal) ========== -->
+        <mxCell id="fg_e_label" value="&lt;b&gt;② Entity Graph&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;co-occurrence on shared entities&lt;br&gt;regex + dictionary + user labels&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="550" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <!-- A ↔ C entity: SQLite -->
+        <mxCell id="fg_e1" value="entity: SQLite" style="rounded=1;strokeColor=#82b366;strokeWidth=2;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="fg_n1" target="fg_n3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <!-- A ↔ D entity: SQLite -->
+        <mxCell id="fg_e2" value="entity: SQLite" style="rounded=1;strokeColor=#82b366;strokeWidth=2;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="fg_n1" target="fg_n4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Graph 3: Causal (Red) ========== -->
+        <mxCell id="fg_c_label" value="&lt;b&gt;③ Causal Graph&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;causal reasoning chains&lt;br&gt;cause → effect&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="550" width="200" height="60" as="geometry"/>
+        </mxCell>
+        <!-- B → A causal: causes -->
+        <mxCell id="fg_c1" value="causes" style="rounded=1;strokeColor=#b85450;strokeWidth=3;fontSize=9;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="fg_n2" target="fg_n1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="400" y="160"/>
+              <mxPoint x="400" y="240"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ========== Graph 4: Semantic (Purple) ========== -->
+        <mxCell id="fg_s_label" value="&lt;b&gt;④ Semantic Graph&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;semantic similarity links&lt;br&gt;cos ≥ 0.80 auto | 0.40-0.80 LLM review&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="760" y="550" width="240" height="60" as="geometry"/>
+        </mxCell>
+        <!-- C ↔ D semantic -->
+        <mxCell id="fg_s1" value="semantic cos=0.87 (auto)" style="rounded=1;strokeColor=#9673a6;strokeWidth=2;dashed=0;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="fg_n3" target="fg_n4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Intent Routing Box ========== -->
+        <mxCell id="fg_intent_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="640" width="960" height="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_intent_title" value="&lt;b&gt;Intent-Adaptive Retrieval&lt;/b&gt;  — different queries activate different graphs" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="60" y="650" width="500" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="fg_why" value="&lt;b&gt;&quot;Why chose SQLite?&quot;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;WHY intent → &lt;font color=&quot;#b85450&quot;&gt;Causal 0.70&lt;/font&gt;&lt;br&gt;causal chain: B→A&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="680" width="200" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_when" value="&lt;b&gt;&quot;Recent decisions?&quot;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;WHEN intent → &lt;font color=&quot;#6c8ebf&quot;&gt;Temporal 0.65&lt;/font&gt;&lt;br&gt;timeline: A→B→C&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="290" y="680" width="200" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_entity" value="&lt;b&gt;&quot;About SQLite?&quot;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;ENTITY intent → &lt;font color=&quot;#82b366&quot;&gt;Entity 0.55&lt;/font&gt;&lt;br&gt;shared entities: A,C,D&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="680" width="200" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_general" value="&lt;b&gt;&quot;Database related&quot;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;GENERAL intent → equal 0.25&lt;br&gt;all four graphs weighted equally&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="680" width="200" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="fg_legend_title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;align=left;fontSize=10;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="800" width="60" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_leg1" value="&lt;font color=&quot;#6c8ebf&quot;&gt;━━&lt;/font&gt; Temporal" style="text;html=1;align=left;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="820" width="100" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_leg2" value="&lt;font color=&quot;#82b366&quot;&gt;━━&lt;/font&gt; Entity" style="text;html=1;align=left;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="150" y="820" width="100" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_leg3" value="&lt;font color=&quot;#b85450&quot;&gt;━━&lt;/font&gt; Causal" style="text;html=1;align=left;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="820" width="100" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="fg_leg4" value="&lt;font color=&quot;#9673a6&quot;&gt;━━&lt;/font&gt; Semantic" style="text;html=1;align=left;fontSize=9;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="370" y="820" width="100" height="15" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 5: LLM-Supervised Architecture                               -->
+  <!-- ================================================================ -->
+  <diagram id="llm-supervised" name="LLM-Supervised Architecture">
+    <mxGraphModel dx="1422" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="cl_title" value="&lt;b&gt;LLM-Supervised Architecture&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;Binary handles deterministic computation; Host LLM supervises high-value judgment&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="10" width="600" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Left: Binary (Organ) ========== -->
+        <mxCell id="cl_bin_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="450" height="580" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_bin_title" value="&lt;b&gt;Binary (Organ)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Deterministic, high-frequency, zero cost&lt;/font&gt;" style="text;html=1;align=center;fontSize=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="100" y="90" width="330" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cl_b1" value="&lt;b&gt;Storage&lt;/b&gt;&lt;br&gt;SQLite WAL, ACID, single file" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="145" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b2" value="&lt;b&gt;Graph Indexing&lt;/b&gt;&lt;br&gt;temporal backbone, entity co-occurrence, auto-edges" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="200" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b3" value="&lt;b&gt;Keyword Search&lt;/b&gt;&lt;br&gt;tokenization, stopwords, CJK bigrams, scoring" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="255" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b4" value="&lt;b&gt;Intent Detection&lt;/b&gt;&lt;br&gt;regex pattern matching → WHY/WHEN/ENTITY/GENERAL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="310" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b5" value="&lt;b&gt;Beam Search &amp; RRF Fusion&lt;/b&gt;&lt;br&gt;multi-signal anchoring, graph traversal, reranking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="365" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b6" value="&lt;b&gt;Vector Computation&lt;/b&gt;&lt;br&gt;cosine similarity, embedding serialization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="420" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b7" value="&lt;b&gt;Entity Extraction&lt;/b&gt;&lt;br&gt;regex + 200-word tech dictionary + CamelCase/ALLCAPS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="475" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b8" value="&lt;b&gt;Lifecycle Decay&lt;/b&gt;&lt;br&gt;EI formula, auto-prune, immunity rules, GC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="530" width="390" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_b9" value="&lt;b&gt;Duplicate Detection&lt;/b&gt;&lt;br&gt;content similarity, negation patterns → ADD/UPDATE/CONFLICT/DUPLICATE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="70" y="585" width="390" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Right: Host LLM (Engine) ========== -->
+        <mxCell id="cl_llm_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;verticalAlign=top;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="610" y="80" width="450" height="580" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_llm_title" value="&lt;b&gt;Host LLM (Supervisor)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;High-value judgment, full context, Opus-level&lt;/font&gt;" style="text;html=1;align=center;fontSize=14;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="670" y="90" width="330" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="cl_l1" value="&lt;b&gt;Causal Chain Evaluation&lt;/b&gt;&lt;br&gt;Review causal candidates: did A really cause B?" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="145" width="390" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_l2" value="&lt;b&gt;Semantic Relevance Judgment&lt;/b&gt;&lt;br&gt;Review grey-zone candidates (cos 0.40-0.80), decide whether to link" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="210" width="390" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_l3" value="&lt;b&gt;Entity Enrichment&lt;/b&gt;&lt;br&gt;Add entities that regex missed (via --entities flag)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="275" width="390" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_l4" value="&lt;b&gt;Memory Triage&lt;/b&gt;&lt;br&gt;Decide what to remember: directives, conclusions, observations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="340" width="390" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_l5" value="&lt;b&gt;Conflict Resolution&lt;/b&gt;&lt;br&gt;When diff returns CONFLICT, decide keep old or new" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="405" width="390" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_l6" value="&lt;b&gt;Result Re-ranking&lt;/b&gt;&lt;br&gt;Use signals transparency + conversation context for final ranking" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="470" width="390" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_l7" value="&lt;b&gt;Category &amp; Importance Assignment&lt;/b&gt;&lt;br&gt;Classify memory as decision/preference/fact, assign importance 1-5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="640" y="535" width="390" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Center: Interaction Arrows ========== -->
+        <!-- Binary → LLM: candidates -->
+        <mxCell id="cl_arrow1_label" value="&lt;b&gt;JSON Candidate Output&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;semantic_candidates&lt;br&gt;causal_candidates&lt;br&gt;signals breakdown&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="493" y="240" width="114" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_arrow1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1" source="cl_arrow1_label" target="cl_l1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_arrow1b" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;strokeWidth=2;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cl_b3" target="cl_arrow1_label">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- LLM → Binary: commands -->
+        <mxCell id="cl_arrow2_label" value="&lt;b&gt;CLI Commands&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;remember, link,&lt;br&gt;forget, gc --keep&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="493" y="440" width="114" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_arrow2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1" source="cl_l5" target="cl_arrow2_label">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_arrow2b" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;strokeWidth=2;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="cl_arrow2_label" target="cl_b8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Bottom: Comparison ========== -->
+        <mxCell id="cl_cmp_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="690" width="1020" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="cl_cmp" value="&lt;b&gt;vs Embedded LLM (Mem0/MemCP)&lt;/b&gt;: gpt-4o-mini inside → API cost per operation, weaker reasoning, network dependency&lt;br&gt;&lt;b&gt;LLM-Supervised (Memory)&lt;/b&gt;: Host LLM (Opus/Sonnet) supervises → zero extra cost, stronger judgment, works offline" style="text;html=1;align=center;fontSize=10;fillColor=none;strokeColor=none;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="60" y="700" width="980" height="60" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 6: Lifecycle & Retention                                     -->
+  <!-- ================================================================ -->
+  <diagram id="lifecycle" name="Lifecycle &amp; Retention">
+    <mxGraphModel dx="1422" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="lc_title" value="&lt;b&gt;Lifecycle &amp; Retention Management&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="10" width="400" height="30" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== EI Formula ========== -->
+        <mxCell id="lc_ei_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="1020" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_ei_title" value="&lt;b&gt;Effective Importance (EI) — Decay Formula&lt;/b&gt;" style="text;html=1;align=left;fontSize=12;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="400" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_formula" value="&lt;font style=&quot;font-size:14px; font-family:monospace;&quot;&gt;EI = base_weight × access_factor × decay_factor × edge_factor&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="100" width="860" height="35" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_f1" value="&lt;b&gt;base_weight&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;imp 5 → 1.00&lt;br&gt;imp 4 → 0.80&lt;br&gt;imp 3 → 0.50&lt;br&gt;imp 2 → 0.30&lt;br&gt;imp 1 → 0.15&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="130" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_f2" value="&lt;b&gt;access_factor&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;max(1.0,&lt;br&gt;log(1+access_count))&lt;br&gt;&lt;br&gt;frequent retrieval = log growth&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="220" y="150" width="180" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_f3" value="&lt;b&gt;decay_factor&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;0.5 ^ (days / 30)&lt;br&gt;&lt;br&gt;half-life 30 days&lt;br&gt;30d → 0.50&lt;br&gt;60d → 0.25&lt;br&gt;90d → 0.125&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="430" y="150" width="170" height="95" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_f4" value="&lt;b&gt;edge_factor&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;1.0 + 0.1 × min(edges, 5)&lt;br&gt;&lt;br&gt;more connections = more important&lt;br&gt;0 edges → 1.0&lt;br&gt;5+ edges → 1.5&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="630" y="150" width="180" height="95" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Immunity Rules ========== -->
+        <mxCell id="lc_immune_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="480" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_immune_title" value="&lt;b&gt;Immunity Rules (immune from auto-cleanup)&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="300" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_im1" value="&lt;font style=&quot;font-size:20px&quot;&gt;🛡&lt;/font&gt; importance ≥ 4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="330" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_im2" value="&lt;font style=&quot;font-size:20px&quot;&gt;🛡&lt;/font&gt; access_count ≥ 3" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="330" width="220" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Auto-Prune Flow ========== -->
+        <mxCell id="lc_prune_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="560" y="290" width="500" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_prune_title" value="&lt;b&gt;Auto-Prune (trigger: total &gt; 1000)&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="580" y="300" width="400" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_p1" value="Count active insights" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="580" y="330" width="140" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_pq" value="&gt; 1000?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="750" y="325" width="80" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_pe1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lc_p1" target="lc_pq">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_p2" value="&lt;font style=&quot;font-size:9px&quot;&gt;Sort by EI ASC&lt;br&gt;exclude immune&lt;br&gt;take bottom 10&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="322" width="120" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_pe2" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="lc_pq" target="lc_p2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_p3" value="Soft delete&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;SET deleted_at = now()&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="390" width="120" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_pe3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lc_p2" target="lc_p3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_p4" value="Cascade delete edges" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="860" y="450" width="140" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_pe4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lc_p3" target="lc_p4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="lc_pskip" value="No-op" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="748" y="390" width="80" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_pe5" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="lc_pq" target="lc_pskip">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== GC Manual Controls ========== -->
+        <mxCell id="lc_gc_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="480" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_gc_title" value="&lt;b&gt;Manual GC Controls&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="430" width="200" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_gc1" value="&lt;b&gt;gc --threshold 0.5&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;list candidates with EI &lt; 0.5&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="460" width="200" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_gc2" value="&lt;b&gt;gc --keep &amp;lt;id&amp;gt;&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;access_count += 3 → boost retention&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="280" y="460" width="220" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Timeline Visualization ========== -->
+        <mxCell id="lc_time_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="555" width="1020" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_time_title" value="&lt;b&gt;EI Decay Over Time (importance=3, no access)&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="562" width="400" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="lc_timeline" value="&lt;font style=&quot;font-family:monospace; font-size:10px&quot;&gt;Day 0   ████████████████████  EI = 0.50  (fresh)&lt;br&gt;Day 15  ███████████████       EI = 0.35  (half-life approaching)&lt;br&gt;Day 30  ██████████            EI = 0.25  (half-life reached)&lt;br&gt;Day 60  █████                 EI = 0.13  (candidate for pruning)&lt;br&gt;Day 90  ██                    EI = 0.06  (likely pruned)&lt;/font&gt;" style="text;html=1;align=left;fontSize=10;fillColor=none;strokeColor=none;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="60" y="585" width="980" height="80" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 7: Diff & Dedup Pipeline                                     -->
+  <!-- ================================================================ -->
+  <diagram id="diff" name="Built-in Diff (inside remember)">
+    <mxGraphModel dx="1422" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="d_title" value="&lt;b&gt;Built-in Diff (inside remember)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Auto dedup &amp; conflict resolution&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="200" y="10" width="500" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Input -->
+        <mxCell id="d_input" value="&lt;b&gt;memory remember&lt;/b&gt; &amp;lt;content&amp;gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="60" width="440" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 1: KeywordSearch -->
+        <mxCell id="d_kw" value="&lt;b&gt;Step 1: KeywordSearch&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Tokenize new content&lt;br&gt;Score all active insights by token overlap&lt;br&gt;Return top-5 matches&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="290" y="130" width="320" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="d_input" target="d_kw">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 2: ContentSimilarity -->
+        <mxCell id="d_sim" value="&lt;b&gt;Step 2: ContentSimilarity&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;For each top-5 match:&lt;br&gt;similarity = |tokens_new ∩ tokens_old| / |tokens_new ∪ tokens_old|&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="275" y="225" width="350" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="d_kw" target="d_sim">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Step 3: Negation Detection -->
+        <mxCell id="d_neg" value="&lt;b&gt;Step 3: Negation Pattern Detection&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Scan for: not, no longer, don't, never,&lt;br&gt;switched from, replaced, abandoned, changed to&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="275" y="315" width="350" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="d_sim" target="d_neg">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Decision Diamond: similarity check -->
+        <mxCell id="d_q1" value="similarity &lt; 0.50?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="375" y="405" width="150" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="d_neg" target="d_q1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- ADD result -->
+        <mxCell id="d_add" value="&lt;b&gt;ADD&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;New content, safe to remember&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="415" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e5" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="d_q1" target="d_add">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Diamond: negation? -->
+        <mxCell id="d_q2" value="negation&#xa;detected?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="375" y="510" width="150" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e6" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="d_q1" target="d_q2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- CONFLICT result -->
+        <mxCell id="d_conflict" value="&lt;b&gt;CONFLICT&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Contradicts existing insight&lt;br&gt;LLM decides: keep old or replace&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="515" width="240" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e7" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="d_q2" target="d_conflict">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Diamond: >0.90? -->
+        <mxCell id="d_q3" value="similarity&#xa;&gt; 0.90?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="375" y="615" width="150" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e8" value="No" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="d_q2" target="d_q3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- DUPLICATE result -->
+        <mxCell id="d_dup" value="&lt;b&gt;DUPLICATE&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Already exists, skip remember&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="625" width="220" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e9" value="Yes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="d_q3" target="d_dup">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- UPDATE result -->
+        <mxCell id="d_update" value="&lt;b&gt;UPDATE&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Similar but different&lt;br&gt;Consider forget old + remember new&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="720" width="220" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_e10" value="No (0.50-0.90)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;fontSize=9;" edge="1" parent="1" source="d_q3" target="d_update">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Summary Box -->
+        <mxCell id="d_summary_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="820" width="740" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_summary_title" value="&lt;b&gt;Decision Matrix&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="828" width="150" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_summary" value="&lt;table style=&quot;font-size:10px; border-collapse:collapse;&quot;&gt;&lt;tr style=&quot;font-weight:bold; background:#eee;&quot;&gt;&lt;th style=&quot;padding:4px 12px; border:1px solid #ccc;&quot;&gt;Similarity&lt;/th&gt;&lt;th style=&quot;padding:4px 12px; border:1px solid #ccc;&quot;&gt;Negation&lt;/th&gt;&lt;th style=&quot;padding:4px 12px; border:1px solid #ccc;&quot;&gt;Action&lt;/th&gt;&lt;th style=&quot;padding:4px 12px; border:1px solid #ccc;&quot;&gt;Meaning&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;&amp;lt; 0.50&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;-&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc; color:#82b366; font-weight:bold;&quot;&gt;ADD&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;New information&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;0.50 - 0.90&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;Yes&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc; color:#b85450; font-weight:bold;&quot;&gt;CONFLICT&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;Contradicts existing&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;&amp;gt; 0.90&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;No&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc; color:#999; font-weight:bold;&quot;&gt;DUPLICATE&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;Already stored&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;0.50 - 0.90&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;No&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc; color:#d6b656; font-weight:bold;&quot;&gt;UPDATE&lt;/td&gt;&lt;td style=&quot;padding:3px 12px; border:1px solid #ccc;&quot;&gt;Evolved version&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;overflow=fill;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="100" y="850" width="700" height="60" as="geometry"/>
+        </mxCell>
+
+        <!-- Typical Workflow -->
+        <mxCell id="d_wf_title" value="&lt;b&gt;New Workflow (single command)&lt;/b&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="940" width="300" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_wf1" value="&lt;font style=&quot;font-size:10px; font-family:monospace;&quot;&gt;memory remember &quot;new fact&quot;&lt;br&gt;--cat decision --imp 5&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="80" y="965" width="220" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_wf2" value="&lt;font style=&quot;font-size:10px&quot;&gt;Built-in diff auto-runs&lt;br&gt;&lt;/font&gt;&lt;font style=&quot;font-size:9px&quot;&gt;DUPLICATE→skip | CONFLICT→replace | ADD→insert&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="962" width="280" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_wf3" value="&lt;font style=&quot;font-size:10px&quot;&gt;JSON output with&lt;br&gt;action + replaced_id&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="965" width="160" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_wfe1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999;" edge="1" parent="1" source="d_wf1" target="d_wf2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="d_wfe2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#999;" edge="1" parent="1" source="d_wf2" target="d_wf3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 8: Hook-Based Integration                                    -->
+  <!-- ================================================================ -->
+  <diagram id="integration" name="Hook-Based Integration">
+    <mxGraphModel dx="1422" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="i_title" value="&lt;b&gt;Hook-Based LLM Integration&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;How Memory integrates with Claude Code via lifecycle hooks&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="250" y="10" width="500" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Session Start -->
+        <mxCell id="i_session" value="&lt;b&gt;Session starts&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="380" y="60" width="240" height="35" as="geometry"/>
+        </mxCell>
+
+        <!-- Hook Layer -->
+        <mxCell id="i_hook_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="1020" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_hook_title" value="&lt;b&gt;Hooks&lt;/b&gt; — Claude Code lifecycle events → .claude/hooks/memory/" style="text;html=1;align=left;fontSize=12;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="125" width="500" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- SessionStart hook -->
+        <mxCell id="i_h_prime" value="&lt;b&gt;Prime (SessionStart)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;prime.sh&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Load guide.md&lt;br&gt;(memory execution manual)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="160" width="170" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- UserPromptSubmit hook -->
+        <mxCell id="i_h1" value="&lt;b&gt;Remind (UserPromptSubmit)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;user_prompt.sh&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Remind agent to&lt;br&gt;recall &amp;amp; remember&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="260" y="160" width="230" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Stop hook -->
+        <mxCell id="i_h_stop" value="&lt;b&gt;Nudge (Stop)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;stop.sh&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Remind agent to remember&lt;br&gt;(silent if already handled)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="520" y="160" width="190" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Compact hook -->
+        <mxCell id="i_h_compact" value="&lt;b&gt;Compact (PreCompact)&lt;/b&gt; (optional)&lt;br&gt;&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;compact.sh&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Extract critical insights&lt;br&gt;to remember&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="740" y="160" width="190" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Hook output note -->
+        <mxCell id="i_h_note" value="&lt;font style=&quot;font-size:9px;font-style:italic;color:#666&quot;&gt;All hooks output &lt;b&gt;prompt-style text&lt;/b&gt; injected into LLM context — suggestions and context, not forced execution.&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#ccc;fontSize=9;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="960" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_h_out1" value="&lt;font style=&quot;font-family:monospace;font-size:8px;color:#555&quot;&gt;→ [memory] Memory active + guide.md&lt;/font&gt;" style="text;html=1;align=center;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="278" width="170" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_h_out2" value="&lt;font style=&quot;font-family:monospace;font-size:8px;color:#555&quot;&gt;→ [memory] Evaluate: recall needed?&lt;/font&gt;" style="text;html=1;align=center;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="278" width="230" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_h_out3" value="&lt;font style=&quot;font-family:monospace;font-size:8px;color:#555&quot;&gt;→ [memory] Consider: ...remember?&lt;/font&gt;" style="text;html=1;align=center;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="520" y="278" width="190" height="18" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_h_out4" value="&lt;font style=&quot;font-family:monospace;font-size:8px;color:#555&quot;&gt;→ [memory] ...compaction starting...&lt;/font&gt;" style="text;html=1;align=center;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="740" y="278" width="190" height="18" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrow from session to hook -->
+        <mxCell id="i_eu" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="i_session" target="i_hook_box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Guide Layer -->
+        <mxCell id="i_guide_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="1020" height="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_guide_title" value="&lt;b&gt;Guide&lt;/b&gt; — ~/.memory/prompt/guide.md (loaded by Prime at SessionStart)" style="text;html=1;align=left;fontSize=12;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="365" width="500" height="25" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="i_c1" value="&lt;b&gt;Recall Rules&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Default: recall every message&lt;br&gt;Skip only if: direct follow-up&lt;br&gt;within current context&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="400" width="200" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_c2" value="&lt;b&gt;Remember Decision Tree&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Step 1: directive/reasoning/state?&lt;br&gt;Step 2: overlap check (update/replace/create)&lt;br&gt;Step 3: cost-benefit evaluation&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="290" y="400" width="260" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_c3" value="&lt;b&gt;Sub-Agent Delegation&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Delegate to Task sub-agent&lt;br&gt;(general-purpose type, Sonnet model)&lt;br&gt;Only provide WHAT to store&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E6FFE6;strokeColor=#82b366;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="580" y="400" width="210" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_c4" value="&lt;font style=&quot;font-size:9px&quot;&gt;&lt;b&gt;Do NOT remember:&lt;/b&gt;&lt;br&gt;operational tasks,&lt;br&gt;public knowledge,&lt;br&gt;info in git&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="820" y="400" width="140" height="75" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrow from hook to guide -->
+        <mxCell id="i_ec" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;strokeWidth=2;" edge="1" parent="1" source="i_hook_box" target="i_guide_box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Skill Layer -->
+        <mxCell id="i_skill_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="40" y="560" width="1020" height="140" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_skill_title" value="&lt;b&gt;Skill&lt;/b&gt; — .claude/skills/memory/SKILL.md (auto-discovered by Claude Code)" style="text;html=1;align=left;fontSize=12;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="60" y="565" width="500" height="25" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="i_s1" value="&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;memory remember &quot;fact&quot;&lt;br&gt;  --cat decision --imp 5&lt;br&gt;  --entities &quot;A,B&quot;&lt;br&gt;  (diff built-in)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="600" width="210" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_s2" value="&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;memory recall &quot;topic&quot;&lt;br&gt;  --limit 10&lt;br&gt;memory search &quot;keyword&quot;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="300" y="600" width="210" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_s3" value="&lt;font style=&quot;font-family:monospace;font-size:9px&quot;&gt;memory link &amp;lt;src&amp;gt; &amp;lt;tgt&amp;gt;&lt;br&gt;  --type causal&lt;br&gt;memory forget &amp;lt;id&amp;gt;&lt;br&gt;memory gc --keep &amp;lt;id&amp;gt;&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF8E1;strokeColor=#d6b656;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="540" y="600" width="210" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_s4" value="&lt;font style=&quot;font-size:9px&quot;&gt;&lt;b&gt;Separation of concerns:&lt;/b&gt;&lt;br&gt;Hooks = prime / remind / nudge / compact&lt;br&gt;Guide = when &amp;amp; what (execution manual)&lt;br&gt;Skill = how (command reference)&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999;fontSize=9;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="780" y="600" width="170" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Arrow from guide to skill -->
+        <mxCell id="i_es" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#d6b656;strokeWidth=2;" edge="1" parent="1" source="i_guide_box" target="i_skill_box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- LLM Response -->
+        <mxCell id="i_response" value="&lt;b&gt;LLM generates memory-aware response&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Nudge fires → remind agent to remember&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="250" y="740" width="500" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_er" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="i_skill_box" target="i_response">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Sub-Agent Delegation -->
+        <mxCell id="i_subagent_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#9673a6;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="820" width="800" height="120" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_subagent_title" value="&lt;b&gt;Sub-Agent Delegation&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Memory writes isolated from main conversation&lt;/font&gt;" style="text;html=1;align=left;fontSize=11;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="150" y="828" width="350" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_sa_main" value="&lt;b&gt;Main Agent (Opus)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;~25k tokens context&lt;br&gt;Decides WHAT to remember&lt;br&gt;Provides: content, category,&lt;br&gt;importance, entities&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="160" y="860" width="210" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_sa_sub" value="&lt;b&gt;Sub-Agent (Sonnet)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;~1k tokens context&lt;br&gt;Reads SKILL.md&lt;br&gt;Executes memory remember&lt;br&gt;Evaluates link candidates&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F3E5F5;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="470" y="860" width="210" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_sa_why" value="&lt;font style=&quot;font-size:9px&quot;&gt;&lt;b&gt;Why?&lt;/b&gt;&lt;br&gt;Token economy: ~7k vs ~25k&lt;br&gt;Context isolation&lt;br&gt;Model efficiency&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999;fontSize=9;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="730" y="860" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="i_sa_edge" value="&lt;font style=&quot;font-size:9px&quot;&gt;delegates&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;strokeWidth=1;html=1;fontSize=9;" edge="1" parent="1" source="i_sa_main" target="i_sa_sub">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <!-- Arrow from response to sub-agent -->
+        <mxCell id="i_e_resp_sa" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#9673a6;strokeWidth=2;" edge="1" parent="1" source="i_response" target="i_subagent_box">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Feedback arrow -->
+        <mxCell id="i_feedback" value="&lt;font style=&quot;font-size:9px&quot;&gt;memory remember (diff built-in)&lt;br&gt;writes to ~/.memory&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#82b366;strokeWidth=1;dashed=1;html=1;fontSize=9;" edge="1" parent="1" source="i_subagent_box" target="i_hook_box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="970"/>
+              <mxPoint x="30" y="970"/>
+              <mxPoint x="30" y="220"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Setup note -->
+        <mxCell id="i_setup" value="&lt;b&gt;memory setup&lt;/b&gt; deploys all components automatically. &lt;b&gt;memory setup --eject&lt;/b&gt; removes them." style="text;html=1;align=center;fontSize=10;fillColor=none;strokeColor=none;fontColor=#666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1000" width="600" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Adapting note -->
+        <mxCell id="i_adapt" value="&lt;b&gt;Other LLM CLIs:&lt;/b&gt; Replicate hook pattern, or merge guide + skill into .cursorrules / RULES.md / system prompt" style="text;html=1;align=center;fontSize=10;fillColor=none;strokeColor=none;fontColor=#666;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="200" y="1020" width="600" height="20" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- ================================================================ -->
+  <!-- Page 9: Insight & Edge Data Model                                 -->
+  <!-- ================================================================ -->
+  <diagram id="datamodel" name="Insight &amp; Edge Data Model">
+    <mxGraphModel dx="1422" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Title -->
+        <mxCell id="dm_title" value="&lt;b&gt;Insight &amp; Edge Data Model&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Core data structures in Memory's SQLite storage&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;fontSize=16;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="350" y="10" width="400" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Insight Entity ========== -->
+        <mxCell id="dm_insight_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="70" width="520" height="400" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_insight_title" value="&lt;b&gt;Insight&lt;/b&gt; (Memory Node)" style="text;html=1;align=center;fontSize=14;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="80" width="220" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- Fields -->
+        <mxCell id="dm_fields" value="&lt;table style=&quot;font-size:10px; border-collapse:collapse; width:100%&quot;&gt;&lt;tr style=&quot;background:#6c8ebf; color:white; font-weight:bold;&quot;&gt;&lt;td style=&quot;padding:4px 8px; border:1px solid #6c8ebf;&quot;&gt;Field&lt;/td&gt;&lt;td style=&quot;padding:4px 8px; border:1px solid #6c8ebf;&quot;&gt;Type&lt;/td&gt;&lt;td style=&quot;padding:4px 8px; border:1px solid #6c8ebf;&quot;&gt;Description&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;id&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;UUID&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Primary key&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;content&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;TEXT&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Memory content (max 8000 chars)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;category&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;TEXT&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;preference | decision | fact | insight | context | general&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;importance&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;INT&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;1-5 (5=critical, 1=temporary)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;tags&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;JSON&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;User-defined labels (max 20)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;entities&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;JSON&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Extracted entities (max 50)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;embedding&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;BLOB&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;768d float64 (optional, 6144 bytes)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;access_count&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;INT&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Times retrieved (boosts EI)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;effective_importance&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;REAL&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Decayed importance (auto-computed)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;created_at&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;DATETIME&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Creation timestamp&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;deleted_at&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;DATETIME&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;Soft-delete marker (NULL if active)&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;overflow=fill;fillColor=#f5f5f5;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="55" y="110" width="490" height="250" as="geometry"/>
+        </mxCell>
+
+        <!-- Category breakdown -->
+        <mxCell id="dm_cat_title" value="&lt;b&gt;Categories&lt;/b&gt;" style="text;html=1;align=left;fontSize=10;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="370" width="100" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_cat1" value="preference" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="60" y="390" width="75" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_cat2" value="decision" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="143" y="390" width="70" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_cat3" value="fact" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="221" y="390" width="50" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_cat4" value="insight" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="279" y="390" width="55" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_cat5" value="context" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="342" y="390" width="60" height="25" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_cat6" value="general" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="410" y="390" width="60" height="25" as="geometry"/>
+        </mxCell>
+
+        <!-- Importance scale -->
+        <mxCell id="dm_imp_title" value="&lt;b&gt;Importance Scale&lt;/b&gt;" style="text;html=1;align=left;fontSize=10;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="425" width="120" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_imp5" value="&lt;b&gt;5&lt;/b&gt; Critical" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#b85450;strokeColor=#b85450;fontSize=9;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="60" y="445" width="80" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_imp4" value="&lt;b&gt;4&lt;/b&gt; Important" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d6b656;strokeColor=#d6b656;fontSize=9;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="148" y="445" width="85" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_imp3" value="&lt;b&gt;3&lt;/b&gt; Standard" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#82b366;strokeColor=#82b366;fontSize=9;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="241" y="445" width="80" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_imp2" value="&lt;b&gt;2&lt;/b&gt; Low" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#6c8ebf;strokeColor=#6c8ebf;fontSize=9;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="329" y="445" width="60" height="22" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_imp1" value="&lt;b&gt;1&lt;/b&gt; Temp" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#999;strokeColor=#999;fontSize=9;fontColor=#fff;" vertex="1" parent="1">
+          <mxGeometry x="397" y="445" width="60" height="22" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Edge Entity ========== -->
+        <mxCell id="dm_edge_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="620" y="70" width="520" height="230" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_edge_title" value="&lt;b&gt;Edge&lt;/b&gt; (Relationship)" style="text;html=1;align=center;fontSize=14;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="780" y="80" width="200" height="25" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="dm_efields" value="&lt;table style=&quot;font-size:10px; border-collapse:collapse; width:100%;&quot;&gt;&lt;tr style=&quot;background:#82b366; color:white; font-weight:bold;&quot;&gt;&lt;td style=&quot;padding:4px 8px; border:1px solid #82b366;&quot;&gt;Field&lt;/td&gt;&lt;td style=&quot;padding:4px 8px; border:1px solid #82b366;&quot;&gt;Type&lt;/td&gt;&lt;td style=&quot;padding:4px 8px; border:1px solid #82b366;&quot;&gt;Description&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;source_id&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;UUID&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;From insight (PK part)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;target_id&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;UUID&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;To insight (PK part)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;edge_type&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;TEXT&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;temporal | entity | causal | semantic (PK part)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;weight&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;REAL&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;0.0 ~ 1.0 (strength)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd; font-family:monospace;&quot;&gt;metadata&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;JSON&lt;/td&gt;&lt;td style=&quot;padding:3px 8px; border:1px solid #ddd;&quot;&gt;sub_type, entity, reason, etc.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;overflow=fill;fillColor=#f5f5f5;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="635" y="110" width="490" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- Four edge types -->
+        <mxCell id="dm_et_title" value="&lt;b&gt;Four Edge Types (MAGMA)&lt;/b&gt;" style="text;html=1;align=left;fontSize=10;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="250" width="200" height="15" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_et1" value="&lt;b&gt;temporal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;backbone + proximity&lt;br&gt;auto-created&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E6F3FF;strokeColor=#6c8ebf;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="640" y="270" width="110" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_et2" value="&lt;b&gt;entity&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;shared entities&lt;br&gt;auto-created&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="760" y="270" width="110" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_et3" value="&lt;b&gt;causal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;cause/effect chains&lt;br&gt;auto + LLM review&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="880" y="270" width="110" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_et4" value="&lt;b&gt;semantic&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;cos similarity&lt;br&gt;auto + LLM review&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="270" width="110" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- ========== Relationship Diagram ========== -->
+        <mxCell id="dm_rel_box" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="500" width="1100" height="350" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_rel_title" value="&lt;b&gt;Graph Structure Example&lt;/b&gt;" style="text;html=1;align=left;fontSize=12;fillColor=none;strokeColor=none;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="510" width="250" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- Example nodes -->
+        <mxCell id="dm_ex1" value="&lt;b&gt;Insight A&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;category: decision&lt;br&gt;importance: 5&lt;br&gt;&quot;Choose SQLite for storage&quot;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6E6;strokeColor=#b85450;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="100" y="560" width="180" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_ex2" value="&lt;b&gt;Insight B&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;category: fact&lt;br&gt;importance: 3&lt;br&gt;&quot;Team lacks Redis experience&quot;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="100" y="680" width="180" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_ex3" value="&lt;b&gt;Insight C&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;category: context&lt;br&gt;importance: 3&lt;br&gt;&quot;SQLite WAL concurrency test&quot;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="460" y="560" width="180" height="65" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_ex4" value="&lt;b&gt;Insight D&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:8px&quot;&gt;category: insight&lt;br&gt;importance: 4&lt;br&gt;&quot;DB comparison report&quot;&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="460" y="700" width="180" height="65" as="geometry"/>
+        </mxCell>
+
+        <!-- Example edges -->
+        <mxCell id="dm_ee1" value="causal: causes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#b85450;strokeWidth=2;fontSize=9;fontColor=#b85450;fontStyle=1;" edge="1" parent="1" source="dm_ex2" target="dm_ex1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_ee2" value="entity: SQLite" style="rounded=1;strokeColor=#82b366;strokeWidth=2;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="dm_ex1" target="dm_ex3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_ee3" value="temporal: backbone" style="rounded=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=9;fontColor=#6c8ebf;" edge="1" parent="1" source="dm_ex1" target="dm_ex2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="70" y="593"/>
+              <mxPoint x="70" y="713"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dm_ee4" value="semantic: cos=0.87" style="rounded=1;strokeColor=#9673a6;strokeWidth=2;fontSize=9;fontColor=#9673a6;" edge="1" parent="1" source="dm_ex3" target="dm_ex4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="dm_ee5" value="entity: SQLite" style="rounded=1;strokeColor=#82b366;strokeWidth=2;fontSize=9;fontColor=#82b366;" edge="1" parent="1" source="dm_ex1" target="dm_ex4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="650"/>
+              <mxPoint x="550" y="650"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Oplog -->
+        <mxCell id="dm_oplog" value="&lt;b&gt;OpLog&lt;/b&gt; (Audit Trail)&lt;br&gt;&lt;font style=&quot;font-size:9px; font-family:monospace;&quot;&gt;id | operation | insight_id | detail | created_at&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="720" y="560" width="350" height="45" as="geometry"/>
+        </mxCell>
+
+        <!-- Storage note -->
+        <mxCell id="dm_storage" value="&lt;b&gt;Storage: SQLite WAL&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Single file: ~/.memory/memory.db&lt;br&gt;MaxInsights = 1000 (~7MB memory / ~1.4MB disk)&lt;br&gt;Soft-delete: WHERE deleted_at IS NULL&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce5cd;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="720" y="630" width="350" height="70" as="geometry"/>
+        </mxCell>
+
+        <!-- Legend in graph area -->
+        <mxCell id="dm_legend" value="&lt;table style=&quot;font-size:9px;&quot;&gt;&lt;tr&gt;&lt;td style=&quot;color:#6c8ebf; padding:2px 8px;&quot;&gt;━━ temporal&lt;/td&gt;&lt;td style=&quot;color:#82b366; padding:2px 8px;&quot;&gt;━━ entity&lt;/td&gt;&lt;td style=&quot;color:#b85450; padding:2px 8px;&quot;&gt;━━ causal&lt;/td&gt;&lt;td style=&quot;color:#9673a6; padding:2px 8px;&quot;&gt;━━ semantic&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="rounded=0;whiteSpace=wrap;html=1;overflow=fill;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="720" y="720" width="350" height="25" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+</mxfile>

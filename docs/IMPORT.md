@@ -1,22 +1,22 @@
-# Mnemon — Memory Import Guide
+# Memory — Memory Import Guide
 
 [中文](zh/IMPORT.md) | **English**
 
 This guide explains how to bulk-import historical chat logs or external context
-into the Mnemon memory graph.
+into the Memory memory graph.
 
 ---
 
 ## Workflow
 
 ```
-Chat export / Markdown -> LLM extraction prompt -> memory_draft.json -> mnemon import <file>
+Chat export / Markdown -> LLM extraction prompt -> memory_draft.json -> memory import <file>
 ```
 
 1. Export the source chat log or notes as Markdown or plain text.
 2. Send the text to an LLM together with the reference prompt below to generate
    a `memory_draft.json` file that matches this schema.
-3. Run `mnemon import memory_draft.json`. Mnemon handles deduplication, graph
+3. Run `memory import memory_draft.json`. Memory handles deduplication, graph
    edge construction, embeddings when available, and lifecycle scoring.
 
 ---
@@ -67,7 +67,7 @@ Chat export / Markdown -> LLM extraction prompt -> memory_draft.json -> mnemon i
 | `schema_version` | string | **yes** | Must be `"1"` |
 | `source` | string | no | Source label for the whole import, such as `"chat-export"` or `"manual"`. A per-insight `source` overrides this value |
 | `insights` | array | **yes** | Memory nodes to import; must contain at least one item |
-| `edges` | array | no | Explicit relationships. Mnemon also creates graph edges automatically; these supplement strong relationships the draft already knows |
+| `edges` | array | no | Explicit relationships. Memory also creates graph edges automatically; these supplement strong relationships the draft already knows |
 
 ### Insight Fields
 
@@ -77,7 +77,7 @@ Chat export / Markdown -> LLM extraction prompt -> memory_draft.json -> mnemon i
 | `category` | string | no | See below; default `general` | Knowledge type |
 | `importance` | integer | no | 1-5; default 3 | Retention and ranking signal |
 | `tags` | array | no | Max 20 items; each max 100 characters | Free-form labels for filtering and search |
-| `entities` | array | no | Max 50 items; each max 200 characters | Named subjects such as people, projects, tools, libraries, or organizations. Mnemon merges these with automatic extraction |
+| `entities` | array | no | Max 50 items; each max 200 characters | Named subjects such as people, projects, tools, libraries, or organizations. Memory merges these with automatic extraction |
 | `source` | string | no | - | Overrides the top-level `source` for this insight |
 | `created_at` | string | no | RFC 3339 | Original creation timestamp; import time is used when omitted |
 
@@ -128,16 +128,16 @@ Chat export / Markdown -> LLM extraction prompt -> memory_draft.json -> mnemon i
 
 ```bash
 # Basic import
-mnemon import memory_draft.json
+memory import memory_draft.json
 
 # Validate without writing
-mnemon import --dry-run memory_draft.json
+memory import --dry-run memory_draft.json
 
 # Skip exact duplicate detection and insert every entry as new
-mnemon import --no-diff memory_draft.json
+memory import --no-diff memory_draft.json
 
 # Import into a specific store
-mnemon import --store project-alpha memory_draft.json
+memory import --store project-alpha memory_draft.json
 ```
 
 ### Output Example
@@ -146,7 +146,7 @@ Import uses the same exact-content deduplication rule as `remember`: only
 byte-identical active content is skipped. Different facts and near-duplicates
 are added, including conflicting or updated values. A skipped draft index maps
 to the existing insight ID, so explicit edges still resolve to that memory.
-To retire a superseded fact, verify the new memory and use `mnemon forget
+To retire a superseded fact, verify the new memory and use `memory forget
 <old-id>` explicitly. Capacity-based auto-pruning remains separate.
 
 ```json
@@ -183,7 +183,7 @@ Send this prompt to an LLM together with the source chat log or document:
 
 ```text
 You are a memory extraction assistant. Extract valuable durable knowledge from
-the chat log or document below and generate a JSON file that matches the Mnemon
+the chat log or document below and generate a JSON file that matches the Memory
 memory draft format (schema_version: "1").
 
 ## Extraction rules
@@ -246,16 +246,16 @@ memory draft format (schema_version: "1").
 
 **Is `created_at` required?**
 
-No. Mnemon uses import time when it is omitted. If the source chat log includes
+No. Memory uses import time when it is omitted. If the source chat log includes
 timestamps, include them to preserve historical ordering.
 
 **How do I verify the import?**
 
-Run `mnemon log`, `mnemon status`, or `mnemon search <keyword>` after importing.
+Run `memory log`, `memory status`, or `memory search <keyword>` after importing.
 
 **Is the `edges` array required?**
 
-No. Mnemon automatically creates temporal, semantic, and entity edges. Explicit
+No. Memory automatically creates temporal, semantic, and entity edges. Explicit
 edges are for strong relationships the LLM can confidently identify.
 
 **How should I import large chat histories?**

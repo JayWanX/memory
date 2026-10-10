@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a knowledge-graph visualization from ~/.mnemon/mnemon.db for README."""
+"""Generate a knowledge-graph visualization from ~/.memory/memory.db for README."""
 
 import math
 import os
@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches
 import networkx as nx
 import numpy as np
 
-DB_PATH = Path.home() / ".mnemon" / "mnemon.db"
+DB_PATH = Path.home() / ".memory" / "memory.db"
 OUT_PATH = Path(__file__).resolve().parent.parent / "docs" / "diagrams" / "10-knowledge-graph.jpg"
 
 # ── colour palette ──────────────────────────────────────────────────

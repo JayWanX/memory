@@ -6,12 +6,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
-func TestPromptDirHonorsMnemonDataDir(t *testing.T) {
+func TestPromptDirHonorsMemoryDataDir(t *testing.T) {
 	custom := t.TempDir()
-	t.Setenv("MNEMON_DATA_DIR", custom)
+	t.Setenv("MEMORY_DATA_DIR", custom)
 
 	got, err := promptDir()
 	if err != nil {
@@ -24,7 +24,7 @@ func TestPromptDirHonorsMnemonDataDir(t *testing.T) {
 }
 
 func TestPromptDirFallsBackToHomeWhenEnvUnset(t *testing.T) {
-	t.Setenv("MNEMON_DATA_DIR", "")
+	t.Setenv("MEMORY_DATA_DIR", "")
 	fakeHome := t.TempDir()
 	t.Setenv("HOME", fakeHome)
 
@@ -32,15 +32,15 @@ func TestPromptDirFallsBackToHomeWhenEnvUnset(t *testing.T) {
 	if err != nil {
 		t.Fatalf("promptDir: %v", err)
 	}
-	want := filepath.Join(fakeHome, ".mnemon", "prompt")
+	want := filepath.Join(fakeHome, ".memory", "prompt")
 	if got != want {
 		t.Fatalf("promptDir = %q, want %q", got, want)
 	}
 }
 
-func TestWritePromptFilesWritesUnderMnemonDataDir(t *testing.T) {
+func TestWritePromptFilesWritesUnderMemoryDataDir(t *testing.T) {
 	custom := t.TempDir()
-	t.Setenv("MNEMON_DATA_DIR", custom)
+	t.Setenv("MEMORY_DATA_DIR", custom)
 
 	path, err := WritePromptFiles()
 	if err != nil {
@@ -92,7 +92,7 @@ func TestClaudeMemoryInstructionsKeepSubagentsLeafWriters(t *testing.T) {
 			body: string(assets.ClaudeStopHook),
 			want: []string{
 				`"hook_event_name"[[:space:]]*:[[:space:]]*"SubagentStop"`,
-				"complete it directly with mnemon remember/link",
+				"complete it directly with memory remember/link",
 				"do not spawn another sub-agent",
 			},
 		},

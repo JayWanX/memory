@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 func TestHermesWriteSkillAndHooks(t *testing.T) {
@@ -16,12 +16,12 @@ func TestHermesWriteSkillAndHooks(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write skill: %v", err)
 	}
-	if skillPath != filepath.Join(dir, "skills", "mnemon", "SKILL.md") {
+	if skillPath != filepath.Join(dir, "skills", "memory", "SKILL.md") {
 		t.Fatalf("skill path = %q", skillPath)
 	}
 	if data, err := os.ReadFile(skillPath); err != nil {
 		t.Fatalf("read skill: %v", err)
-	} else if !strings.Contains(string(data), "name: mnemon") {
+	} else if !strings.Contains(string(data), "name: memory") {
 		t.Fatalf("unexpected skill content: %q", string(data))
 	}
 
@@ -29,7 +29,7 @@ func TestHermesWriteSkillAndHooks(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write hook: %v", err)
 	}
-	if hookPath != filepath.Join(dir, "agent-hooks", "mnemon", "remind.sh") {
+	if hookPath != filepath.Join(dir, "agent-hooks", "memory", "remind.sh") {
 		t.Fatalf("hook path = %q", hookPath)
 	}
 	info, err := os.Stat(hookPath)
@@ -88,7 +88,7 @@ hooks:
     - command: /custom/inject.sh
       timeout: 3
   post_llm_call:
-    - command: /old/mnemon/nudge.sh
+    - command: /old/memory/nudge.sh
       timeout: 2
 `)
 	if err := os.WriteFile(configPath, input, 0644); err != nil {
@@ -111,21 +111,21 @@ hooks:
 	hooks := data["hooks"].(map[string]any)
 	pre := hooks["pre_llm_call"].([]any)
 	if len(pre) != 2 {
-		t.Fatalf("expected custom pre_llm hook plus mnemon hook: %#v", pre)
+		t.Fatalf("expected custom pre_llm hook plus memory hook: %#v", pre)
 	}
-	if !containsMnemon(pre[1]) {
-		t.Fatalf("missing mnemon pre_llm hook: %#v", pre)
+	if !containsMemory(pre[1]) {
+		t.Fatalf("missing memory pre_llm hook: %#v", pre)
 	}
 	post := hooks["post_llm_call"].([]any)
-	if len(post) != 1 || !containsMnemon(post[0]) {
-		t.Fatalf("expected old mnemon hook replaced with new one: %#v", post)
+	if len(post) != 1 || !containsMemory(post[0]) {
+		t.Fatalf("expected old memory hook replaced with new one: %#v", post)
 	}
 	if _, ok := hooks["on_session_finalize"]; !ok {
 		t.Fatalf("compact hook should be registered: %#v", hooks)
 	}
 }
 
-func TestHermesEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
+func TestHermesEjectRemovesOnlyMemoryFilesAndHooks(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := HermesWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -137,7 +137,7 @@ func TestHermesEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	if err := os.WriteFile(configPath, []byte(`hooks:
   pre_llm_call:
     - command: /custom/inject.sh
-    - command: /old/mnemon/remind.sh
+    - command: /old/memory/remind.sh
 `), 0644); err != nil {
 		t.Fatalf("write config: %v", err)
 	}
@@ -146,14 +146,14 @@ func TestHermesEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "agent-hooks", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon hooks should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "agent-hooks", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory hooks should be removed, err=%v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon state should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory state should be removed, err=%v", err)
 	}
 
 	data, err := readYAMLFile(configPath)
@@ -162,7 +162,7 @@ func TestHermesEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	}
 	hooks := data["hooks"].(map[string]any)
 	pre := hooks["pre_llm_call"].([]any)
-	if len(pre) != 1 || containsMnemon(pre[0]) {
-		t.Fatalf("custom hook should be preserved and mnemon removed: %#v", pre)
+	if len(pre) != 1 || containsMemory(pre[0]) {
+		t.Fatalf("custom hook should be preserved and memory removed: %#v", pre)
 	}
 }

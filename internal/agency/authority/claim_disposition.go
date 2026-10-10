@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // MaxClaimExpirySettlementsPerCurrent bounds maintenance work performed by one
@@ -17,8 +17,8 @@ import (
 // and are considered by later turns.
 const MaxClaimExpirySettlementsPerCurrent = 16
 
-const claimExpiryOperationDomain = "mnemon.claim-expiry.operation.v1\x00"
-const claimBoundaryEndOperationDomain = "mnemon.claim-boundary-end.operation.v1\x00"
+const claimExpiryOperationDomain = "memory.claim-expiry.operation.v1\x00"
+const claimBoundaryEndOperationDomain = "memory.claim-boundary-end.operation.v1\x00"
 
 type expiredClaim struct {
 	handling   agency.HandlingID
@@ -139,7 +139,7 @@ func settleClaimExpiryTx(ctx context.Context, tx *sql.Tx, now time.Time, claim e
 }
 
 func claimExpiryIdentity(claim expiredClaim) (agency.OperationKey, agency.Digest, error) {
-	request, err := json.Marshal(claimExpiryRequestWire{Schema: "mnemon.claim-expiry",
+	request, err := json.Marshal(claimExpiryRequestWire{Schema: "memory.claim-expiry",
 		Handling: claim.handling.String(), Attachment: claim.attachment.String(), Fence: claim.fence,
 		ClaimUntil: formatTime(claim.claimUntil)})
 	if err != nil {
@@ -211,7 +211,7 @@ func validateClaimExpiryOutcome(value []byte, claim expiredClaim, key agency.Ope
 	if err != nil || !bytes.Equal(canonical, value) {
 		return errors.New("claim expiry: outcome is not canonical")
 	}
-	if outcome.Schema != "mnemon.claim-expiry-outcome" || outcome.OperationKey != key.String() ||
+	if outcome.Schema != "memory.claim-expiry-outcome" || outcome.OperationKey != key.String() ||
 		outcome.RequestDigest != requestDigest.String() || outcome.Outcome != "claim_released" ||
 		outcome.RecordedAt != recordedValue {
 		return errors.New("claim expiry: outcome authority diverges")
@@ -229,7 +229,7 @@ func validateClaimExpiryOutcome(value []byte, claim expiredClaim, key agency.Ope
 func insertClaimExpiryTx(ctx context.Context, tx *sql.Tx, now time.Time, claim expiredClaim,
 	key agency.OperationKey, requestDigest agency.Digest,
 ) error {
-	outcome, err := json.Marshal(claimExpiryOutcomeWire{Schema: "mnemon.claim-expiry-outcome",
+	outcome, err := json.Marshal(claimExpiryOutcomeWire{Schema: "memory.claim-expiry-outcome",
 		OperationKey: key.String(), RequestDigest: requestDigest.String(),
 		Outcome: "claim_released", RecordedAt: formatTime(now)})
 	if err != nil {
@@ -250,7 +250,7 @@ func insertClaimExpiryTx(ctx context.Context, tx *sql.Tx, now time.Time, claim e
 func settleClaimBoundaryEndTx(ctx context.Context, tx *sql.Tx, now time.Time,
 	claim expiredClaim,
 ) error {
-	request, err := json.Marshal(claimExpiryRequestWire{Schema: "mnemon.claim-boundary-end",
+	request, err := json.Marshal(claimExpiryRequestWire{Schema: "memory.claim-boundary-end",
 		Handling: claim.handling.String(), Attachment: claim.attachment.String(), Fence: claim.fence,
 		ClaimUntil: formatTime(claim.claimUntil)})
 	if err != nil {
@@ -276,7 +276,7 @@ func settleClaimBoundaryEndTx(ctx context.Context, tx *sql.Tx, now time.Time,
 	if err != nil || rows != 1 {
 		return errors.New("claim boundary end: exact claim changed before settlement")
 	}
-	outcome, err := json.Marshal(claimExpiryOutcomeWire{Schema: "mnemon.claim-boundary-end-outcome",
+	outcome, err := json.Marshal(claimExpiryOutcomeWire{Schema: "memory.claim-boundary-end-outcome",
 		OperationKey: key.String(), RequestDigest: requestDigest.String(),
 		Outcome: "claim_released", RecordedAt: formatTime(now)})
 	if err != nil {

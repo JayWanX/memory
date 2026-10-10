@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 // MaxArtifactBytes matches the existing Agency CAS object bound. R7 stores

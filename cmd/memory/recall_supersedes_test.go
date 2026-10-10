@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
-	"github.com/mnemon-dev/mnemon/internal/memory/store"
+	"github.com/JayWanX/memory/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/store"
 )
 
 func TestRecallPreservesSupersededInEverySmartProjection(t *testing.T) {
@@ -18,8 +18,8 @@ func TestRecallPreservesSupersededInEverySmartProjection(t *testing.T) {
 		recBasic, recBrief, recVerbose, recLimit = oldBasic, oldBrief, oldVerbose, oldLimit
 		recCategory, recSource, recIntent, recExcerpt = oldCategory, oldSource, oldIntent, oldExcerpt
 	})
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:1")
-	t.Setenv("MNEMON_EMBED_PROTOCOL", "ollama")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:1")
+	t.Setenv("MEMORY_EMBED_PROTOCOL", "ollama")
 	dataDir, storeName, readOnly = t.TempDir(), "supersedes-projection", true
 	recBasic, recLimit = false, 5
 	recCategory, recSource, recIntent, recExcerpt = "", "", "GENERAL", 240

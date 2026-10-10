@@ -5,9 +5,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/embed"
-	"github.com/mnemon-dev/mnemon/internal/memory/internal/topk"
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/embed"
+	"github.com/JayWanX/memory/internal/memory/internal/topk"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 // DiffSuggestion classifies how a new fact relates to existing content.

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/setup/assets"
+	"github.com/JayWanX/memory/internal/memory/setup/assets"
 )
 
 func TestOpenClawRegisterPluginWritesSelection(t *testing.T) {
@@ -28,11 +28,11 @@ func TestOpenClawRegisterPluginWritesSelection(t *testing.T) {
 
 	plugins := cfg["plugins"].(map[string]any)
 	entries := plugins["entries"].(map[string]any)
-	mnemon := entries["mnemon"].(map[string]any)
-	config := mnemon["config"].(map[string]any)
+	memory := entries["memory"].(map[string]any)
+	config := memory["config"].(map[string]any)
 
-	if mnemon["enabled"] != true {
-		t.Fatalf("mnemon should be enabled: %#v", mnemon["enabled"])
+	if memory["enabled"] != true {
+		t.Fatalf("memory should be enabled: %#v", memory["enabled"])
 	}
 	if config["remind"] != true || config["nudge"] != false || config["compact"] != true {
 		t.Fatalf("unexpected hook selection: %#v", config)
@@ -44,7 +44,7 @@ func TestRemoveOpenClawPluginEntryPreservesOtherEntries(t *testing.T) {
 	input := `{
   "plugins": {
     "entries": {
-      "mnemon": {"enabled": true},
+      "memory": {"enabled": true},
       "other": {"enabled": true}
     }
   },
@@ -68,8 +68,8 @@ func TestRemoveOpenClawPluginEntryPreservesOtherEntries(t *testing.T) {
 		t.Fatalf("parse result: %v", err)
 	}
 	entries := cfg["plugins"].(map[string]any)["entries"].(map[string]any)
-	if _, ok := entries["mnemon"]; ok {
-		t.Fatal("mnemon entry should be removed")
+	if _, ok := entries["memory"]; ok {
+		t.Fatal("memory entry should be removed")
 	}
 	if _, ok := entries["other"]; !ok {
 		t.Fatal("other entry should be preserved")
@@ -81,7 +81,7 @@ func TestRemoveOpenClawPluginEntryPreservesOtherEntries(t *testing.T) {
 
 func TestRemoveOpenClawPluginEntryRemovesEmptyConfig(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "openclaw.json")
-	if err := os.WriteFile(path, []byte(`{"plugins":{"entries":{"mnemon":{"enabled":true}}}}`), 0600); err != nil {
+	if err := os.WriteFile(path, []byte(`{"plugins":{"entries":{"memory":{"enabled":true}}}}`), 0600); err != nil {
 		t.Fatalf("write fixture: %v", err)
 	}
 
@@ -93,10 +93,10 @@ func TestRemoveOpenClawPluginEntryRemovesEmptyConfig(t *testing.T) {
 	}
 }
 
-func TestOpenClawPrimeHookResolvesMnemonDataDir(t *testing.T) {
+func TestOpenClawPrimeHookResolvesMemoryDataDir(t *testing.T) {
 	handler := string(assets.OpenClawHookHandler)
 	for _, want := range []string{
-		"process.env.MNEMON_DATA_DIR",
+		"process.env.MEMORY_DATA_DIR",
 		"LEGACY_GUIDE_PATH",
 		"existsSync(scopedPath)",
 		"readFileSync(guidePath()",

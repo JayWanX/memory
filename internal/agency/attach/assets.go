@@ -10,17 +10,17 @@ import (
 )
 
 const (
-	guideAsset            = "assets/mnemond.md"
+	guideAsset            = "assets/memoryd.md"
 	cueAsset              = "assets/hook-cue.txt"
-	extensionAsset        = "assets/pi/mnemond.ts"
-	currentExtensionAsset = "assets/pi/mnemond-current.ts"
+	extensionAsset        = "assets/pi/memoryd.ts"
+	currentExtensionAsset = "assets/pi/memoryd-current.ts"
 
 	MaxGuideBytes     = 4 << 10
 	MaxCueBytes       = 160
 	MaxExtensionBytes = 8 << 10
 )
 
-//go:embed assets/mnemond.md assets/hook-cue.txt assets/pi/mnemond.ts assets/pi/mnemond-current.ts
+//go:embed assets/memoryd.md assets/hook-cue.txt assets/pi/memoryd.ts assets/pi/memoryd-current.ts
 var projectionFS embed.FS
 
 // Projection is the complete, immutable Pi-facing R7 surface. It contains no
@@ -110,10 +110,10 @@ func validateNeutralProjection(guide []byte, cue string, extension, currentExten
 		!strings.Contains(source, `pi.on("before_agent_start"`) ||
 		!strings.Contains(source, `pi.on("agent_settled"`) ||
 		!strings.Contains(source, `pi.on("session_shutdown"`) ||
-		!strings.Contains(source, `execFileSync("mnemon", ["agency", ...args]`) ||
+		!strings.Contains(source, `execFileSync("memory", ["agency", ...args]`) ||
 		!strings.Contains(source,
-			`execFile("mnemon", ["agency", "agent", "submit", "--json"]`) ||
-		!strings.Contains(source, `receipt.schema !== "mnemon.agent.receipt"`) {
+			`execFile("memory", ["agency", "agent", "submit", "--json"]`) ||
+		!strings.Contains(source, `receipt.schema !== "memory.agent.receipt"`) {
 		return errors.New("attach: Pi extension does not have fixed lifecycle, command, cue, and Receipt boundaries")
 	}
 	for _, forbidden := range []string{
@@ -129,11 +129,11 @@ func validateNeutralProjection(guide []byte, cue string, extension, currentExten
 	}
 	currentSource := string(currentExtension)
 	for _, required := range []string{
-		`name: CURRENT_TOOL`, `execFile("mnemon", ["agency", "agent", "current", "--json"]`,
+		`name: CURRENT_TOOL`, `execFile("memory", ["agency", "agent", "current", "--json"]`,
 		`shell: false`, `setTimeout(interrupt, CURRENT_TIMEOUT_MS)`,
 		`CURRENT_SHUTDOWN_GRACE_MS`, `child.kill(signal)`, `"SIGTERM"`, `"SIGKILL"`,
 		`removeEventListener("abort", interrupt)`, `maxBuffer: MAX_CURRENT_OUTPUT_BYTES`,
-		`value = JSON.parse(raw)`, `details: { schema: "mnemon.pi.current", version: 1, status }`,
+		`value = JSON.parse(raw)`, `details: { schema: "memory.pi.current", version: 1, status }`,
 	} {
 		if !strings.Contains(currentSource, required) {
 			return fmt.Errorf("attach: Pi current extension lacks %q", required)

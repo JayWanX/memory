@@ -1,23 +1,23 @@
 # Binary
-/mnemon
-/mnemond
+/memory
+/memoryd
 /bin/
 
 # Local dogfood / capability test sandboxes (per-test subdirs)
 .dogfood/
 
-# Local LLM CLI integration (use mnemon setup --global for user-wide install)
+# Local LLM CLI integration (use memory setup --global for user-wide install)
 .claude/
 .codex/
 .agents/
 .openclaw/
 .kanna/
 .supervisor/
-.mnemon/
+.memory/
 .plan
 .insight/
 .env
-.mnemon-dev/
+.JayWanX/
 
 # IDE
 .idea/
@@ -40,7 +40,7 @@ vendor/
 __pycache__/
 *.py[cod]
 
-# Mnemon data (local dev)
+# Memory data (local dev)
 *.db
 *.db-wal
 *.db-shm

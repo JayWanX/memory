@@ -9,14 +9,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 const (
 	attachmentBeginOperationHead    = "attach:"
-	attachmentBeginOperationDomain  = "mnemon.attachment-begin.operation.v1\x00"
-	attachmentBeginIDDomain         = "mnemon.attachment-begin.id.v1\x00"
-	attachmentBeginCredentialDomain = "mnemon.attachment-begin.credential.v1\x00"
+	attachmentBeginOperationDomain  = "memory.attachment-begin.operation.v1\x00"
+	attachmentBeginIDDomain         = "memory.attachment-begin.id.v1\x00"
+	attachmentBeginCredentialDomain = "memory.attachment-begin.credential.v1\x00"
 )
 
 type attachmentBeginRequestWire struct {
@@ -140,7 +140,7 @@ func deriveAttachmentBegin(principal agency.AgentPrincipalID,
 	boundary agency.Digest,
 ) (attachmentBeginMaterial, error) {
 	wire := attachmentBeginRequestWire{BoundaryDigest: boundary.String(), Mode: "interactive",
-		Principal: principal.String(), Schema: "mnemon.attachment-begin", Version: 1}
+		Principal: principal.String(), Schema: "memory.attachment-begin", Version: 1}
 	request, err := json.Marshal(wire)
 	if err != nil {
 		return attachmentBeginMaterial{}, fmt.Errorf("issue attachment: encode request: %w", err)

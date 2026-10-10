@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func loadEventArtifactsTx(ctx context.Context, tx *sql.Tx,

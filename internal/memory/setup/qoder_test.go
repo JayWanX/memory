@@ -14,7 +14,7 @@ func TestQoderWriteSkill(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write skill: %v", err)
 	}
-	if skillPath != filepath.Join(dir, "skills", "mnemon", "SKILL.md") {
+	if skillPath != filepath.Join(dir, "skills", "memory", "SKILL.md") {
 		t.Fatalf("skill path = %q", skillPath)
 	}
 	if _, err := os.Stat(skillPath); err != nil {
@@ -29,7 +29,7 @@ func TestQoderWorkWriteSkill(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write skill: %v", err)
 	}
-	if skillPath != filepath.Join(dir, "skills", "mnemon", "SKILL.md") {
+	if skillPath != filepath.Join(dir, "skills", "memory", "SKILL.md") {
 		t.Fatalf("skill path = %q", skillPath)
 	}
 	data, err := os.ReadFile(skillPath)
@@ -48,7 +48,7 @@ func TestQoderWriteHook(t *testing.T) {
 	if err != nil {
 		t.Fatalf("write hook: %v", err)
 	}
-	if hookPath != filepath.Join(dir, "hooks", "mnemon", "prime.sh") {
+	if hookPath != filepath.Join(dir, "hooks", "memory", "prime.sh") {
 		t.Fatalf("hook path = %q", hookPath)
 	}
 	info, err := os.Stat(hookPath)
@@ -66,11 +66,11 @@ func TestQoderRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	if err := os.WriteFile(settingsPath, []byte(`{
   "hooks": {
     "SessionStart": [
-      {"hooks": [{"type": "command", "command": "/old/mnemon/prime.sh"}]},
+      {"hooks": [{"type": "command", "command": "/old/memory/prime.sh"}]},
       {"hooks": [{"type": "command", "command": "/keep/custom.sh"}]}
     ],
     "Stop": [
-      {"hooks": [{"type": "command", "command": "/old/mnemon/stop.sh"}]}
+      {"hooks": [{"type": "command", "command": "/old/memory/stop.sh"}]}
     ]
   },
   "other": true
@@ -94,7 +94,7 @@ func TestQoderRegisterHooksPreservesUnrelatedConfig(t *testing.T) {
 	if len(sessionStart) != 2 {
 		t.Fatalf("expected custom hook plus new prime hook: %#v", sessionStart)
 	}
-	if !strings.Contains(sessionStart[1].(map[string]any)["hooks"].([]any)[0].(map[string]any)["command"].(string), "hooks/mnemon/prime.sh") {
+	if !strings.Contains(sessionStart[1].(map[string]any)["hooks"].([]any)[0].(map[string]any)["command"].(string), "hooks/memory/prime.sh") {
 		t.Fatalf("expected new prime hook, got %#v", sessionStart[1])
 	}
 	if _, ok := hooks["UserPromptSubmit"]; !ok {
@@ -135,7 +135,7 @@ func TestQoderWorkRegisterHooksUsesSettingsJSON(t *testing.T) {
 	}
 }
 
-func TestQoderEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
+func TestQoderEjectRemovesOnlyMemoryFilesAndHooks(t *testing.T) {
 	dir := t.TempDir()
 	if _, err := QoderWriteSkill(dir); err != nil {
 		t.Fatalf("write skill: %v", err)
@@ -167,14 +167,14 @@ func TestQoderEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	if len(errs) > 0 {
 		t.Fatalf("eject errors: %v", errs)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "skills", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon skill should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "skills", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory skill should be removed, err=%v", err)
 	}
 	if _, err := os.Stat(customSkillDir); err != nil {
 		t.Fatalf("custom skill should be preserved: %v", err)
 	}
-	if _, err := os.Stat(filepath.Join(dir, "hooks", "mnemon")); !os.IsNotExist(err) {
-		t.Fatalf("mnemon hooks should be removed, err=%v", err)
+	if _, err := os.Stat(filepath.Join(dir, "hooks", "memory")); !os.IsNotExist(err) {
+		t.Fatalf("memory hooks should be removed, err=%v", err)
 	}
 	data, err = ReadJSONFile(settingsPath)
 	if err != nil {
@@ -182,8 +182,8 @@ func TestQoderEjectRemovesOnlyMnemonFilesAndHooks(t *testing.T) {
 	}
 	hooks = data["hooks"].(map[string]any)
 	sessionStart := hooks["SessionStart"].([]any)
-	if len(sessionStart) != 1 || containsMnemon(sessionStart[0]) {
-		t.Fatalf("custom hook should be preserved and mnemon removed: %#v", sessionStart)
+	if len(sessionStart) != 1 || containsMemory(sessionStart[0]) {
+		t.Fatalf("custom hook should be preserved and memory removed: %#v", sessionStart)
 	}
 	if _, ok := hooks["UserPromptSubmit"]; ok {
 		t.Fatalf("user prompt hooks should be removed: %#v", hooks)

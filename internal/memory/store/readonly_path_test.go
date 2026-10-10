@@ -37,7 +37,7 @@ func TestOpenReadOnlyPathForms(t *testing.T) {
 			if err := db.Close(); err != nil {
 				t.Fatal(err)
 			}
-			path := filepath.Join(absoluteDir, "mnemon.db")
+			path := filepath.Join(absoluteDir, "memory.db")
 			before, err := os.ReadFile(path)
 			if err != nil {
 				t.Fatal(err)

@@ -49,51 +49,51 @@ type Client struct {
 }
 
 // NewClient creates an embedding client.
-// It checks MNEMON_EMBED_ENDPOINT, MNEMON_EMBED_MODEL,
-// MNEMON_EMBED_DIMENSIONS, MNEMON_EMBED_API_KEY, MNEMON_EMBED_KEEP_ALIVE,
-// and MNEMON_EMBED_PROTOCOL env vars.
+// It checks MEMORY_EMBED_ENDPOINT, MEMORY_EMBED_MODEL,
+// MEMORY_EMBED_DIMENSIONS, MEMORY_EMBED_API_KEY, MEMORY_EMBED_KEEP_ALIVE,
+// and MEMORY_EMBED_PROTOCOL env vars.
 func NewClient() *Client {
 	return NewClientWithModel("")
 }
 
 // NewClientWithModel creates an embedding client with an explicit model
 // override. Resolution order for the model: explicit argument >
-// MNEMON_EMBED_MODEL env var > DefaultModel. The endpoint, dimensions,
+// MEMORY_EMBED_MODEL env var > DefaultModel. The endpoint, dimensions,
 // API key, and protocol continue to be resolved from environment vars.
 //
-// Protocol resolution: MNEMON_EMBED_PROTOCOL ("ollama" | "openai") wins
+// Protocol resolution: MEMORY_EMBED_PROTOCOL ("ollama" | "openai") wins
 // when set; otherwise the protocol is auto-detected — an endpoint whose
 // URL path ends in /v1 is assumed to be an OpenAI-compatible server.
 func NewClientWithModel(model string) *Client {
-	endpoint := os.Getenv("MNEMON_EMBED_ENDPOINT")
+	endpoint := os.Getenv("MEMORY_EMBED_ENDPOINT")
 	if endpoint == "" {
 		endpoint = DefaultEndpoint
 	}
 	if model == "" {
-		model = os.Getenv("MNEMON_EMBED_MODEL")
+		model = os.Getenv("MEMORY_EMBED_MODEL")
 	}
 	if model == "" {
 		model = DefaultModel
 	}
 	dims := 0
-	if d := os.Getenv("MNEMON_EMBED_DIMENSIONS"); d != "" {
+	if d := os.Getenv("MEMORY_EMBED_DIMENSIONS"); d != "" {
 		if v, err := strconv.Atoi(d); err == nil && v > 0 {
 			dims = v
 		}
 	}
-	keepAlive := os.Getenv("MNEMON_EMBED_KEEP_ALIVE")
+	keepAlive := os.Getenv("MEMORY_EMBED_KEEP_ALIVE")
 	if keepAlive == "" {
 		keepAlive = DefaultKeepAlive
 	}
 	protocol := ProtocolOllama
 	explicit := false
-	if p := os.Getenv("MNEMON_EMBED_PROTOCOL"); p != "" {
+	if p := os.Getenv("MEMORY_EMBED_PROTOCOL"); p != "" {
 		switch Protocol(strings.ToLower(p)) {
 		case ProtocolOllama, ProtocolOpenAI:
 			protocol = Protocol(strings.ToLower(p))
 			explicit = true
 		default:
-			fmt.Fprintf(os.Stderr, "warning: invalid MNEMON_EMBED_PROTOCOL %q, falling back to auto-detect\n", p)
+			fmt.Fprintf(os.Stderr, "warning: invalid MEMORY_EMBED_PROTOCOL %q, falling back to auto-detect\n", p)
 		}
 	}
 	if !explicit {
@@ -110,7 +110,7 @@ func NewClientWithModel(model string) *Client {
 		endpoint:  endpoint,
 		model:     model,
 		dims:      dims,
-		apiKey:    os.Getenv("MNEMON_EMBED_API_KEY"),
+		apiKey:    os.Getenv("MEMORY_EMBED_API_KEY"),
 		keepAlive: keepAlive,
 		protocol:  protocol,
 		http: &http.Client{

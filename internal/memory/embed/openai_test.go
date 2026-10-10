@@ -8,28 +8,28 @@ import (
 )
 
 func TestProtocolAutoDetect(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:18000/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:18000/v1")
 	c := NewClient()
 	if c.Protocol() != ProtocolOpenAI {
 		t.Fatalf("expected openai protocol for /v1 endpoint, got %q", c.Protocol())
 	}
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://localhost:11434")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://localhost:11434")
 	c = NewClient()
 	if c.Protocol() != ProtocolOllama {
 		t.Fatalf("expected ollama protocol for default endpoint, got %q", c.Protocol())
 	}
 
 	// Explicit protocol override wins over auto-detection.
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:18000/v1")
-	t.Setenv("MNEMON_EMBED_PROTOCOL", "ollama")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:18000/v1")
+	t.Setenv("MEMORY_EMBED_PROTOCOL", "ollama")
 	c = NewClient()
 	if c.Protocol() != ProtocolOllama {
 		t.Fatalf("expected explicit protocol override to win, got %q", c.Protocol())
 	}
 
-	t.Setenv("MNEMON_EMBED_PROTOCOL", "openai")
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://localhost:11434")
+	t.Setenv("MEMORY_EMBED_PROTOCOL", "openai")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://localhost:11434")
 	c = NewClient()
 	if c.Protocol() != ProtocolOpenAI {
 		t.Fatalf("expected explicit openai protocol, got %q", c.Protocol())
@@ -37,7 +37,7 @@ func TestProtocolAutoDetect(t *testing.T) {
 }
 
 func TestOpenAIAvailable(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_API_KEY", "sk-test")
+	t.Setenv("MEMORY_EMBED_API_KEY", "sk-test")
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/v1/models" {
 			t.Errorf("expected /v1/models, got %s", r.URL.Path)
@@ -49,7 +49,7 @@ func TestOpenAIAvailable(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	if !c.Available() {
 		t.Fatal("expected Available() true for 200 /v1/models")
@@ -70,7 +70,7 @@ func TestOpenAIEndpointWithTrailingSlash(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1/")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1/")
 	c := NewClient()
 	if c.Protocol() != ProtocolOpenAI {
 		t.Fatalf("expected openai protocol for /v1/ endpoint, got %q", c.Protocol())
@@ -88,9 +88,9 @@ func TestOpenAIEndpointWithTrailingSlash(t *testing.T) {
 }
 
 func TestOpenAIEmbed(t *testing.T) {
-	t.Setenv("MNEMON_EMBED_MODEL", "BAAI/bge-m3")
-	t.Setenv("MNEMON_EMBED_DIMENSIONS", "1024")
-	t.Setenv("MNEMON_EMBED_API_KEY", "sk-test")
+	t.Setenv("MEMORY_EMBED_MODEL", "BAAI/bge-m3")
+	t.Setenv("MEMORY_EMBED_DIMENSIONS", "1024")
+	t.Setenv("MEMORY_EMBED_API_KEY", "sk-test")
 	var gotAuth string
 	var gotBody map[string]any
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -109,7 +109,7 @@ func TestOpenAIEmbed(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	vec, err := c.Embed("跨会话记忆测试")
 	if err != nil {
@@ -134,7 +134,7 @@ func TestOpenAIEmbed(t *testing.T) {
 
 func TestOpenAIEmbedWithoutKey(t *testing.T) {
 	// Keyless OpenAI-compatible servers must still work: no Authorization
-	// header should be sent when MNEMON_EMBED_API_KEY is unset.
+	// header should be sent when MEMORY_EMBED_API_KEY is unset.
 	var gotAuth string
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		gotAuth = r.Header.Get("Authorization")
@@ -143,7 +143,7 @@ func TestOpenAIEmbedWithoutKey(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	vec, err := c.Embed("hello")
 	if err != nil {
@@ -164,7 +164,7 @@ func TestOpenAIEmbedEmptyResponse(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	if _, err := c.Embed("hello"); err == nil {
 		t.Fatal("expected error for empty embedding response")
@@ -174,7 +174,7 @@ func TestOpenAIEmbedEmptyResponse(t *testing.T) {
 func TestOpenAIAvailableFallsBackWithoutModelsRoute(t *testing.T) {
 	// OpenAI-compatible servers without a models route (e.g. Voyage AI)
 	// must still be reported available via an embeddings round-trip.
-	t.Setenv("MNEMON_EMBED_API_KEY", "sk-test")
+	t.Setenv("MEMORY_EMBED_API_KEY", "sk-test")
 	var embedRequests int
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
@@ -196,7 +196,7 @@ func TestOpenAIAvailableFallsBackWithoutModelsRoute(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	if !c.Available() {
 		t.Fatal("expected Available() true when /v1/models is 404 but /v1/embeddings works")
@@ -209,7 +209,7 @@ func TestOpenAIAvailableFallsBackWithoutModelsRoute(t *testing.T) {
 func TestOpenAIAvailableFallbackRejectsAuthFailure(t *testing.T) {
 	// A 404 models route plus a 401 embeddings route must report
 	// unavailable: availability follows the endpoint that matters.
-	t.Setenv("MNEMON_EMBED_API_KEY", "sk-bad")
+	t.Setenv("MEMORY_EMBED_API_KEY", "sk-bad")
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/v1/models":
@@ -222,7 +222,7 @@ func TestOpenAIAvailableFallbackRejectsAuthFailure(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	if c.Available() {
 		t.Fatal("expected Available() false when fallback probe returns 401")
@@ -247,7 +247,7 @@ func TestOpenAIAvailableNoFallbackOnServerError(t *testing.T) {
 	}))
 	defer srv.Close()
 
-	t.Setenv("MNEMON_EMBED_ENDPOINT", srv.URL+"/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", srv.URL+"/v1")
 	c := NewClient()
 	if c.Available() {
 		t.Fatal("expected Available() false for 500 models route")
@@ -260,7 +260,7 @@ func TestOpenAIAvailableNoFallbackOnServerError(t *testing.T) {
 func TestOpenAIProxyEnvHonoredForRemoteEndpoints(t *testing.T) {
 	// Remote endpoints must resolve their proxy from the environment:
 	// credential gateways inject auth at the proxy boundary.
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://remote.example.test:18000/v1")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://remote.example.test:18000/v1")
 	t.Setenv("HTTPS_PROXY", "http://proxy.example.test:3128")
 	c := NewClient()
 	req, err := http.NewRequest(http.MethodGet, "https://api.example.test/v1/models", nil)
@@ -280,7 +280,7 @@ func TestOllamaLoopbackBypassesProxyEnv(t *testing.T) {
 	// A loopback endpoint must not be routed through an environment
 	// proxy, even when HTTPS_PROXY is set (local Ollama behind a stray
 	// corporate proxy would otherwise break).
-	t.Setenv("MNEMON_EMBED_ENDPOINT", "http://127.0.0.1:11434")
+	t.Setenv("MEMORY_EMBED_ENDPOINT", "http://127.0.0.1:11434")
 	t.Setenv("HTTPS_PROXY", "http://proxy.example.test:3128")
 	c := NewClient()
 	req, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:11434/api/tags", nil)

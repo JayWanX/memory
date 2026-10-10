@@ -8,19 +8,19 @@ import { publishNpmPackages } from "../../../scripts/publish-npm-packages.mjs";
 import { targets } from "../lib/targets.js";
 
 test("publish skips immutable versions and keeps the CLI package last", async (t) => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "mnemon-publish-test-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "memory-publish-test-"));
   t.after(() => rm(temporary, { recursive: true, force: true }));
   const packages = targets.map((target) => ({
     kind: "platform",
     id: target.id,
-    name: "@mnemon-dev/mnemon",
+    name: "@jaywanx/memory-cli",
     version: `1.2.3-${target.id}`,
     tag: target.id,
     directory: path.join(temporary, target.id),
   }));
   packages.push({
     kind: "cli",
-    name: "@mnemon-dev/mnemon",
+    name: "@jaywanx/memory-cli",
     version: "1.2.3",
     tag: "latest",
     directory: path.join(temporary, "cli"),
@@ -58,7 +58,7 @@ test("publish skips immutable versions and keeps the CLI package last", async (t
 });
 
 test("publish rejects a manifest whose CLI package is not last", async (t) => {
-  const temporary = await mkdtemp(path.join(os.tmpdir(), "mnemon-publish-order-"));
+  const temporary = await mkdtemp(path.join(os.tmpdir(), "memory-publish-order-"));
   t.after(() => rm(temporary, { recursive: true, force: true }));
   const manifestPath = path.join(temporary, "packages.json");
   await writeFile(

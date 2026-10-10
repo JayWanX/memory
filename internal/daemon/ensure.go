@@ -13,7 +13,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency/authority"
+	"github.com/JayWanX/memory/internal/agency/authority"
 	"golang.org/x/sys/unix"
 )
 
@@ -27,7 +27,7 @@ const (
 
 var (
 	ErrEnsure              = errors.New("daemon: ensure R7 authority")
-	expectedStatusResponse = []byte(`{"schema":"mnemon.agency.status","status":"ready","version":1}` + "\n")
+	expectedStatusResponse = []byte(`{"schema":"memory.agency.status","status":"ready","version":1}` + "\n")
 )
 
 type ensureChild interface {
@@ -46,8 +46,8 @@ type ensureDependencies struct {
 // Agent turn.
 func Ensure(ctx context.Context, stateDirectory string) error {
 	return ensure(ctx, stateDirectory, ensureDependencies{
-		resolveExecutable: currentMnemonExecutable,
-		start:             startMnemonAgency,
+		resolveExecutable: currentMemoryExecutable,
+		start:             startMemoryAgency,
 	})
 }
 
@@ -197,7 +197,7 @@ func probeDaemonStatus(ctx context.Context, stateDirectory string) (bool, error)
 	client, transport := ownerStatusClient(socket, ownerUID, identity)
 	defer transport.CloseIdleConnections()
 	request, err := http.NewRequestWithContext(probeContext, http.MethodGet,
-		"http://mnemond"+routeStatus, nil)
+		"http://memoryd"+routeStatus, nil)
 	if err != nil {
 		return false, err
 	}
@@ -251,33 +251,33 @@ func ownerStatusClient(socket string, ownerUID uint32,
 		transport
 }
 
-func currentMnemonExecutable() (string, error) {
+func currentMemoryExecutable() (string, error) {
 	current, err := os.Executable()
 	if err != nil {
 		return "", err
 	}
-	return physicalMnemonExecutable(current)
+	return physicalMemoryExecutable(current)
 }
 
-func physicalMnemonExecutable(current string) (string, error) {
+func physicalMemoryExecutable(current string) (string, error) {
 	if current == "" || !filepath.IsAbs(current) || filepath.Clean(current) != current {
-		return "", errors.New("current mnemon executable path is not absolute and clean")
+		return "", errors.New("current memory executable path is not absolute and clean")
 	}
 	physicalCurrent, err := filepath.EvalSymlinks(current)
 	if err != nil {
-		return "", fmt.Errorf("resolve physical mnemon executable: %w", err)
+		return "", fmt.Errorf("resolve physical memory executable: %w", err)
 	}
 	if !filepath.IsAbs(physicalCurrent) || filepath.Clean(physicalCurrent) != physicalCurrent {
-		return "", errors.New("physical mnemon executable path is not absolute and clean")
+		return "", errors.New("physical memory executable path is not absolute and clean")
 	}
 	info, err := os.Lstat(physicalCurrent)
 	if err != nil || !info.Mode().IsRegular() || info.Mode()&0o111 == 0 ||
 		info.Mode().Perm()&0o022 != 0 {
-		return "", errors.New("current mnemon executable must be a protected regular file")
+		return "", errors.New("current memory executable must be a protected regular file")
 	}
 	owner, ownerErr := fileOwnerUID(info)
 	if ownerErr != nil || !trustedExecutableOwner(owner, uint32(os.Geteuid())) {
-		return "", errors.New("current mnemon executable has the wrong owner")
+		return "", errors.New("current memory executable has the wrong owner")
 	}
 	return physicalCurrent, nil
 }
@@ -286,7 +286,7 @@ func trustedExecutableOwner(owner, effectiveUser uint32) bool {
 	return owner == effectiveUser || owner == 0
 }
 
-func startMnemonAgency(executable, stateDirectory string) (ensureChild, error) {
+func startMemoryAgency(executable, stateDirectory string) (ensureChild, error) {
 	null, err := os.OpenFile(os.DevNull, os.O_RDWR, 0)
 	if err != nil {
 		return nil, err

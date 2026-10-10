@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Mnemon E2E visual test
+# Memory E2E visual test
 # Usage: ./scripts/e2e_test.sh
 #
 set -euo pipefail
@@ -109,9 +109,9 @@ extract_id() {
 # ── Setup ─────────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
-TESTDATA=$(mktemp -d "${TMPDIR:-/tmp}/mnemon-e2e.XXXXXX")
+TESTDATA=$(mktemp -d "${TMPDIR:-/tmp}/memory-e2e.XXXXXX")
 TESTDIR="$TESTDATA/m1"
-M="$TESTDATA/mnemon"
+M="$TESTDATA/memory"
 
 cleanup() {
   if [ "${E2E_KEEP:-0}" = 1 ]; then
@@ -120,14 +120,14 @@ cleanup() {
   fi
   if [ -d "$TESTDATA" ] && [ ! -L "$TESTDATA" ]; then
     case "$(basename "$TESTDATA")" in
-      mnemon-e2e.??????) rm -rf -- "$TESTDATA" ;;
+      memory-e2e.??????) rm -rf -- "$TESTDATA" ;;
       *) echo "refusing to remove unexpected E2E directory: $TESTDATA" >&2 ;;
     esac
   fi
 }
 trap cleanup EXIT
 
-banner "Building mnemon"
+banner "Building memory"
 cd "$PROJECT_DIR"
 go build -o "$M" .
 echo -e "  ${GREEN}✔${RESET} Binary built: $M"
@@ -184,21 +184,21 @@ OUT=$($M --data-dir "$STORE_DIR" store remove temp)
 assert_contains "removed temp" "$OUT" 'Removed store "temp"'
 
 step "data isolation — memories in different stores are isolated"
-MNEMON_STORE=default $M --data-dir "$STORE_DIR" remember --no-diff "I am in default store" --cat fact --imp 3 > /dev/null
-MNEMON_STORE=work $M --data-dir "$STORE_DIR" remember --no-diff "I am in work store" --cat fact --imp 3 > /dev/null
+MEMORY_STORE=default $M --data-dir "$STORE_DIR" remember --no-diff "I am in default store" --cat fact --imp 3 > /dev/null
+MEMORY_STORE=work $M --data-dir "$STORE_DIR" remember --no-diff "I am in work store" --cat fact --imp 3 > /dev/null
 
-OUT=$(MNEMON_STORE=default $M --data-dir "$STORE_DIR" search "default store")
+OUT=$(MEMORY_STORE=default $M --data-dir "$STORE_DIR" search "default store")
 assert_contains "default finds own data" "$OUT" "I am in default store"
 assert_not_contains "default not finds work data" "$OUT" "I am in work store"
 
-OUT=$(MNEMON_STORE=work $M --data-dir "$STORE_DIR" search "work store")
+OUT=$(MEMORY_STORE=work $M --data-dir "$STORE_DIR" search "work store")
 assert_contains "work finds own data" "$OUT" "I am in work store"
 assert_not_contains "work not finds default data" "$OUT" "I am in default store"
 
-step "MNEMON_STORE env — overrides active file"
+step "MEMORY_STORE env — overrides active file"
 # Active is "work", but env says "default"
-OUT=$(MNEMON_STORE=default $M --data-dir "$STORE_DIR" status)
-assert_contains "env override db path" "$OUT" "data/default/mnemon.db"
+OUT=$(MEMORY_STORE=default $M --data-dir "$STORE_DIR" status)
+assert_contains "env override db path" "$OUT" "data/default/memory.db"
 
 step "migration — moves legacy DB to data/default/"
 MIGRATE_DIR="$TESTDATA/migrate_test"
@@ -210,9 +210,9 @@ if [ -d "$MIGRATE_DIR/data" ]; then
   # The openDB already created data layout — test is moot, skip
   pass "migration" "(auto-migrated by openDB)"
 else
-  # Legacy mnemon.db should exist
+  # Legacy memory.db should exist
   OUT=$($M --data-dir "$MIGRATE_DIR" status)
-  assert_contains "migrated db path" "$OUT" "data/default/mnemon.db"
+  assert_contains "migrated db path" "$OUT" "data/default/memory.db"
 fi
 
 # ══════════════════════════════════════════════════════════════════════
@@ -229,18 +229,18 @@ assert_contains "tags include tool" "$OUT" '"tool"'
 assert_contains "entities has Qdrant" "$OUT" '"Qdrant"'
 
 step "readonly recall — absolute and relative data paths preserve the database"
-cp "$TESTDIR/data/default/mnemon.db" "$TESTDATA/readonly-before.db"
+cp "$TESTDIR/data/default/memory.db" "$TESTDATA/readonly-before.db"
 OUT=$("$M" --data-dir "$TESTDIR" --store default --readonly recall "" --basic --limit 100000)
 assert_jq "readonly absolute path finds the seed" "$OUT" '.[0].id' "$ID1"
 OUT=$(cd "$TESTDATA" && "$M" --data-dir "m1" --store default --readonly recall "Qdrant" --basic --limit 6)
 assert_jq "readonly relative path finds the seed" "$OUT" '.[0].id' "$ID1"
-if cmp -s "$TESTDATA/readonly-before.db" "$TESTDIR/data/default/mnemon.db"; then
+if cmp -s "$TESTDATA/readonly-before.db" "$TESTDIR/data/default/memory.db"; then
   pass "readonly recall preserves database bytes" "(including counters and oplog)"
 else
   fail "readonly recall preserves database bytes" "(database changed)"
 fi
 for suffix in -wal -shm -journal; do
-  if [ -e "$TESTDIR/data/default/mnemon.db$suffix" ]; then
+  if [ -e "$TESTDIR/data/default/memory.db$suffix" ]; then
     fail "readonly recall creates no $suffix sidecar" "(sidecar exists)"
   else
     pass "readonly recall creates no $suffix sidecar" "(absent)"
@@ -259,7 +259,7 @@ step "recall --brief → show — bounded discovery then full content"
 OUT=$($M --data-dir "$TESTDIR" recall "Qdrant" --brief --excerpt-chars 20)
 assert_jq "brief excerpt is bounded" "$OUT" '.results[0].excerpt | length <= 20' 'true'
 assert_not_contains "brief omits full content field" "$OUT" '"content"'
-assert_contains "brief points to full lookup" "$OUT" 'mnemon show <id>'
+assert_contains "brief points to full lookup" "$OUT" 'memory show <id>'
 SHOW_OUT=$($M --data-dir "$TESTDIR" show "$ID1")
 assert_contains "show restores full content" "$SHOW_OUT" 'User prefers Qdrant for vector DB'
 assert_jq "show returns requested id" "$SHOW_OUT" '.id' "$ID1"
@@ -297,7 +297,7 @@ assert_jq "deleted now 1"  "$OUT" '.deleted_insights'  '1'
 step "remember diff — distinct subjects retain independent facts without embeddings"
 DIFF_DIR="$TESTDATA/distinct-facts"
 diff_cli() {
-  MNEMON_EMBED_ENDPOINT="http://127.0.0.1:1" MNEMON_MAX_INSIGHTS=1000 \
+  MEMORY_EMBED_ENDPOINT="http://127.0.0.1:1" MEMORY_MAX_INSIGHTS=1000 \
     "$M" --data-dir "$DIFF_DIR" --store default "$@"
 }
 FACT_ALPHA="Project Alpha uses PostgreSQL database for persistent application storage"
@@ -440,7 +440,7 @@ assert_contains "has score field"        "$OUT" '"score"'
 step "search --brief — bounded discovery projection"
 OUT=$($M --data-dir "$TESTDIR2" search "Rust performance" --brief --excerpt-chars 18)
 assert_jq "search brief excerpt is bounded" "$OUT" '.results[0].excerpt | length <= 18' 'true'
-assert_contains "search brief points to full lookup" "$OUT" 'mnemon show <id>'
+assert_contains "search brief points to full lookup" "$OUT" 'memory show <id>'
 
 step "search — no match returns []"
 OUT=$($M --data-dir "$TESTDIR2" search "zzz_no_match_zzz")
@@ -701,7 +701,7 @@ if [ "$OLLAMA_OK" = "true" ]; then
 
   step "embed --all — backfill un-embedded insights"
   # Create an insight without auto-embedding by pointing Ollama to a dead endpoint
-  MNEMON_EMBED_ENDPOINT="http://127.0.0.1:1" $M --data-dir "$TESTDIR7" remember --no-diff "Un-embedded test insight" --cat fact --imp 2 > /dev/null
+  MEMORY_EMBED_ENDPOINT="http://127.0.0.1:1" $M --data-dir "$TESTDIR7" remember --no-diff "Un-embedded test insight" --cat fact --imp 2 > /dev/null
 
   # Backfill all — should find the un-embedded one
   OUT=$($M --data-dir "$TESTDIR7" embed --all)
@@ -864,13 +864,13 @@ mkdir -p "$TESTDIR10"
 
 step "auto-prune — default grace protects a same-second write burst"
 for i in 1 2 3; do
-  OUT=$(MNEMON_MAX_INSIGHTS=2 $M --data-dir "$TESTDIR10" remember --no-diff "Low importance note $i" --cat general --imp 1)
+  OUT=$(MEMORY_MAX_INSIGHTS=2 $M --data-dir "$TESTDIR10" remember --no-diff "Low importance note $i" --cat general --imp 1)
 done
 assert_jq "newborn memories are not pruned" "$OUT" '.auto_pruned' '0'
 assert_jq "newborn prune id list is empty" "$OUT" '.auto_pruned_ids | length' '0'
 
 step "auto-prune — explicit zero grace returns ids and durable audit rows"
-OUT=$(MNEMON_MAX_INSIGHTS=2 MNEMON_AUTO_PRUNE_MIN_AGE=0 $M --data-dir "$TESTDIR10" remember --no-diff "High importance decision" --cat decision --imp 5)
+OUT=$(MEMORY_MAX_INSIGHTS=2 MEMORY_AUTO_PRUNE_MIN_AGE=0 $M --data-dir "$TESTDIR10" remember --no-diff "High importance decision" --cat decision --imp 5)
 assert_jq "two excess memories are pruned" "$OUT" '.auto_pruned' '2'
 assert_jq "pruned ids match count" "$OUT" '.auto_pruned_ids | length' '2'
 PRUNED_PREFIX=$(echo "$OUT" | jq -r '.auto_pruned_ids[0][0:8]')

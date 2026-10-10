@@ -1,8 +1,8 @@
-# Mnemon Agent Guidelines
+# Memory Agent Guidelines
 
 ## Development
 
-- Build the single product executable with `go build -o mnemon .`.
+- Build the single product executable with `go build -o memory .`.
 - Run `make test` for the deterministic CI suite. It excludes real daemon
   readiness, CLI E2E, wall-clock scenarios, Docker, and provider calls.
 - Run `make test-integration` explicitly for CLI E2E plus Agency
@@ -10,11 +10,11 @@
 - Run `make test-live` only when explicitly validating the paid Pi/DeepSeek
   scenarios.
 - Treat `cmd/memory` and `cmd/agency` as command namespaces within the single
-  `mnemon` executable. Keep existing Memory commands at the root; expose Agency
-  through `mnemon agency ...`. `mnemond` remains the local daemon/protocol role,
+  `memory` executable. Keep existing Memory commands at the root; expose Agency
+  through `memory agency ...`. `memoryd` remains the local daemon/protocol role,
   not a second executable.
-- Keep mnemond boundary suites under `test/mnemond` and their data-only fixtures
-  under `testdata/mnemond`.
+- Keep memoryd boundary suites under `test/memoryd` and their data-only fixtures
+  under `testdata/memoryd`.
 - Treat `.claude/`, `.codex/`, `.openclaw/`, and similar host directories as
   local projection surfaces, not canonical project state.
 

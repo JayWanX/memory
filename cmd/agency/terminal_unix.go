@@ -3,8 +3,8 @@
 package agency
 
 import (
-	"github.com/mnemon-dev/mnemon/internal/agency/client"
-	"github.com/mnemon-dev/mnemon/internal/daemon"
+	"github.com/JayWanX/memory/internal/agency/client"
+	"github.com/JayWanX/memory/internal/daemon"
 	"github.com/spf13/cobra"
 )
 

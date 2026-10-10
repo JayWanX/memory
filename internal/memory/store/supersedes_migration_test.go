@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mnemon-dev/mnemon/internal/memory/model"
+	"github.com/JayWanX/memory/internal/memory/model"
 )
 
 func TestSupersedesUpgradePreservesClosedLegacyDatabase(t *testing.T) {
@@ -58,7 +58,7 @@ func TestSupersedesUpgradePreservesClosedLegacyDatabase(t *testing.T) {
 func createLegacySupersedesFixture(t *testing.T, orphan bool) string {
 	t.Helper()
 	dir := t.TempDir()
-	conn, err := sql.Open("sqlite", filepath.Join(dir, "mnemon.db"))
+	conn, err := sql.Open("sqlite", filepath.Join(dir, "memory.db"))
 	if err != nil {
 		t.Fatal(err)
 	}

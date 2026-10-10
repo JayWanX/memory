@@ -15,7 +15,7 @@ func TestNativeUpdateCommandRequiresNPMLauncher(t *testing.T) {
 	command.SetArgs(nil)
 	err := command.ExecuteContext(context.Background())
 	if err == nil ||
-		!strings.Contains(err.Error(), "npm install --global @mnemon-dev/mnemon@latest") {
+		!strings.Contains(err.Error(), "npm install --global @jaywanx/memory-cli@latest") {
 		t.Fatalf("error = %v", err)
 	}
 }

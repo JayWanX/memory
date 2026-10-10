@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mnemon-dev/mnemon/internal/daemon"
+	"github.com/JayWanX/memory/internal/daemon"
 	"github.com/spf13/cobra"
 )
 
@@ -19,38 +19,38 @@ const maxPeerCardInputBytes = 1025
 func runPeerPrepare(command *cobra.Command, _ []string) error {
 	listenAddress, err := command.Flags().GetString("listen")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	advertisedAddress, err := command.Flags().GetString("advertise")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	projectRoot, err := command.Flags().GetString("project-root")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	if strings.TrimSpace(listenAddress) == "" || strings.TrimSpace(advertisedAddress) == "" {
-		return errors.New("mnemon agency peer prepare: requires --listen and --advertise")
+		return errors.New("memory agency peer prepare: requires --listen and --advertise")
 	}
 	if command.Flags().Changed("project-root") && strings.TrimSpace(projectRoot) == "" {
-		return errors.New("mnemon agency peer prepare: --project-root must not be empty")
+		return errors.New("memory agency peer prepare: --project-root must not be empty")
 	}
 
 	projectRoot, err = resolvePeerProjectRoot(projectRoot)
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	provisioned, err := daemon.Provision(command.Context(), projectRoot)
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	card, err := daemon.ConfigureExchange(command.Context(), provisioned.StateDirectory(),
 		listenAddress, advertisedAddress)
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	if _, err := command.OutOrStdout().Write(append(card.CanonicalJSON(), '\n')); err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer prepare: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer prepare: %w", err)}
 	}
 	return nil
 }
@@ -58,36 +58,36 @@ func runPeerPrepare(command *cobra.Command, _ []string) error {
 func runPeerEnroll(command *cobra.Command, _ []string) error {
 	alias, err := command.Flags().GetString("alias")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer enroll: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer enroll: %w", err)}
 	}
 	projectRoot, err := command.Flags().GetString("project-root")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer enroll: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer enroll: %w", err)}
 	}
 	if strings.TrimSpace(alias) == "" {
-		return errors.New("mnemon agency peer enroll: requires --alias")
+		return errors.New("memory agency peer enroll: requires --alias")
 	}
 	if command.Flags().Changed("project-root") && strings.TrimSpace(projectRoot) == "" {
-		return errors.New("mnemon agency peer enroll: --project-root must not be empty")
+		return errors.New("memory agency peer enroll: --project-root must not be empty")
 	}
 	card, err := readPeerCard(command.InOrStdin())
 	if err != nil {
-		return fmt.Errorf("mnemon agency peer enroll: %w", err)
+		return fmt.Errorf("memory agency peer enroll: %w", err)
 	}
 	projectRoot, err = resolvePeerProjectRoot(projectRoot)
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer enroll: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer enroll: %w", err)}
 	}
 	_, stateDirectory, err := daemon.ResolveProjectState(projectRoot)
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer enroll: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer enroll: %w", err)}
 	}
 	result, err := daemon.EnrollPeer(command.Context(), stateDirectory, alias, card)
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer enroll: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer enroll: %w", err)}
 	}
 	if _, err := command.OutOrStdout().Write(append(result.CanonicalJSON(), '\n')); err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency peer enroll: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency peer enroll: %w", err)}
 	}
 	return nil
 }

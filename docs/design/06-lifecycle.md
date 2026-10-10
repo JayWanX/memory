@@ -4,7 +4,7 @@
 
 ---
 
-Mnemon is not an append-only system. Effective memory management requires important memories to persist while outdated ones naturally decay.
+Memory is not an append-only system. Effective memory management requires important memories to persist while outdated ones naturally decay.
 
 ![Lifecycle & Retention](../diagrams/06-lifecycle-retention.jpg)
 
@@ -49,24 +49,24 @@ Manual lifecycle management tool:
 
 ```bash
 # View low-retention candidates
-mnemon gc --threshold 0.5
+memory gc --threshold 0.5
 
 # Retain a specific insight (increases access_count by +3)
-mnemon gc --keep <id>
+memory gc --keep <id>
 ```
 
 ---
 
 ## 6.5 Embedding Support
 
-Embedding vectors are an optional enhancement. Without embeddings, Mnemon operates entirely on keywords and graph structure; with embeddings, semantic retrieval capabilities are significantly enhanced.
+Embedding vectors are an optional enhancement. Without embeddings, Memory operates entirely on keywords and graph structure; with embeddings, semantic retrieval capabilities are significantly enhanced.
 
 ### Ollama Integration
 
 Via the local Ollama service (no external API required):
 
 ```
-Mnemon ──HTTP──→ Ollama (localhost:11434)
+Memory ──HTTP──→ Ollama (localhost:11434)
                   └── nomic-embed-text
                       768-dim vector
 ```
@@ -92,7 +92,7 @@ Vectors are serialized as little-endian float64 BLOBs stored in the `insights.em
 
 ```bash
 ollama pull nomic-embed-text    # Install the model
-mnemon embed --status           # View coverage
-mnemon embed --all              # Batch-generate embeddings for all insights
-mnemon embed <id>               # Generate for a single insight
+memory embed --status           # View coverage
+memory embed --all              # Batch-generate embeddings for all insights
+memory embed <id>               # Generate for a single insight
 ```

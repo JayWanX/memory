@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/agency"
+	"github.com/JayWanX/memory/internal/agency"
 )
 
 func TestControlClientRoundTripsFrozenAgencyWire(t *testing.T) {
@@ -34,7 +34,7 @@ func TestControlClientRoundTripsFrozenAgencyWire(t *testing.T) {
 	current := "current:test"
 	view, apiErr := client.Current(context.Background(), attached, current)
 	requireProjection(t, "Current", view, apiErr,
-		`{"schema":"mnemon.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`)
+		`{"schema":"memory.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`)
 	intent := controlTestIntent(t)
 	receipt, apiErr := client.Submit(context.Background(), attached, current,
 		"admit:test", intent, nil)
@@ -66,9 +66,9 @@ func roundTripControlHandler(requests chan<- capturedControlRequest, credential 
 			fmt.Fprintf(writer, `{"attachment":"attachment:test","credential":"%s","expires_at":"%s","schema":"%s","version":1}`+"\n",
 				base64.RawURLEncoding.EncodeToString(credential), expiry.Format(timeWireLayout), attachmentSchema)
 		case routeCurrent:
-			_, _ = io.WriteString(writer, `{"schema":"mnemon.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`+"\n")
+			_, _ = io.WriteString(writer, `{"schema":"memory.agent.view","version":8,"view":"view:test","outstanding":{"open_total":0,"related_total":0,"related_projected":0,"truncated":false},"allowed_intents":[]}`+"\n")
 		case routeSubmit:
-			_, _ = io.WriteString(writer, `{"schema":"mnemon.agent.receipt","version":1,"outcome":"accepted","replayed":false}`+"\n")
+			_, _ = io.WriteString(writer, `{"schema":"memory.agent.receipt","version":1,"outcome":"accepted","replayed":false}`+"\n")
 		case routeArtifacts:
 			fmt.Fprintf(writer, `{"byte_size":%d,"digest":"%s","handle":"artifact:test","schema":"%s","version":1}`+"\n",
 				len(content), agency.Sum(content).String(), artifactSchema)
@@ -186,11 +186,11 @@ func TestControlClientRejectsInvalidProjectionAndRemoteErrorEnvelope(t *testing.
 		Body   string
 	}{
 		"duplicate projection": {Status: http.StatusOK,
-			Body: `{"schema":"mnemon.agent.view","schema":"mnemon.agent.view","version":8}`},
+			Body: `{"schema":"memory.agent.view","schema":"memory.agent.view","version":8}`},
 		"wrong projection schema": {Status: http.StatusOK,
-			Body: `{"schema":"mnemon.agent.receipt","version":1}`},
+			Body: `{"schema":"memory.agent.receipt","version":1}`},
 		"status mismatch": {Status: http.StatusUnauthorized,
-			Body: `{"code":"mnemond_unavailable","message":"not ready","operation_id":null,"replayed":false,"retryable":true,"schema_version":1,"status":"error"}`},
+			Body: `{"code":"memoryd_unavailable","message":"not ready","operation_id":null,"replayed":false,"retryable":true,"schema_version":1,"status":"error"}`},
 	} {
 		t.Run(name, func(t *testing.T) {
 			nodeState, stop := serveControlSocket(t, http.HandlerFunc(func(writer http.ResponseWriter,
@@ -295,7 +295,7 @@ func controlTestIntent(t *testing.T) []byte {
 
 func serveControlSocket(t *testing.T, handler http.Handler) (string, func()) {
 	t.Helper()
-	nodeState, err := os.MkdirTemp("/tmp", "mnemon-cli-")
+	nodeState, err := os.MkdirTemp("/tmp", "memory-cli-")
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -13,7 +13,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/mnemon-dev/mnemon/internal/daemon"
+	"github.com/JayWanX/memory/internal/daemon"
 	"github.com/spf13/cobra"
 )
 
@@ -22,10 +22,10 @@ const gracefulShutdownBudget = 5 * time.Second
 func runServe(command *cobra.Command, _ []string) error {
 	stateDirectory, err := command.Flags().GetString("state-dir")
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency serve: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency serve: %w", err)}
 	}
 	if strings.TrimSpace(stateDirectory) == "" {
-		return errors.New("mnemon agency serve: requires --state-dir")
+		return errors.New("memory agency serve: requires --state-dir")
 	}
 	resolved, err := resolveStateDirectory(stateDirectory)
 	if err == nil {
@@ -34,7 +34,7 @@ func runServe(command *cobra.Command, _ []string) error {
 		err = serveDaemon(lifetime, resolved)
 	}
 	if err != nil {
-		return commandFailure{code: 1, err: fmt.Errorf("mnemon agency serve: %w", err)}
+		return commandFailure{code: 1, err: fmt.Errorf("memory agency serve: %w", err)}
 	}
 	return nil
 }

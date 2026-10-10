@@ -38,12 +38,12 @@ func TestAgentProjectionParsersRoundTripPublicBytes(t *testing.T) {
 
 func TestAgentProjectionParsersRejectNoncanonicalOrInvalidBytes(t *testing.T) {
 	if err := ValidateAgentViewProjectionCanonicalJSON(
-		[]byte(`{"schema":"mnemon.agent.view","version":8,"view":"view:test","allowed_intents":[],"schema":"mnemon.agent.view"}`),
+		[]byte(`{"schema":"memory.agent.view","version":8,"view":"view:test","allowed_intents":[],"schema":"memory.agent.view"}`),
 	); err == nil {
 		t.Fatal("duplicate View projection key was accepted")
 	}
 	if _, err := ParseAgentReceiptProjectionCanonicalJSON(
-		[]byte(`{"schema":"mnemon.agent.receipt","version":1,"outcome":"accepted","replayed":false,"diagnostic":"forged"}`),
+		[]byte(`{"schema":"memory.agent.receipt","version":1,"outcome":"accepted","replayed":false,"diagnostic":"forged"}`),
 	); err == nil {
 		t.Fatal("accepted Agent Receipt diagnostic was accepted")
 	}

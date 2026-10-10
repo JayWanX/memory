@@ -2,7 +2,7 @@
 
 # 6. 生命周期与嵌入
 
-Mnemon 不是只增不减的系统。有效的记忆管理需要让重要的记忆持久保留，让过时的记忆自然衰减。
+Memory 不是只增不减的系统。有效的记忆管理需要让重要的记忆持久保留，让过时的记忆自然衰减。
 
 ![Lifecycle & Retention](../../diagrams/06-lifecycle-retention.jpg)
 
@@ -47,24 +47,24 @@ edge_factor:   1.0 + 0.1 × min(edge_count, 5)     // 最多 +0.5
 
 ```bash
 # 查看低保留度候选
-mnemon gc --threshold 0.5
+memory gc --threshold 0.5
 
 # 保留某条 insight（增加 access_count +3）
-mnemon gc --keep <id>
+memory gc --keep <id>
 ```
 
 ---
 
 ## 6.5 嵌入向量支持
 
-嵌入向量是可选的增强功能。没有 embedding 时，Mnemon 完全基于关键词和图结构工作；有 embedding 时，语义检索能力大幅增强。
+嵌入向量是可选的增强功能。没有 embedding 时，Memory 完全基于关键词和图结构工作；有 embedding 时，语义检索能力大幅增强。
 
 ### Ollama 集成
 
 通过本地 Ollama 服务（无需外部 API）：
 
 ```
-Mnemon ──HTTP──→ Ollama (localhost:11434)
+Memory ──HTTP──→ Ollama (localhost:11434)
                   └── nomic-embed-text
                       768 维向量
 ```
@@ -90,7 +90,7 @@ Mnemon ──HTTP──→ Ollama (localhost:11434)
 
 ```bash
 ollama pull nomic-embed-text    # 安装模型
-mnemon embed --status           # 查看覆盖率
-mnemon embed --all              # 批量生成所有 insight 的 embedding
-mnemon embed <id>               # 生成单条
+memory embed --status           # 查看覆盖率
+memory embed --all              # 批量生成所有 insight 的 embedding
+memory embed <id>               # 生成单条
 ```

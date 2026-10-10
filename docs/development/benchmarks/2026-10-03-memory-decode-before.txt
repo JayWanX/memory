@@ -8,21 +8,21 @@
 
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=10000/RecallHybrid         	       3	  67769264 ns/op	  65984000 cpu-ns/op	59354144 B/op	  916762 allocs/op
 BenchmarkMemoryRead/N=10000/RecallWhy            	       3	  68961611 ns/op	  68912667 cpu-ns/op	59414122 B/op	  919264 allocs/op
 PASS
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=10000/RecallHybrid         	       3	  69582194 ns/op	  69488333 cpu-ns/op	59354224 B/op	  916763 allocs/op
 BenchmarkMemoryRead/N=10000/RecallWhy            	       3	  68606861 ns/op	  68585333 cpu-ns/op	59418562 B/op	  919419 allocs/op
 PASS
 goos: darwin
 goarch: arm64
-pkg: github.com/mnemon-dev/mnemon/internal/memory
+pkg: github.com/JayWanX/memory/internal/memory
 cpu: Apple M4
 BenchmarkMemoryRead/N=10000/RecallHybrid         	       3	  67607722 ns/op	  67581667 cpu-ns/op	59348413 B/op	  916635 allocs/op
 BenchmarkMemoryRead/N=10000/RecallWhy            	       3	  69724722 ns/op	  68933333 cpu-ns/op	59418562 B/op	  919419 allocs/op
