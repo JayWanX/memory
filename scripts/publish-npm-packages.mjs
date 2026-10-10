@@ -13,7 +13,7 @@ export async function publishNpmPackages(
     run = spawnSync,
     stdout = process.stdout,
     sleep = defaultSleep,
-    confirmAttempts = 8,
+    confirmAttempts = 10,
   } = {},
 ) {
   const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
@@ -80,23 +80,33 @@ function packageVersionExists(run, npm, name, version) {
 
 const defaultSleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// npm can answer a publish with a success line and still never write the
-// version document to the registry. Confirm every version is actually
-// resolvable before moving on, so a silently dropped platform package fails
-// the release instead of shipping without it.
+// A publish is not durable the moment npm prints its success line: the registry
+// writes the tarball first and indexes the version document afterwards, so a
+// lookup can still miss a version that is about to appear. Confirm every
+// version resolves before moving on, with a widening backoff, so a version that
+// truly never lands stops the release instead of shipping without it.
 async function confirmPublished(run, npm, artifact, { sleep, confirmAttempts }) {
   for (let attempt = 1; attempt <= confirmAttempts; attempt += 1) {
     if (packageVersionExists(run, npm, artifact.name, artifact.version)) {
       return;
     }
     if (attempt < confirmAttempts) {
-      await sleep(15_000);
+      await sleep(confirmDelayMs(attempt));
     }
   }
   throw new Error(
     `npm reported ${artifact.name}@${artifact.version} as published, but the registry ` +
       `still does not resolve it after ${confirmAttempts} attempts. Refusing to continue.`,
   );
+}
+
+const confirmBaseDelayMs = 20_000;
+const confirmMaxDelayMs = 120_000;
+
+function confirmDelayMs(attempt) {
+  const exponential = confirmBaseDelayMs * 2 ** (attempt - 1);
+  const jitter = confirmBaseDelayMs * 2 ** (attempt - 1) * 0.25 * Math.random();
+  return Math.min(confirmMaxDelayMs, Math.round(exponential + jitter));
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {

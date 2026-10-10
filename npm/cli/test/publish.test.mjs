@@ -102,7 +102,7 @@ test("publish fails when the registry never resolves a reported version", async 
     publishNpmPackages(manifestPath, { run, sleep: async () => {} }),
     /reported .* as published, but the registry still does not resolve it/,
   );
-  assert.equal(lookups, 9, "one pre-publish probe plus eight confirmation probes");
+  assert.equal(lookups, 11, "one pre-publish probe plus ten confirmation probes");
 });
 
 test("publish rejects a manifest whose CLI package is not last", async (t) => {
