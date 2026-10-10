@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-11
+
 ### Added
 
 - `npm install --global @jaywanx/memory-cli` is now the canonical CLI install
@@ -344,7 +346,8 @@ Initial public release.
 - Release pipeline: GoReleaser, GitHub Actions, Homebrew tap
 - Comprehensive documentation with Chinese translations
 
-[Unreleased]: https://github.com/JayWanX/memory/compare/v0.1.15...HEAD
+[Unreleased]: https://github.com/JayWanX/memory/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/JayWanX/memory/compare/v0.2.7...v1.0.0
 [0.1.15]: https://github.com/JayWanX/memory/compare/v0.1.14...v0.1.15
 [0.1.14]: https://github.com/JayWanX/memory/compare/v0.1.13...v0.1.14
 [0.1.11]: https://github.com/JayWanX/memory/compare/v0.1.10...v0.1.11
