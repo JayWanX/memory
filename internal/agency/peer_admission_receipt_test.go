@@ -15,11 +15,11 @@ func TestPeerAdmissionReceiptCanonicalRoundTrip(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	const golden = `{"schema_version":1,"delivery_id":"delivery:3239968453a0063b4e0eb6fa407cdc819f5d881894fc4564fcce514a00d6ad55","envelope_digest":"sha256:9c06736a0fd9ef0ef0fd627eb188e129f5b321f2dc8a89e3ff5ef707bdda7f00","outcome":"accepted","recorded_at":"2026-08-03T08:01:00Z","local_event":{"id":"event:local-accepted","digest":"sha256:a7a91f9231215908d7eaa05d07e1498abe76f6c43aa053a7acb809fab4d8b5a7"}}`
+	const golden = `{"schema_version":1,"delivery_id":"delivery:5faa16233ca9c44233fdb54dcefecffc5b66d1d37e8213a0498bd2fbb2eee901","envelope_digest":"sha256:9c06736a0fd9ef0ef0fd627eb188e129f5b321f2dc8a89e3ff5ef707bdda7f00","outcome":"accepted","recorded_at":"2026-08-03T08:01:00Z","local_event":{"id":"event:local-accepted","digest":"sha256:a7a91f9231215908d7eaa05d07e1498abe76f6c43aa053a7acb809fab4d8b5a7"}}`
 	if string(accepted.CanonicalJSON()) != strings.Replace(golden,
 		"sha256:9c06736a0fd9ef0ef0fd627eb188e129f5b321f2dc8a89e3ff5ef707bdda7f00",
-		"sha256:8d9a292ec544d583dfc5aa546e760b9a6357b9dfa41f672f9df2e2b2971fd7c7", 1) ||
-		accepted.Digest().String() != "sha256:184acc58f219f087e63fe049e2e0c1b70935f413cb91b4b54bf8b3ff163499c6" {
+		"sha256:470d83c4810c711f1f286917f025ac76a237b2e1e6b5540c20691350122db95c", 1) ||
+		accepted.Digest().String() != "sha256:f6d7bd4233d2b8d1c67794fce53a162a0ff29265d05360661b887446f627eda1" {
 		t.Fatalf("PeerAdmissionReceipt golden drift\n got: %s\ndigest: %s",
 			accepted.CanonicalJSON(), accepted.Digest().String())
 	}

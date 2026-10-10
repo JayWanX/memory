@@ -1,0 +1,5 @@
+# Byte-sensitive test fixtures carry a digest over their own bytes, so the
+# working tree must byte-match the index on every platform. Without this a
+# Windows checkout with core.autocrlf=true rewrites them to CRLF and the
+# self-describing trace_digest stops matching.
+test/memoryd/observer/fixtures/*.trace -text
